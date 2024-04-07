@@ -3,7 +3,7 @@
 entity "post" as post {
 	*post_id: INT(11) AUTO
 	--
-	*user_id: INT(11) <<FK>>
+	*member_id: INT(11) <<FK>>
 	title: TINYTEXT
 	content: TEXT
 	views: INT(11), DEFAULT(0)
@@ -30,7 +30,7 @@ entity "reply" as reply {
 	*reply_id: INT(11) AUTO
 	--
 	*board_id: INT(11) <<FK>>
-	*user_id: INT(11) <<FK>>
+	*member_id: INT(11) <<FK>>
 	reply_text: VARCHAR(500)
 	--
 	created_at: timestamp
