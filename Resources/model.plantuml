@@ -1,0 +1,43 @@
+@startuml
+
+entity "post" as post {
+	*post_id: INT(11) AUTO
+	--
+	*user_id: INT(11) <<FK>>
+	title: TINYTEXT
+	content: TEXT
+	views: INT(11), DEFAULT(0)
+	--
+	created_at: timestamp
+	updated_at: timestamp
+}
+
+entity "member" as member {
+	*member_id: INT(11) AUTO
+	--
+	login_id: VARCHAR(64) UNIQUE
+	password: VARCHAR(64)
+	name: VARCHAR(64)
+	nickname: VARCHAR(64)
+	birthday: DATE, NULL
+	gender: enum('M', 'F')
+	--
+	created_at: timestamp
+	updated_at: timestamp
+}
+
+entity "reply" as reply {
+	*reply_id: INT(11) AUTO
+	--
+	*board_id: INT(11) <<FK>>
+	*user_id: INT(11) <<FK>>
+	reply_text: VARCHAR(500)
+	--
+	created_at: timestamp
+	updated_at: timestamp
+}
+
+post	}o..||	member
+reply	}o..||	post
+
+@enduml
