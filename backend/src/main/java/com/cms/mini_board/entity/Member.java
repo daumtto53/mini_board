@@ -1,6 +1,7 @@
 package com.cms.mini_board.entity;
 
 
+import com.cms.mini_board.entity.Enum.Gender;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
