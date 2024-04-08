@@ -5,6 +5,8 @@ import com.cms.mini_board.entity.Enum.Gender;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Date;
 import java.util.List;
@@ -12,12 +14,14 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @Getter
+@Setter
+@ToString
 public class Member extends BaseEntity{
     @Id @GeneratedValue
     private Long member_id;
 
     @Column(length = 64, nullable = false, unique = true)
-    private String long_id;
+    private String login_id;
 
     @Column(length = 64, nullable = false)
     private String password;
