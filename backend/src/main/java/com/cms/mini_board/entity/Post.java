@@ -32,6 +32,4 @@ public class Post extends BaseEntity{
     private List<Reply> replies;
     @OneToMany(mappedBy = "member")
     private List<Member> members;
-
-
 }
