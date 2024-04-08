@@ -1,17 +1,14 @@
 package com.cms.mini_board.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor @AllArgsConstructor @Builder
 @Getter
 @Setter
-@ToString(exclude = {"member, "})
+@ToString(exclude = {"member"})
 public class Reply {
     @Id @GeneratedValue
     private Long reply_id;

@@ -1,15 +1,12 @@
 package com.cms.mini_board.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor @AllArgsConstructor @Builder
 @Getter
 @Setter
 @ToString(exclude = {"member"})
@@ -30,6 +27,4 @@ public class Post extends BaseEntity{
 
     @OneToMany(mappedBy = "post")
     private List<Reply> replies;
-    @OneToMany(mappedBy = "member")
-    private List<Member> members;
 }

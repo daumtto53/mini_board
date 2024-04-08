@@ -3,16 +3,13 @@ package com.cms.mini_board.entity;
 
 import com.cms.mini_board.entity.Enum.Gender;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor @AllArgsConstructor @Builder
 @Getter
 @Setter
 @ToString
@@ -35,4 +32,6 @@ public class Member extends BaseEntity{
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
     private List<Post> posts;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
+    private List<Reply> replies;
 }
