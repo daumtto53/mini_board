@@ -17,16 +17,21 @@
 	height: 5%;
 }
 
-.board-wrapper > .board {
-	height: 80%;
+.board-wrapper {
+	display: flex;
+	flex-direction: column;
 }
 
-.board-wrapper > .searcher {
-	height: 10%;
+.board-wrapper > .board {
+	flex: 8 8 0;
+}
+
+.board-wrapper > .searchbar {
+	flex: 1 1 0;
 }
 
 .board-wrapper > .pagination {
-	height: 10%;
+	flex: 1 1 0;
 }
 
 .pagination {

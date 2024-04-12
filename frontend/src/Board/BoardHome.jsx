@@ -1,9 +1,9 @@
-import Board from "./Board.jsx";
+import BoardTable from "./BoardTable.jsx";
 import BoardPagination from "./BoardPagination.jsx";
 
 import styles from "./css/Board.module.css";
 
-function BoardPage() {
+function BoardHome() {
     return (
         <div className={styles["page-wrapper"]}>
             <header>
@@ -11,9 +11,13 @@ function BoardPage() {
             </header>
             <main>
                 <section className={styles["board-wrapper"]}>
-                    <Board className={styles.board}/>
-					{/*<BoardSearcher className={styles.searcher}/>*/}
-					<BoardPagination className={styles.pagination} />
+                    <div className={styles.board}>
+                        <BoardTable />
+                    </div>
+
+                    {/*<BoardSearchBar className={styles.searchbar}/>*/}
+
+                    <BoardPagination className={styles.pagination} />
                 </section>
             </main>
             <footer></footer>
@@ -21,4 +25,4 @@ function BoardPage() {
     );
 }
 
-export default BoardPage;
+export default BoardHome;

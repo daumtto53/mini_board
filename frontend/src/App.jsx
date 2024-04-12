@@ -1,10 +1,10 @@
 import "./App.css";
-import BoardPage from "./Board/BoardPage";
+import BoardHome from "./Board/BoardHome";
 
 function App() {
     return (
         <>
-            <BoardPage/>
+            <BoardHome/>
         </>
     );
 }
