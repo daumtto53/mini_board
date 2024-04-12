@@ -11,7 +11,7 @@ import styles from "./css/Board.module.css";
 
 export default function BoardSearchBar() {
     return (
-        <form className={styles["searchbar-wrapper"]}>
+        <form className={styles["searchbar-wrapper"]} method="post">
             <FormControl
                 sx={{
                     display: "flex",
@@ -25,10 +25,10 @@ export default function BoardSearchBar() {
                 <Select
                     labelId="search-select"
                     id="option"
-					name="option"
+                    name="option"
                     label="Age"
                     sx={{
-                        flexGrow: 1
+                        flexGrow: 1,
                     }}
                 >
                     <MenuItem value={20}>Two</MenuItem>
@@ -39,17 +39,19 @@ export default function BoardSearchBar() {
                     name="searchInput"
                     label="searchInput"
                     sx={{
-						marginLeft: "2rem",
-						marginRight: "2rem",
+                        marginLeft: "2rem",
+                        marginRight: "2rem",
                         flexGrow: 3,
                     }}
                 />
-                <Button type="submit" variant="outlined"
-					sx={{
-						flexGrow:1/2
-					}}
-				>
-                   Search
+                <Button
+                    type="submit"
+                    variant="outlined"
+                    sx={{
+                        flexGrow: 1 / 2,
+                    }}
+                >
+                    Search
                 </Button>
             </FormControl>
         </form>
