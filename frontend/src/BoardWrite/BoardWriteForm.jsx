@@ -62,16 +62,30 @@ export default function BoardWriteForm() {
                 </dl>
             </div>
             <div className={styles.submit}>
-                <Button
-					type="submit"
-					variant="contained"
-					sx={{
-						height: "3rem",
-						width: "10vh"
-					}}
-					>
-                    Submit
-                </Button>
+                <div className={styles["button-position"]}>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        sx={{
+                            height: "3rem",
+                            width: "10vh",
+							m: "0 4rem"
+                        }}
+                    >
+                        Submit
+                    </Button>
+                    <Button
+                        type="text"
+                        variant="outlined"
+                        sx={{
+                            height: "3rem",
+							p: "0 5rem",
+                            width: "10vh",
+                        }}
+                    >
+                        Previous Board
+                    </Button>
+                </div>
             </div>
         </form>
     );

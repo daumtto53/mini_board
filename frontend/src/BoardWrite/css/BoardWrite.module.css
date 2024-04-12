@@ -22,6 +22,7 @@
 	border-top: 2px solid black;
 	width: 80% auto;
 	height: 100%;
+
 }
 
 .write-form {
@@ -66,10 +67,17 @@
 .write-form > .content > dl {
 	height: 100%;
 	margin: 3rem auto;
+	border-bottom: 2px solid black;
 }
 
 
 
 .write-form .submit {
-	margin-top: 1rem;
+	display: flex;
+	margin-top: 2rem;
+	flex-direction: row-reverse;
+}
+
+.write-form .submit > .button-position {
+	width: 600px;
 }
