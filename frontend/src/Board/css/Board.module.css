@@ -6,12 +6,16 @@
 	/*border: solid 3px blue;*/
 }
 
+.page-wrapper > header > h1 {
+	margin-top: 0;
+}
+
 .page-wrapper header {
     height: 10%;
 }
 
 .page-wrapper main {
-    height: 85%;
+    height: 80%;
     width: 100%;
 
 }

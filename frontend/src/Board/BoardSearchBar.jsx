@@ -44,12 +44,12 @@ export default function BoardSearchBar() {
                         flexGrow: 3,
                     }}
                 />
-                <Button type="submit" variant="contained"
+                <Button type="submit" variant="outlined"
 					sx={{
 						flexGrow:1/2
 					}}
 				>
-                    Text
+                   Search
                 </Button>
             </FormControl>
         </form>
