@@ -1,42 +1,49 @@
 .page-wrapper {
-	margin: 0 auto;
-	width: 100%;
-	height: 100%;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+
+	/*border: solid 3px blue;*/
 }
 
 .page-wrapper header {
-	height: 10%;
+    height: 10%;
 }
 
-.page-wrapper main{
-	height: 85%;
-	width: 60vw;
+.page-wrapper main {
+    height: 85%;
+    width: 100%;
+
 }
 
 .page-wrapper footer {
-	height: 5%;
+    height: 5%;
 }
 
+/* Board내의 board, serachbar, pagination ratio START*/
 .board-wrapper {
-	display: flex;
-	flex-direction: column;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+
+	margin: 0 auto;
+
+	/*border: solid 3px red;*/
 }
 
 .board-wrapper > .board {
-	flex: 8 8 0;
+    flex: 8 8 0;
 }
 
 .board-wrapper > .searchbar {
-	flex: 1 1 0;
+    flex: 1 1 0;
 }
 
 .board-wrapper > .pagination {
-	flex: 1 1 0;
+    flex: 1 1 0;
 }
+/* END */
 
-.pagination {
-	margin: 2rem 0;
-	display: flex;
-	align-content: center;
-	justify-content: center;
+.searchbar-wrapper {
+    margin: 2rem 0;
 }

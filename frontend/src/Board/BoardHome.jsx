@@ -1,5 +1,6 @@
 import BoardTable from "./BoardTable.jsx";
 import BoardPagination from "./BoardPagination.jsx";
+import BoardSearchBar from "./BoardSearchBar.jsx";
 
 import styles from "./css/Board.module.css";
 
@@ -15,7 +16,7 @@ function BoardHome() {
                         <BoardTable />
                     </div>
 
-                    {/*<BoardSearchBar className={styles.searchbar}/>*/}
+                    <BoardSearchBar />
 
                     <BoardPagination className={styles.pagination} />
                 </section>
