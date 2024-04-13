@@ -5,7 +5,11 @@
 #root {
     width: 100%;
     max-width: 1280px;
+	max-height: 2160px;
     margin: 0 auto;
     padding: 2rem;
     text-align: center;
+
+	overflow-y: auto;
+	overflow-x: clip;
 }
