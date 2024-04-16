@@ -2,6 +2,13 @@ import styles from "./RootLayout.module.css";
 import banner from "../resources/banner.jpg";
 import { Link, NavLink, Outlet } from "react-router-dom";
 
+function Footer() {
+	return (
+		<>
+		</>
+	);
+}
+
 export default function RootLayout() {
     return (
         <div className={styles.base}>
@@ -24,7 +31,10 @@ export default function RootLayout() {
 			<main>
 				<Outlet />
 			</main>
-            <div className={styles.main}></div>
+			<footer>
+				Text
+				{/*<Footer />*/}
+			</footer>
         </div>
     );
 }

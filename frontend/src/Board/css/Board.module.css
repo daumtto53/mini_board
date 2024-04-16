@@ -1,9 +1,8 @@
+/*
 .page-wrapper {
     margin: 0 auto;
     width: 100%;
     height: 100%;
-
-	/*border: solid 3px blue;*/
 }
 
 .page-wrapper > header > h1 {
@@ -22,34 +21,41 @@
 
 .page-wrapper footer {
     height: 5%;
-}
+}*/
 
 /* Board내의 board, serachbar, pagination ratio START*/
 .board-wrapper {
     display: flex;
     flex-direction: column;
-    align-content: center;
-
+    align-items: stretch;
+	justify-content: center;
 	margin: 0 auto;
+
+	width: 70%;
 
 	/*border: solid 3px red;*/
 }
-
-.board-wrapper > .board {
+.board-wrapper .board {
     flex: 8 8 0;
 }
-
-.board-wrapper > .searchbar {
+.board-wrapper  .searchbar {
     flex: 1 1 0;
 }
-
-.board-wrapper > .pagination {
+.board-wrapper .pagination {
     flex: 1 1 0;
 }
 /* END */
 
 .searchbar-wrapper {
-    margin: 2rem 0;
+    margin: 1rem 0;
+}
+
+.board-wrapper .register {
+
+}
+
+.board-wrapper .line {
+	display: flex;
 }
 
 .pagination-wrapper {

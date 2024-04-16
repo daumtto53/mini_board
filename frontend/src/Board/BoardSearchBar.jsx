@@ -11,49 +11,45 @@ import styles from "./css/Board.module.css";
 
 export default function BoardSearchBar() {
     return (
-        <form className={styles["searchbar-wrapper"]} method="post">
-            <FormControl
-                sx={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignContent: "center",
-                }}
-            >
-                <InputLabel id="search-select">search</InputLabel>
-                <Select
-                    labelId="search-select"
-                    id="option"
-                    name="option"
-                    label="Age"
+        <>
+            <form className={styles["searchbar-wrapper"]} method="post">
+                <FormControl
                     sx={{
-                        flexGrow: 1,
+                        width: "50vw",
+                        display: "flex",
+                        flexWrap: "wrap",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        alignContent: "center",
                     }}
                 >
-                    <MenuItem value={20}>Two</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-                <TextField
-                    id="search-input"
-                    name="searchInput"
-                    label="searchInput"
-                    sx={{
-                        marginLeft: "2rem",
-                        marginRight: "2rem",
-                        flexGrow: 3,
-                    }}
-                />
-                <Button
-                    type="submit"
-                    variant="outlined"
-                    sx={{
-                        flexGrow: 1 / 2,
-                    }}
-                >
-                    Search
-                </Button>
-            </FormControl>
-        </form>
+                    <InputLabel id="search-select">search</InputLabel>
+                    <Select
+                        labelId="search-select"
+                        id="option"
+                        name="option"
+                        label="Age"
+                        size="small"
+                        sx={{
+                            flexGrow: 1,
+                        }}
+                    >
+                        <MenuItem value={20}>Two</MenuItem>
+                        <MenuItem value={30}>Thirty</MenuItem>
+                    </Select>
+                    <TextField
+                        id="search-input"
+                        name="searchInput"
+                        label="searchInput"
+                        sx={{
+                            marginLeft: "2rem",
+                            marginRight: "2rem",
+                            flexGrow: 3,
+                        }}
+                    />
+					<button>search</button>
+                </FormControl>
+            </form>
+        </>
     );
 }

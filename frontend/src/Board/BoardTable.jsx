@@ -23,7 +23,7 @@ function makeBoardRow(data, i) {
 function Board() {
     return (
             <TableContainer component={Paper}>
-                <Table aria-label="simple table">
+                <Table aria-label="simple table" sx={{size: "small"}}>
                     <TableHead>
                         <TableRow>
                             <TableCell>id</TableCell>
