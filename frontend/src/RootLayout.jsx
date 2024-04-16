@@ -1,8 +1,8 @@
-import styles from "./Base.module.css";
+import styles from "./RootLayout.module.css";
 import banner from "../resources/banner.jpg";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 
-export default function Base() {
+export default function RootLayout() {
     return (
         <div className={styles.base}>
             <header>
@@ -10,17 +10,20 @@ export default function Base() {
                 <div className={styles["navbar-wrapper"]}>
                         <ul>
 							<li>
-								<a href="123123">Link</a>
+								<Link to="/">Home</Link>
 							</li>
 							<li>
-								<a href="123123">Link</a>
+								<Link to="board">Board</Link>
 							</li>
 							<li>
-								<a href="123123">Link</a>
+								<Link to="write">Write</Link>
 							</li>
                         </ul>
                 </div>
             </header>
+			<main>
+				<Outlet />
+			</main>
             <div className={styles.main}></div>
         </div>
     );
