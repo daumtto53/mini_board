@@ -3,48 +3,40 @@
 	/*box-sizing: content-box;*/
 	padding: 0;
 	margin: 0;
-}
-
-.board-write-container > header{
-	margin: 4vh auto;
+	display: flex;
+	flex-direction: column;
+	align-items:center;
+	width: 80vw;
 }
 
 .board-write-container > main {
-	height: 70vh ;
-
+	height: 100%;
 	& section {
 		height: 100%;
 	}
 }
-
-
 .board-write-container .write-form {
 	border-top: 2px solid black;
 	width: 80% auto;
 	height: 100%;
 
 }
-
 .write-form {
 	white-space: nowrap;
 }
-
 .write-form dl{
 	height: 4rem;
 }
-
 .write-form dt {
 	font-size: 1.4rem;
 	font-weight: bold;
 	font-family: sans-serif;
 }
-
 .write-form dt {
 	padding-right: 5rem;
 	width: 100px;
 	text-align: right;
 }
-
 .write-form > .title dd,
 .write-form > .title dt,
 .write-form > .author dd,
