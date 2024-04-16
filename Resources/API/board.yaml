@@ -4,7 +4,7 @@ info:
     description: daumtto53 first project
     version: 0.0.1
 servers:
-    - url: "localhost:5173"
+    - url: "localhost:8080"
 paths:
     /board/{page}:
         get:
