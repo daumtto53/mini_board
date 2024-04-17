@@ -19,6 +19,7 @@ public interface BoardService {
     default BoardPageDTO boardPageToDTO(Post post) {
         BoardPageDTO dto = BoardPageDTO.builder()
                 .id(post.getPostId())
+                .author(post.getMember().getName())
                 .title(post.getTitle())
                 .updatedAt(post.getUpdatedAt())
                 .views(post.getViews())
