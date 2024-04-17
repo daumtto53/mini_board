@@ -9,18 +9,22 @@ import {
 } from "react-router-dom";
 
 import Home from "./Home/Home";
-import BoardHome from "./Board/BoardHome";
+import BoardHome, { boardLoader as boardloader } from "./Board/BoardHome";
 import BoardWrite from "./BoardWrite/BoardWrite";
 import RootLayout from "./RootLayout";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <>
-            <Route path="/" element={<RootLayout/>}>
-				<Route index element={<Home />} />
-				<Route path="board" element={<BoardHome />} />
-				<Route path="write" element={<BoardWrite />} />
-			</Route>
+            <Route path="/" element={<RootLayout />}>
+                <Route index element={<Home />} />
+                <Route
+                    path="board"
+                    element={<BoardHome />}
+                    loader={boardloader}
+                />
+                <Route path="write" element={<BoardWrite />} />
+            </Route>
         </>
     )
 );
