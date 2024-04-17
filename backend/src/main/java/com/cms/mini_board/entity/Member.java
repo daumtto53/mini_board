@@ -15,10 +15,10 @@ import java.util.List;
 @ToString
 public class Member extends BaseEntity{
     @Id @GeneratedValue
-    private Long member_id;
+    private Long memberId;
 
     @Column(length = 64, nullable = false, unique = true)
-    private String login_id;
+    private String loginId;
 
     @Column(length = 64, nullable = false)
     private String password;
