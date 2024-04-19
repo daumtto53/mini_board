@@ -24,20 +24,15 @@ public class BoardController {
 
     private final BoardService boardService;
 
-//    @GetMapping("")
-//    public List<BoardPageDTO> boardPage() {
-//        Page<Post> page = boardService.findBoardPageWithPagination(0, 10);
-//        return page;
-//    }
-
     @GetMapping("")
     public PageResultDTO<BoardPageDTO, Post> boardList(@RequestParam String pageNum) {
-        log.info("pageNum={}", pageNum);
         PageRequestDTO req = PageRequestDTO.builder()
-                .offset(1)
+                .offset(Integer.valueOf(pageNum))
                 .size(10).build();
         PageResultDTO<BoardPageDTO, Post> dto = boardService.getList(req);
         return dto;
     }
+
+    //전체 페이지 개수 보내기
 
 }

@@ -13,7 +13,10 @@ import java.util.stream.Collectors;
 public class PageResultDTO <DTO, EN> {
     private List<DTO> dtoList;
 
+    private Integer totalPageSize;
+
     public PageResultDTO(Page<EN> en, Function<EN, DTO> fn) {
         dtoList = en.stream().map(fn).collect(Collectors.toList());
+        totalPageSize = en.getTotalPages();
     }
 }

@@ -25,7 +25,10 @@ export async function boardLoader({ request }) {
     };
     try {
         const response = await pageAxios.get("", config);
-        return response.data["dtoList"];
+		return {
+			dtoList: response.data["dtoList"],
+			totalPageSize: response.data["totalPageSize"]
+		}
     } catch (error) {
         console.log(error.response.data);
         console.log(error.response.status);
@@ -34,16 +37,16 @@ export async function boardLoader({ request }) {
 }
 
 export default function BoardHome() {
-    const boardList = useLoaderData();
+    const loaderData = useLoaderData();
 
     return (
         <section className={styles["board-wrapper"]}>
             <div className={styles.board}>
-                <BoardTable boardList={boardList} />
+                <BoardTable boardList={loaderData.dtoList} />
             </div>
             <BoardSearchBar />
             <button className={styles.register}>Register</button>
-            <BoardPagination className={styles.pagination} />
+            <BoardPagination className={styles.pagination} totalPageSize={loaderData.totalPageSize} />
         </section>
     );
 }
