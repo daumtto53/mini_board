@@ -11,7 +11,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 @ToString(exclude = {"member"})
 public class Reply {
     @Id @GeneratedValue
-    private Long reply_id;
+    private Long replyId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -20,5 +20,5 @@ public class Reply {
     @JoinColumn(name = "post_id")
     private Post post;
     @Column(length = 500)
-    private String reply_text;
+    private String replyText;
 }

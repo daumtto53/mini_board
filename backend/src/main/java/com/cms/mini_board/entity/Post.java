@@ -12,7 +12,7 @@ import java.util.List;
 @ToString(exclude = {"member"})
 public class Post extends BaseEntity{
     @Id @GeneratedValue
-    private Long post_id;
+    private Long postId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

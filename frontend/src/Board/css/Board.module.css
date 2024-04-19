@@ -1,0 +1,42 @@
+/* Board내의 board, serachbar, pagination ratio START*/
+.board-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+	justify-content: center;
+	margin: 0 auto;
+
+	width: 70%;
+
+	/*border: solid 3px red;*/
+}
+.board-wrapper .board {
+    flex: 8 8 0;
+}
+.board-wrapper  .searchbar {
+    flex: 1 1 0;
+}
+.board-wrapper .pagination {
+    flex: 1 1 0;
+}
+/* END */
+
+.searchbar-wrapper {
+    margin: 1rem 0;
+}
+
+.board-wrapper .register {
+
+}
+
+.board-wrapper .register:hover {
+	background-color: black;
+}
+
+.board-wrapper .line {
+	display: flex;
+}
+
+.pagination-wrapper {
+	margin: auto;
+}

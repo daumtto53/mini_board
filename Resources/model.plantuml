@@ -29,7 +29,7 @@ entity "member" as member {
 entity "reply" as reply {
 	*reply_id: INT(11) AUTO
 	--
-	*board_id: INT(11) <<FK>>
+	*post_id: INT(11) <<FK>>
 	*member_id: INT(11) <<FK>>
 	reply_text: VARCHAR(500)
 	--
