@@ -28,10 +28,12 @@ import styles from "./css/Board.module.css";
  */
 export async function boardLoader({ request }) {
     const config = {
-        params: { page: 1 },
+        //params: { page: 1 },
     };
     try {
-        const response = await pageAxios.get("/1", config);
+        //const response = await pageAxios.get("/1", config);
+        const response = await pageAxios.get("", config);
+		console.log(response);
         return response.data;
     } catch (error) {
         console.log(error.response.data);
