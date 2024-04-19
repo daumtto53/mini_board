@@ -15,7 +15,7 @@ export default function BoardSearchBar() {
             <form className={styles["searchbar-wrapper"]} method="post">
                 <FormControl
                     sx={{
-                        width: "50vw",
+                        width: "100%",
                         display: "flex",
                         flexWrap: "wrap",
                         flexDirection: "row",
