@@ -1,12 +1,30 @@
-import * as React from 'react';
-import Pagination from '@mui/material/Pagination';
+import * as React from "react";
 
-import styles from './css/Board.module.css';
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 
-export default function BoardPagination() {
-	return (
-		<div className={styles["pagination-wrapper"]}>
-			<Pagination count={10} variant="outlined" shape="rounded"/>
-		</div>
-	);
+import Pagination from "@mui/material/Pagination";
+import { Table, TablePagination } from "@mui/material";
+
+import styles from "./css/Board.module.css";
+
+/**
+ * props: totalPageNumbers
+ */
+export default function BoardPagination(props) {
+
+	const [searchParams, setSearchParams] = useSearchParams();
+
+    return (
+        <div className={styles["pagination-wrapper"]}>
+            <Pagination
+                count={10}
+                variant="outlined"
+                shape="rounded"
+                onChange={(e, currentPage) => {
+					setSearchParams({page: currentPage});
+                }}
+            />
+        </div>
+    );
 }
