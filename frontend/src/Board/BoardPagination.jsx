@@ -16,7 +16,7 @@ export default function BoardPagination(props) {
     return (
         <div className={styles["pagination-wrapper"]}>
             <Pagination
-                count={10}
+                count={props.totalPageSize}
                 variant="outlined"
                 shape="rounded"
                 onChange={(e, currentPage) => {
