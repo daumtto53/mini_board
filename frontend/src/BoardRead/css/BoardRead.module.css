@@ -1,0 +1,219 @@
+.board-read-wrapper {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.board-read-wrapper dt,
+.board-reply-container {
+    font-size: 1.4rem;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+
+.board-read-wrapper dt {
+    width: 100px;
+}
+
+.board-reply-container {
+    width: 100px;
+}
+
+.board-content-container {
+}
+
+.board-content-container > header {
+    margin: 4vh auto;
+}
+
+.board-content-container > main {
+    height: 70vh;
+
+    & section {
+        height: 100%;
+    }
+}
+
+.board-content-container .content-form {
+    border-top: 2px solid black;
+    width: 80% auto;
+    height: 100%;
+}
+
+.content-form {
+    white-space: nowrap;
+}
+
+.content-form dl {
+    height: 4rem;
+}
+
+/*.content-form dt {
+	font-size: 1.4rem;
+	font-weight: bold;
+	font-family: sans-serif;
+}
+
+.content-form dt {
+	padding-right: 5rem;
+	width: 100px;
+	text-align: right;
+}*/
+
+.content-form > .title dd,
+.content-form > .title dt,
+.content-form > .author dd,
+.content-form > .author dt,
+.content-form > .content dt,
+.content-form > .content dd {
+    display: inline-block;
+}
+
+.content-form > .author {
+    border-top: 1px dashed gray;
+    border-bottom: 1px dashed grey;
+}
+
+.content-form > .content {
+    height: 30vh;
+}
+
+.content-form > .content > dl {
+    height: 100%;
+}
+
+.content-form .submit {
+    display: flex;
+    margin-top: 2rem;
+    flex-direction: row-reverse;
+}
+
+.content-form .submit > .button-position {
+    width: 600px;
+}
+
+.board-reply-container {
+    width: 100%;
+    border-top: 2px solid grey;
+    border-bottom: 1px dashed grey;
+}
+
+.board-reply-container > p {
+    text-align: left;
+    padding-left: 12%;
+    width: 100% auto;
+}
+
+.reply-wrapper {
+    margin: 0 10%;
+    width: 80% auto;
+    align-content: 80%;
+
+    text-align: left;
+    font-size: 16px;
+
+    padding: 0 10%;
+}
+
+.reply-list {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+}
+
+.replybox {
+    display: grid;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-auto-rows: minmax(0, 1fr);
+
+    margin-bottom: 2rem;
+
+    height: 20vh;
+}
+
+/* column: 1~8 */
+/* row: 1 ~ 6 */
+.replybox .profile-icon {
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
+
+    /*background-color: antiquewhite;*/
+    border-right: 3px black solid;
+}
+
+.replybox .id {
+    grid-column: 3 / 5;
+    grid-row: 1 / 2;
+
+    padding-left: 1rem;
+
+    border-bottom: 1px solid black;
+    align-content: end;
+}
+
+.replybox .timestamp {
+    grid-column: 3 / 5;
+    grid-row: 2 / 3;
+
+    padding-left: 1rem;
+    align-content: end;
+}
+
+.replybox .reply {
+    grid-column: 1 / 8;
+    grid-row: 3 / 8;
+}
+
+.replybox .icon {
+    width: 100%;
+    height: 100%;
+}
+
+/* ReplyForm */
+/* containing button & registering */
+.reply-form-outer-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    /*border: 1px dashed black;*/
+    margin-bottom: 20%;
+}
+
+/* reply registering wrapper */
+.reply-form-inner-wrapper {
+    display: grid;
+    grid-auto-rows: minmax(0, 1fr);
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-auto-rows: minmax(0, 1fr);
+
+	height: 12vh;
+}
+
+.reply-form-inner-wrapper .id-cell{
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+	width: 50%;
+	height:100%;
+}
+
+.reply-form-inner-wrapper .textarea-cell{
+    grid-column: span 2;
+    grid-row: 2 / 5;
+	padding-top: 5px;
+}
+
+.reply-form-inner-wrapper .reply-form-textarea {
+	border-radius: 5px;
+	width: 100%;
+	height: 100%;
+}
+
+
+/* ReplyForm end */
+
+.reply-form-inner-wrapper .reply-form-id-box {
+	border-radius: 5px;
+	width: 100%;
+	height: 100%;
+}
