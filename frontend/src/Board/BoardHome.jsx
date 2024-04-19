@@ -1,3 +1,5 @@
+import { useLoaderData } from "react-router-dom";
+
 import BoardTable from "./BoardTable.jsx";
 import BoardPagination from "./BoardPagination.jsx";
 import BoardSearchBar from "./BoardSearchBar.jsx";
@@ -31,22 +33,23 @@ export async function boardLoader({ request }) {
         //params: { page: 1 },
     };
     try {
-        //const response = await pageAxios.get("/1", config);
+        //const response = await pageAxios.get("/1", config);	 //굳이 필요한가...?
         const response = await pageAxios.get("", config);
-		console.log(response);
-        return response.data;
+        return response.data["dtoList"];
     } catch (error) {
-        console.log(error.response.data);
+        //console.log(error.response.data);
         console.log(error.response.status);
         console.log(error.response.headers);
     }
 }
 
 export default function BoardHome() {
+    const boardList = useLoaderData();
+
     return (
         <section className={styles["board-wrapper"]}>
             <div className={styles.board}>
-                <BoardTable />
+                <BoardTable boardList={boardList} />
             </div>
             <BoardSearchBar />
             <button className={styles.register}>Register</button>
