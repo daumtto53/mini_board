@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -30,7 +31,8 @@ public class BoardController {
 //    }
 
     @GetMapping("")
-    public PageResultDTO<BoardPageDTO, Post> boardList() {
+    public PageResultDTO<BoardPageDTO, Post> boardList(@RequestParam String pageNum) {
+        log.info("pageNum={}", pageNum);
         PageRequestDTO req = PageRequestDTO.builder()
                 .offset(1)
                 .size(10).build();
