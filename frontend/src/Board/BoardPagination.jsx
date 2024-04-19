@@ -1,10 +1,8 @@
 import * as React from "react";
 
-import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import Pagination from "@mui/material/Pagination";
-import { Table, TablePagination } from "@mui/material";
 
 import styles from "./css/Board.module.css";
 
@@ -22,7 +20,7 @@ export default function BoardPagination(props) {
                 variant="outlined"
                 shape="rounded"
                 onChange={(e, currentPage) => {
-					setSearchParams({page: currentPage});
+					setSearchParams({pageNum: currentPage});
                 }}
             />
         </div>

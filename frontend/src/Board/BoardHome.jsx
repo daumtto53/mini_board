@@ -14,12 +14,14 @@ import styles from "./css/Board.module.css";
 export async function boardLoader({ request }) {
 
 	const url = new URL(request.url);
-	let requestPageNum = url.searchParams.get("page");
+	let requestPageNum = url.searchParams.get("pageNum");
 	requestPageNum = requestPageNum === null ? 1 : requestPageNum;
 	console.log(requestPageNum);
 
     const config = {
-        //params: requestPageNum
+        params: {
+			pageNum: requestPageNum
+		}
     };
     try {
         const response = await pageAxios.get("", config);
