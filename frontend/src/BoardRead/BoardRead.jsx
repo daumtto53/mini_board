@@ -5,17 +5,20 @@ import BoardForm from "../BoardCommonComponents/BoardForm";
 import { pageAxios } from "../API/boardAPI";
 
 import styles from "./css/BoardRead.module.css";
+import { useLoaderData } from "react-router-dom";
 
 export async function boardReadLoader({ request, params }) {
     const pageId = params.pageId;
     console.log("pageId " + pageId);
 
     try {
-        const response = pageAxios.get(`/${pageId}`);
+        const response = await pageAxios.get(`/${pageId}`);
+		console.log(response);
         /**
          * TODO
          * fetch data of title, author, content, time, views, replyList {[author, updated time, text]...}
          */
+		return response.data;
     } catch (error) {
         console.log(error.response.data);
         console.log(error.response.status);
@@ -24,6 +27,9 @@ export async function boardReadLoader({ request, params }) {
 }
 
 export default function BoardRead() {
+
+	const responseData = useLoaderData();
+	console.log(responseData);
     return (
         <div className={styles["board-read-wrapper"]}>
             <div className={styles["board-content-container"]}>

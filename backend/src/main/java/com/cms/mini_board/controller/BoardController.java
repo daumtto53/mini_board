@@ -1,18 +1,19 @@
 package com.cms.mini_board.controller;
 
 import com.cms.mini_board.dto.BoardPageDTO;
+import com.cms.mini_board.dto.BoardReadDTO;
 import com.cms.mini_board.dto.PageDTO.PageRequestDTO;
 import com.cms.mini_board.dto.PageDTO.PageResultDTO;
 import com.cms.mini_board.entity.Post;
 import com.cms.mini_board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,6 +34,14 @@ public class BoardController {
         return dto;
     }
 
-    //전체 페이지 개수 보내기
+    //boardRead
+    @GetMapping("/{pageId}")
+    public ResponseEntity<BoardReadDTO> boardRead(@PathVariable String pageId) throws NotFoundException {
+        return boardService.getFullBoardReadContent(pageId)
+                .map(dto -> {
+                    return new ResponseEntity<BoardReadDTO>(dto, HttpStatus.OK);
+                }).orElseThrow(() -> new NotFoundException("boardDTO NOtFound"));
+    }
+
 
 }
