@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 function BoardButtons() {
     return (
         <div className={styles.submit}>
-            <div className={styles["button-position"]}>
+            <div>
                 <Button
                     type="submit"
                     variant="contained"
@@ -55,14 +55,22 @@ export default function BoardReadForm() {
                             variant="outlined"
                             id="board-content-title"
                             name="title"
-							disabled={true}
+                            disabled={true}
                             sx={{
-                                width: "85vh",
+                                width: "30vw",
                                 minWidth: "50px",
                                 verticalAlign: "baseline",
                             }}
                         />
                     </dd>
+                </dl>
+            </div>
+            <div className={styles.misc}>
+                <dl>
+                    <dt className={styles["views-key"]}>views</dt>
+                    <dd className={styles["views-value"]}>123131</dd>
+                    <dt className={styles["register-date-key"]}>12312</dt>
+                    <dd className={styles["register-date-value"]}>12312</dd>
                 </dl>
             </div>
             <div className={styles.author}>
@@ -75,7 +83,7 @@ export default function BoardReadForm() {
                             name="author"
                             disabled={true}
                             sx={{
-                                width: "85vh",
+                                width: "30vw",
                                 minWidth: "40px",
                                 verticalAlign: "baseline",
                             }}
@@ -93,19 +101,19 @@ export default function BoardReadForm() {
                             variant="outlined"
                             id="board-content-content"
                             name="content"
-							value="13123121312312312312312123121231231233"
+                            value="13123121312312312312312123121231231233"
                             disabled={true}
                             sx={{
-                                width: "85vh",
-								input: {
-									color: "black"
-								}
+                                width: "30vw",
+                                input: {
+                                    color: "black",
+                                },
                             }}
                         />
                     </dd>
                 </dl>
             </div>
-			<BoardButtons />
+            <BoardButtons />
         </form>
     );
 }
