@@ -8,32 +8,40 @@ function ReplyForm() {
         <form className={styles["reply-form-outer-wrapper"]}>
             <div className={styles["reply-form-inner-wrapper"]}>
                 <div className={styles["id-cell"]}>
-                    <input disabled className={styles["reply-form-id-box"]} type="text" />
+                    <input
+                        disabled
+                        className={styles["reply-form-id-box"]}
+                        type="text"
+                    />
                 </div>
                 <div className={styles["textarea-cell"]}>
-					<TextField
-						name="reply-content"
-						multiline={true}
-						rows={3}
-						sx={{
-							width:"100%",
-							height:"100%",
-							justifyContent:"stretch"
-						} }
-					/>
+                    <TextField
+                        name="reply-content"
+                        multiline={true}
+                        rows={3}
+                        sx={{
+                            width: "100%",
+                            height: "100%",
+                            justifyContent: "stretch",
+                        }}
+                    />
 
-					{/*<textarea className={styles["reply-form-textarea"]}/>*/}
+                    {/*<textarea className={styles["reply-form-textarea"]}/>*/}
 
                     {/*<input type='text' className={styles.test} /> TextField*/}
                 </div>
             </div>
-				 <Button
-				 	type="submit"
-				 	variant="contained"
-					sx={{
-						marginTop:"2rem"
-					}}
-				 >Post Reply</Button>
+            <Button
+                type="submit"
+                variant="contained"
+                sx={{
+                    marginTop: "2rem",
+					width: "20%",
+					alignSelf: "end"
+                }}
+            >
+                Post Reply
+            </Button>
         </form>
     );
 }
@@ -47,23 +55,23 @@ function ReplyBox() {
             <div className={styles.id}>ID</div>
             <div className={styles.timestamp}>Time</div>
             <div className={styles.reply}>
-				{/* duplicatte element id */}
+                {/* duplicatte element id */}
                 <TextField
-					id="reply-textfield"
-					variant="outlined"
-					disabled={true}
-					multiline={true}
-					rows={3}
-					value="12313
+                    id="reply-textfield"
+                    variant="outlined"
+                    disabled={true}
+                    multiline={true}
+                    rows={3}
+                    value="12313
 					123
 					123"
-					sx={{
-						overflowY: "auto",
-						width:"100%",
-						height:"100%",
-						padding:"1rem",
-					}}
-				/>
+                    sx={{
+                        overflowY: "auto",
+                        width: "100%",
+                        height: "100%",
+                        padding: "1rem",
+                    }}
+                />
             </div>
         </div>
     );

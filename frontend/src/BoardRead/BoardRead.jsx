@@ -28,7 +28,6 @@ export default function BoardRead() {
 		<div className={styles["board-read-wrapper"]}>
             <div className={styles["board-content-container"]}>
                 <header>
-                    <h1>Read on Board</h1>
                 </header>
                 <main>
                     <section>
