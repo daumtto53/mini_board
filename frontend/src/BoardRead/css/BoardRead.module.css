@@ -6,14 +6,10 @@
     flex-direction: column;
     align-items: center;
 }
-.board-read-wrapper dt,
 .board-reply-container {
     font-size: 1.4rem;
     font-weight: bold;
     font-family: sans-serif;
-}
-.board-read-wrapper dt {
-    width: 100px;
 }
 .board-reply-container {
     width: 100px;
