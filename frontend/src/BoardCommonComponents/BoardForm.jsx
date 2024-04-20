@@ -1,4 +1,4 @@
-import styles from "./css/BoardRead.module.css";
+import styles from "./BoardForm.module.css"
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
@@ -44,7 +44,7 @@ function BoardButtons() {
     );
 }
 
-export default function BoardReadForm() {
+export default function BoardForm() {
     return (
         <form className={styles["content-form"]} method="post">
             <div className={styles.title}>

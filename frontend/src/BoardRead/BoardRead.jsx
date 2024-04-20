@@ -1,5 +1,6 @@
-import BoardReadForm from "./BoardReadForm";
+//import BoardReadForm from "./BoardReadForm";
 import BoardReply from "./BoardReply";
+import BoardForm from "../BoardCommonComponents/BoardForm";
 
 import {pageAxios} from "../API/boardAPI";
 
@@ -31,7 +32,7 @@ export default function BoardRead() {
                 </header>
                 <main>
                     <section>
-                        <BoardReadForm />
+						<BoardForm />
                     </section>
                 </main>
             </div>

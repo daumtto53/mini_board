@@ -3,6 +3,11 @@ import TextField from "@mui/material/TextField";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 import Button from "@mui/material/Button";
 
+
+/**
+ *
+ * Deprecated. Usage of BoardForm recommended.
+ */
 export default function BoardWriteForm() {
     return (
         <form className={styles["write-form"]} method="post">
