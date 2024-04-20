@@ -7,6 +7,7 @@ import {
     TableCell,
     Paper,
 } from "@mui/material";
+import { NavLink } from "react-router-dom";
 
 function ReplyCount(props) {
     return (
@@ -21,7 +22,11 @@ function makeBoardRow(data, i) {
         <TableRow key={i}>
             <TableCell>{data.id}</TableCell>
             <TableCell>
-                {data.title} .... <ReplyCount replyCount={data.replyCount} />
+                <NavLink to={`/board/${data.id}`}>
+                    {" "}
+                    {data.title} ....{" "}
+                    <ReplyCount replyCount={data.replyCount} />{" "}
+                </NavLink>
             </TableCell>
             <TableCell>{data.author}</TableCell>
             <TableCell>{data.updatedAt}</TableCell>
