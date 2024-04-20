@@ -1,5 +1,6 @@
 package com.cms.mini_board.entity;
 
+import com.fasterxml.jackson.databind.ser.Serializers;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -9,7 +10,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 @Getter
 @Setter
 @ToString(exclude = {"member"})
-public class Reply {
+public class Reply extends BaseEntity {
     @Id @GeneratedValue
     private Long replyId;
 

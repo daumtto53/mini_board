@@ -8,7 +8,7 @@ import {
 import Home from "./Home/Home";
 import BoardHome, { boardLoader as boardloader } from "./Board/BoardHome";
 import BoardWrite from "./BoardWrite/BoardWrite";
-import BoardRead from "./BoardRead/BoardRead";
+import BoardRead, { boardReadLoader } from "./BoardRead/BoardRead";
 import RootLayout from "./RootLayout";
 
 const router = createBrowserRouter(
@@ -24,7 +24,7 @@ const router = createBrowserRouter(
                 <Route path="write" element={<BoardWrite />} />
 				<Route
 					path="board/:pageId"
-					//loader={boardReadLoader(params)}
+					loader={boardReadLoader}
 					element={<BoardRead />}
 				/>
             </Route>

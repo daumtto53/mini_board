@@ -1,9 +1,12 @@
 package com.cms.mini_board.service;
 
 import com.cms.mini_board.dto.BoardPageDTO;
+import com.cms.mini_board.dto.BoardReadDTO;
 import com.cms.mini_board.dto.PageDTO.PageRequestDTO;
 import com.cms.mini_board.dto.PageDTO.PageResultDTO;
 import com.cms.mini_board.entity.Post;
+
+import java.util.Optional;
 
 /* Repository의 Data를 가공해서 Controller로 전달하는 것이 service의 역할.*/
 public interface BoardService {
@@ -21,4 +24,6 @@ public interface BoardService {
                 .build();
         return dto;
     }
+
+    Optional<BoardReadDTO> getFullBoardReadContent(String pageId);
 }
