@@ -1,3 +1,4 @@
+import BoardForm from "../BoardCommonComponents/BoardForm";
 import BoardWriteForm from "./BoardWriteForm";
 
 import styles from "./css/BoardWrite.module.css";
@@ -7,7 +8,7 @@ export default function BoardWrite() {
         <div className={styles["board-write-container"]}>
             <main>
 				<section>
-					<BoardWriteForm />
+					<BoardForm />
 				</section>
 			</main>
         </div>

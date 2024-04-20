@@ -1,0 +1,74 @@
+.content-form {
+    white-space: nowrap;
+}
+.content-form dl {
+    height: 4rem;
+}
+
+.content-form dt {
+	font-size: 1.4rem;
+	font-weight: bold;
+	font-family: sans-serif;
+}
+
+.content-form > .misc > dl {
+    display: grid;
+	column-gap: 20px;
+}
+
+.misc {
+	border-top: black 1px dashed;
+	& dd {
+		margin: 0px;
+	}
+	& .views-key,
+	& .views-value {
+		border-right: black 2px solid;
+	}
+}
+
+.misc .views-key {
+    font-size: medium;
+    grid-column: 6;
+    grid-row: 1;
+	width: 100%;
+}
+.misc .views-value {
+    grid-column: 6;
+    grid-row: 2;
+}
+.misc .register-date-key {
+    font-size: medium;
+    grid-column: 7;
+    grid-row: 1;
+}
+
+.misc .register-date-value {
+    grid-column: 7;
+    grid-row: 2;
+}
+
+.content-form > .title dd,
+.content-form > .title dt,
+.content-form > .author dd,
+.content-form > .author dt,
+.content-form > .content dt,
+.content-form > .content dd {
+    display: inline-block;
+}
+
+.content-form > .author {
+    border-top: 1px dashed gray;
+    border-bottom: 1px dashed grey;
+}
+.content-form > .content {
+    height: 30vh;
+}
+.content-form > .content > dl {
+    height: 100%;
+}
+.content-form .submit {
+    display: flex;
+    margin-top: 2rem;
+    flex-direction: row-reverse;
+}
