@@ -1,4 +1,4 @@
-import styles from "./BoardForm.module.css"
+import styles from "./BoardForm.module.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
@@ -44,7 +44,10 @@ function BoardButtons() {
     );
 }
 
-export default function BoardForm() {
+export default function BoardForm(props) {
+    const disableWriting = props.mode === "write" ? false : true;
+	console.log("disableWriting: " + disableWriting);
+
     return (
         <form className={styles["content-form"]} method="post">
             <div className={styles.title}>
@@ -55,7 +58,7 @@ export default function BoardForm() {
                             variant="outlined"
                             id="board-content-title"
                             name="title"
-                            disabled={true}
+                            disabled={disableWriting}
                             sx={{
                                 width: "30vw",
                                 minWidth: "50px",
@@ -81,7 +84,7 @@ export default function BoardForm() {
                             variant="outlined"
                             id="board-content-author"
                             name="author"
-                            disabled={true}
+                            disabled={disableWriting}
                             sx={{
                                 width: "30vw",
                                 minWidth: "40px",
@@ -102,7 +105,7 @@ export default function BoardForm() {
                             id="board-content-content"
                             name="content"
                             value="13123121312312312312312123121231231233"
-                            disabled={true}
+                            disabled={disableWriting}
                             sx={{
                                 width: "30vw",
                                 input: {
