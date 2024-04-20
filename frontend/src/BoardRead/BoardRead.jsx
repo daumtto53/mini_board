@@ -1,7 +1,27 @@
 import BoardReadForm from "./BoardReadForm";
 import BoardReply from "./BoardReply";
 
+import {pageAxios} from "../API/boardAPI";
+
 import styles from "./css/BoardRead.module.css";
+
+export async function boardReadLoader({request, params}) {
+	const pageId = params.pageId;
+	console.log("pageId " + pageId);
+
+	try {
+		const response = pageAxios.get(`/${pageId}`);
+		/**
+		 * TODO
+		 * fetch data of title, author, content, time, views, replyList {[author, updated time, text]...}
+		 */
+	}
+	catch(error) {
+		console.log(error.response.data);
+		console.log(error.response.status);
+		console.log(error.response.headers);
+	}
+};
 
 export default function BoardRead() {
     return (
