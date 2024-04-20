@@ -28,11 +28,9 @@
 .board-wrapper .register {
 
 }
-
 .board-wrapper .register:hover {
 	background-color: black;
 }
-
 .board-wrapper .line {
 	display: flex;
 }

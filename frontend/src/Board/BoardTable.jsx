@@ -8,13 +8,23 @@ import {
     Paper,
 } from "@mui/material";
 
+function ReplyCount(props) {
+    return (
+        <>
+            <span style={{ fontWeight: "bold" }}> [ {props.replyCount} ] </span>
+        </>
+    );
+}
+
 function makeBoardRow(data, i) {
     return (
         <TableRow key={i}>
             <TableCell>{data.id}</TableCell>
-            <TableCell>{data.title}</TableCell>
+            <TableCell>
+                {data.title} .... <ReplyCount replyCount={data.replyCount} />
+            </TableCell>
             <TableCell>{data.author}</TableCell>
-            <TableCell>{data.timestamp}</TableCell>
+            <TableCell>{data.updatedAt}</TableCell>
             <TableCell>{data.views}</TableCell>
         </TableRow>
     );
@@ -44,7 +54,6 @@ function BoardTable(props) {
         </TableContainer>
     );
 }
-
 
 /***
  * Data For Test Purpose
