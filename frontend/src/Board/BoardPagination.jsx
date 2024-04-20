@@ -10,8 +10,7 @@ import styles from "./css/Board.module.css";
  * props: totalPageNumbers
  */
 export default function BoardPagination(props) {
-
-	const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     return (
         <div className={styles["pagination-wrapper"]}>
@@ -19,8 +18,9 @@ export default function BoardPagination(props) {
                 count={props.totalPageSize}
                 variant="outlined"
                 shape="rounded"
+                defaultPage={props.defaultPageNum}
                 onChange={(e, currentPage) => {
-					setSearchParams({pageNum: currentPage});
+                    setSearchParams({ pageNum: currentPage });
                 }}
             />
         </div>

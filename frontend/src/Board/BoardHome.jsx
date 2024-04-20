@@ -12,23 +12,23 @@ import styles from "./css/Board.module.css";
  * data: id, title, author, date, views
  */
 export async function boardLoader({ request }) {
-
-	const url = new URL(request.url);
-	let requestPageNum = url.searchParams.get("pageNum");
-	requestPageNum = requestPageNum === null ? 1 : requestPageNum;
-	console.log(requestPageNum);
+    const url = new URL(request.url);
+    let requestPageNum = url.searchParams.get("pageNum");
+    requestPageNum = requestPageNum === null ? 1 : requestPageNum;
+    console.log(requestPageNum);
 
     const config = {
         params: {
-			pageNum: requestPageNum
-		}
+            pageNum: requestPageNum,
+        },
     };
     try {
         const response = await pageAxios.get("", config);
-		return {
-			dtoList: response.data["dtoList"],
-			totalPageSize: response.data["totalPageSize"]
-		}
+        return {
+            dtoList: response.data["dtoList"],
+            totalPageSize: response.data["totalPageSize"],
+            defaultPageNum: parseInt(requestPageNum),
+        };
     } catch (error) {
         console.log(error.response.data);
         console.log(error.response.status);
@@ -46,7 +46,11 @@ export default function BoardHome() {
             </div>
             <BoardSearchBar />
             <button className={styles.register}>Register</button>
-            <BoardPagination className={styles.pagination} totalPageSize={loaderData.totalPageSize} />
+            <BoardPagination
+                className={styles.pagination}
+                totalPageSize={loaderData.totalPageSize}
+                defaultPageNum={loaderData.defaultPageNum}
+            />
         </section>
     );
 }
