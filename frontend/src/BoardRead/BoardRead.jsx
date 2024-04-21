@@ -6,6 +6,7 @@ import { pageAxios } from "../API/boardAPI";
 
 import styles from "./css/BoardRead.module.css";
 import { useLoaderData } from "react-router-dom";
+import { HttpStatusCode } from "axios";
 
 export async function boardReadLoader({ request, params }) {
     const pageId = params.pageId;
@@ -13,23 +14,19 @@ export async function boardReadLoader({ request, params }) {
 
     try {
         const response = await pageAxios.get(`/${pageId}`);
-		console.log(response);
-        /**
-         * TODO
-         * fetch data of title, author, content, time, views, replyList {[author, updated time, text]...}
-         */
 		return response.data;
     } catch (error) {
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
+		console.log(error);
+        throw new Response(error.response.data.message, {
+            status: 404,
+        });
     }
+    return response.data;
 }
 
 export default function BoardRead() {
-
-	const responseData = useLoaderData();
-	console.log(responseData);
+    const responseData = useLoaderData();
+    console.log(responseData);
     return (
         <div className={styles["board-read-wrapper"]}>
             <div className={styles["board-content-container"]}>

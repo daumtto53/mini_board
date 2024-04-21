@@ -35,7 +35,7 @@ class ReplyRepositoryTest {
             Reply reply = Reply.builder()
                     .post(post1)
                     .member(member1)
-                    .reply_text("reply")
+                    .replyText("reply")
                     .build();
             Reply save = replyRepository.save(reply);
         });

@@ -6,9 +6,11 @@ import com.cms.mini_board.dto.PageDTO.PageRequestDTO;
 import com.cms.mini_board.dto.PageDTO.PageResultDTO;
 import com.cms.mini_board.entity.Post;
 import com.cms.mini_board.service.BoardService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.ibatis.javassist.NotFoundException;
+import org.hibernate.annotations.NotFound;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -40,7 +42,7 @@ public class BoardController {
         return boardService.getFullBoardReadContent(pageId)
                 .map(dto -> {
                     return new ResponseEntity<BoardReadDTO>(dto, HttpStatus.OK);
-                }).orElseThrow(() -> new NotFoundException("boardDTO NOtFound"));
+                }).orElseThrow(() -> new EntityNotFoundException("boardDTO NOtFound"));
     }
 
 

@@ -10,11 +10,14 @@ import BoardHome, { boardLoader as boardloader } from "./Board/BoardHome";
 import BoardWrite from "./BoardWrite/BoardWrite";
 import BoardRead, { boardReadLoader } from "./BoardRead/BoardRead";
 import RootLayout from "./RootLayout";
+import RootErrorBoundary from "./RootErrorBoundary";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <>
-            <Route path="/" element={<RootLayout />}>
+            <Route path="/"
+				errorElement={<RootErrorBoundary/>}
+			element={<RootLayout />}>
                 <Route index element={<Home />} />
                 <Route
                     path="board"
@@ -22,11 +25,11 @@ const router = createBrowserRouter(
                     element={<BoardHome />}
                 />
                 <Route path="write" element={<BoardWrite />} />
-				<Route
-					path="board/:pageId"
-					loader={boardReadLoader}
-					element={<BoardRead />}
-				/>
+                <Route
+                    path="board/:pageId"
+                    loader={boardReadLoader}
+                    element={<BoardRead />}
+                />
             </Route>
         </>
     )
