@@ -37,12 +37,10 @@ public class BoardController {
     }
 
     //boardRead
-    @GetMapping("/{pageId}")
-    public ResponseEntity<BoardReadDTO> boardRead(@PathVariable String pageId) throws NotFoundException {
-        return boardService.getFullBoardReadContent(pageId)
-                .map(dto -> {
-                    return new ResponseEntity<BoardReadDTO>(dto, HttpStatus.OK);
-                }).orElseThrow(() -> new EntityNotFoundException("boardDTO NOtFound"));
+    @GetMapping("/{postId}")
+    public ResponseEntity<BoardReadDTO> boardRead(@PathVariable String postId) throws NotFoundException {
+        BoardReadDTO dto = boardService.getFullBoardReadContent(postId);
+        return new ResponseEntity<BoardReadDTO>(dto, HttpStatus.OK);
     }
 
 

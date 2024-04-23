@@ -53,11 +53,9 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public Optional<BoardReadDTO> getFullBoardReadContent(String pageId) {
-        Optional<Post> opt = postRepository.findById(Long.valueOf(pageId));
-        //If optional's Content is NUll, then No Id valid. How to process this?
+    public BoardReadDTO getFullBoardReadContent(String postId) {
+        Optional<Post> opt = postRepository.findById(Long.valueOf(postId));
 
-        //Replies 전체를 가져오면 reply와 관련된 모든 data들을 다 가져오게도미. Member 객체까지도. 모두... RepliesDTO가 필요하다.
         return opt.map((post) -> {
             BoardReadDTO dto = BoardReadDTO.builder()
                     .title(post.getTitle())
@@ -69,7 +67,7 @@ public class BoardServiceImpl implements BoardService{
                             convertReplyToBoardReplyDTO(post)
                     )
                     .build();
-            return Optional.of(dto);
+            return dto;
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Information Not Found"));
     }
 }
