@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class BoardReadReplyDTO {
+    private Long replyId;
     private String replyAuthor;
     private String replyText;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
