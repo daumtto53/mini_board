@@ -9,7 +9,6 @@ function ReplyForm() {
             <div className={styles["reply-form-inner-wrapper"]}>
                 <div className={styles["id-cell"]}>
                     <input
-                        disabled
                         className={styles["reply-form-id-box"]}
                         type="text"
                     />
@@ -36,8 +35,8 @@ function ReplyForm() {
                 variant="contained"
                 sx={{
                     marginTop: "2rem",
-					width: "20%",
-					alignSelf: "end"
+                    width: "20%",
+                    alignSelf: "end",
                 }}
             >
                 Post Reply
@@ -46,48 +45,51 @@ function ReplyForm() {
     );
 }
 
-function ReplyBox() {
+function ReplyBox(props) {
+    const reply = props.reply;
+
     return (
-        <div className={styles.replybox}>
-            <div className={styles["profile-icon"]}>
-                <IoPerson className={styles.icon} />
+        <ul>
+            <div className={styles.replybox}>
+                <div className={styles["profile-icon"]}>
+                    <IoPerson className={styles.icon} />
+                </div>
+                <div className={styles.id}>ID: {reply.replyAuthor}</div>
+                <div className={styles.timestamp}>{reply.replyUpdatedAt}</div>
+                <div className={styles.reply}>
+                    {/* duplicatte element id */}
+                    <TextField
+                        id="reply-textfield"
+                        variant="outlined"
+                        disabled={true}
+                        multiline={true}
+                        rows={3}
+                        value={reply.replyText}
+                        sx={{
+                            "& .MuiInputBase-input.Mui-disabled": {
+                                WebkitTextFillColor: "#000000",
+                            },
+                            overflowY: "auto",
+                            width: "100%",
+                            height: "100%",
+                            padding: "1rem",
+                        }}
+                    />
+                </div>
             </div>
-            <div className={styles.id}>ID</div>
-            <div className={styles.timestamp}>Time</div>
-            <div className={styles.reply}>
-                {/* duplicatte element id */}
-                <TextField
-                    id="reply-textfield"
-                    variant="outlined"
-                    disabled={true}
-                    multiline={true}
-                    rows={3}
-                    value="12313
-					123
-					123"
-                    sx={{
-                        overflowY: "auto",
-                        width: "100%",
-                        height: "100%",
-                        padding: "1rem",
-                    }}
-                />
-            </div>
-        </div>
+        </ul>
     );
 }
 
-export default function BoardReply() {
+export default function BoardReply(props) {
+    const replies = props.replies;
+
+    const replyList = replies.map((reply) => {
+        return <ReplyBox key={reply.replyId} reply={reply} />;
+    });
     return (
         <div className={styles["reply-wrapper"]}>
-            <div className={styles["reply-list"]}>
-                <ReplyBox />
-                <ReplyBox />
-                <ReplyBox />
-                <ReplyBox />
-                <ReplyBox />
-                <ReplyBox />
-            </div>
+            <div className={styles["reply-list"]}>{replyList}</div>
 
             <ReplyForm />
         </div>

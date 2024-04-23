@@ -35,7 +35,9 @@ public class BoardServiceImpl implements BoardService{
                 .collect(Collectors.toList());
     }
     private static BoardReadReplyDTO createBoardReadReplyDTO(Reply reply) {
-        BoardReadReplyDTO replyDTO = BoardReadReplyDTO.builder().replyAuthor(reply.getMember().getNickname())
+        BoardReadReplyDTO replyDTO = BoardReadReplyDTO.builder()
+                .replyId(reply.getReplyId())
+                .replyAuthor(reply.getMember().getNickname())
                 .replyText(reply.getReplyText())
                 .replyUpdatedAt(reply.getUpdatedAt())
                 .build();

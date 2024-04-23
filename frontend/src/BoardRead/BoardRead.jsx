@@ -9,34 +9,33 @@ import { useLoaderData } from "react-router-dom";
 
 export async function boardReadLoader({ request, params }) {
     const pageId = params.pageId;
-    console.log("pageId " + pageId);
 
     try {
         const response = await pageAxios.get(`/${pageId}`);
-		return response.data;
+        return response.data;
     } catch (error) {
-		throw error;
+        throw error;
     }
 }
 
 export default function BoardRead() {
     const responseData = useLoaderData();
-    console.log(responseData);
+    const { boardReadReplyDTOList, ...boardData } = responseData;
+
     return (
         <div className={styles["board-read-wrapper"]}>
             <div className={styles["board-content-container"]}>
                 <header></header>
                 <main>
                     <section>
-                        <BoardForm mode={"read"} />
+                        <BoardForm boardData={boardData} mode={"read"} />
                     </section>
                 </main>
             </div>
             <div className={styles["board-reply-container"]}>
-                <p id="reply_header">reply</p>
-                <p id="reply_count">reply_count: 20</p>
+                <p id="reply_count">replies: {boardReadReplyDTOList.length}</p>
                 <section>
-                    <BoardReply />
+                    <BoardReply replies={boardReadReplyDTOList} />
                 </section>
             </div>
         </div>

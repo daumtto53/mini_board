@@ -46,7 +46,7 @@ function BoardButtons() {
 
 export default function BoardForm(props) {
     const disableWriting = props.mode === "write" ? false : true;
-	console.log("disableWriting: " + disableWriting);
+	const boardData = props.boardData;
 
     return (
         <form className={styles["content-form"]} method="post">
@@ -58,8 +58,10 @@ export default function BoardForm(props) {
                             variant="outlined"
                             id="board-content-title"
                             name="title"
+							value={boardData.title}
                             disabled={disableWriting}
                             sx={{
+								"& .MuiInputBase-input.Mui-disabled": {WebkitTextFillColor: "#000000"},
                                 width: "30vw",
                                 minWidth: "50px",
                                 verticalAlign: "baseline",
@@ -71,9 +73,9 @@ export default function BoardForm(props) {
             <div className={styles.misc}>
                 <dl>
                     <dt className={styles["views-key"]}>views</dt>
-                    <dd className={styles["views-value"]}>123131</dd>
-                    <dt className={styles["register-date-key"]}>12312</dt>
-                    <dd className={styles["register-date-value"]}>12312</dd>
+                    <dd className={styles["views-value"]}>{boardData.views}</dd>
+                    <dt className={styles["register-date-key"]}>DateTime</dt>
+                    <dd className={styles["register-date-value"]}>{boardData.updatedAt}</dd>
                 </dl>
             </div>
             <div className={styles.author}>
@@ -84,8 +86,10 @@ export default function BoardForm(props) {
                             variant="outlined"
                             id="board-content-author"
                             name="author"
+							value={boardData.author}
                             disabled={disableWriting}
                             sx={{
+								"& .MuiInputBase-input.Mui-disabled": {WebkitTextFillColor: "#000000"},
                                 width: "30vw",
                                 minWidth: "40px",
                                 verticalAlign: "baseline",
@@ -104,9 +108,10 @@ export default function BoardForm(props) {
                             variant="outlined"
                             id="board-content-content"
                             name="content"
-                            value="13123121312312312312312123121231231233"
+							value={boardData.content}
                             disabled={disableWriting}
                             sx={{
+								"& .MuiInputBase-input.Mui-disabled": {WebkitTextFillColor: "#000000"},
                                 width: "30vw",
                                 input: {
                                     color: "black",
