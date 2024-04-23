@@ -6,7 +6,6 @@ import { pageAxios } from "../API/boardAPI";
 
 import styles from "./css/BoardRead.module.css";
 import { useLoaderData } from "react-router-dom";
-import { HttpStatusCode } from "axios";
 
 export async function boardReadLoader({ request, params }) {
     const pageId = params.pageId;
@@ -16,12 +15,8 @@ export async function boardReadLoader({ request, params }) {
         const response = await pageAxios.get(`/${pageId}`);
 		return response.data;
     } catch (error) {
-		console.log(error);
-        throw new Response(error.response.data.message, {
-            status: 404,
-        });
+		throw error;
     }
-    return response.data;
 }
 
 export default function BoardRead() {
