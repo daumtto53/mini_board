@@ -15,7 +15,6 @@ export async function boardLoader({ request }) {
     const url = new URL(request.url);
     let requestPageNum = url.searchParams.get("pageNum");
     requestPageNum = requestPageNum === null ? 1 : requestPageNum;
-    console.log(requestPageNum);
 
     const config = {
         params: {
@@ -30,9 +29,7 @@ export async function boardLoader({ request }) {
             defaultPageNum: parseInt(requestPageNum),
         };
     } catch (error) {
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
+        throw error;
     }
 }
 
