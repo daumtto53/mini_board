@@ -2,21 +2,26 @@ import styles from "./BoardForm.module.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
-function BoardButtons() {
+function BoardButtons(props) {
+    const readMode = props.disableWriting === true ? true : false;
+
     return (
         <div className={styles.submit}>
             <div>
-                <Button
-                    type="submit"
-                    variant="contained"
-                    sx={{
-                        height: "3rem",
-                        width: "10vh",
-                        m: "0 1rem 0 0",
-                    }}
-                >
-                    Submit
-                </Button>
+                {readMode &&
+                    !(
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            sx={{
+                                height: "3rem",
+                                width: "10vh",
+                                m: "0 1rem 0 0",
+                            }}
+                        >
+                            Submit
+                        </Button>
+                    )}
                 <Button
                     type="text"
                     variant="contained"
@@ -46,7 +51,7 @@ function BoardButtons() {
 
 export default function BoardForm(props) {
     const disableWriting = props.mode === "write" ? false : true;
-	const boardData = props.boardData;
+    const boardData = props.boardData;
 
     return (
         <form className={styles["content-form"]} method="post">
@@ -58,10 +63,12 @@ export default function BoardForm(props) {
                             variant="outlined"
                             id="board-content-title"
                             name="title"
-							value={boardData.title}
+                            value={boardData.title}
                             disabled={disableWriting}
                             sx={{
-								"& .MuiInputBase-input.Mui-disabled": {WebkitTextFillColor: "#000000"},
+                                "& .MuiInputBase-input.Mui-disabled": {
+                                    WebkitTextFillColor: "#000000",
+                                },
                                 width: "30vw",
                                 minWidth: "50px",
                                 verticalAlign: "baseline",
@@ -75,7 +82,9 @@ export default function BoardForm(props) {
                     <dt className={styles["views-key"]}>views</dt>
                     <dd className={styles["views-value"]}>{boardData.views}</dd>
                     <dt className={styles["register-date-key"]}>DateTime</dt>
-                    <dd className={styles["register-date-value"]}>{boardData.updatedAt}</dd>
+                    <dd className={styles["register-date-value"]}>
+                        {boardData.updatedAt}
+                    </dd>
                 </dl>
             </div>
             <div className={styles.author}>
@@ -86,10 +95,12 @@ export default function BoardForm(props) {
                             variant="outlined"
                             id="board-content-author"
                             name="author"
-							value={boardData.author}
+                            value={boardData.author}
                             disabled={disableWriting}
                             sx={{
-								"& .MuiInputBase-input.Mui-disabled": {WebkitTextFillColor: "#000000"},
+                                "& .MuiInputBase-input.Mui-disabled": {
+                                    WebkitTextFillColor: "#000000",
+                                },
                                 width: "30vw",
                                 minWidth: "40px",
                                 verticalAlign: "baseline",
@@ -108,10 +119,12 @@ export default function BoardForm(props) {
                             variant="outlined"
                             id="board-content-content"
                             name="content"
-							value={boardData.content}
+                            value={boardData.content}
                             disabled={disableWriting}
                             sx={{
-								"& .MuiInputBase-input.Mui-disabled": {WebkitTextFillColor: "#000000"},
+                                "& .MuiInputBase-input.Mui-disabled": {
+                                    WebkitTextFillColor: "#000000",
+                                },
                                 width: "30vw",
                                 input: {
                                     color: "black",
@@ -121,7 +134,7 @@ export default function BoardForm(props) {
                     </dd>
                 </dl>
             </div>
-            <BoardButtons />
+            <BoardButtons disableWriting={disableWriting} />
         </form>
     );
 }
