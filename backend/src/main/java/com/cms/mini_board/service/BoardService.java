@@ -25,5 +25,5 @@ public interface BoardService {
         return dto;
     }
 
-    Optional<BoardReadDTO> getFullBoardReadContent(String pageId);
+    BoardReadDTO getFullBoardReadContent(String pageId);
 }
