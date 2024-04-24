@@ -16,7 +16,8 @@ public interface ReplyService {
 
     void deleteReply(Long replyId);
 
-//    public List<ReplyDTO> getReplyListVer2(Long postId);
+    //    public List<ReplyDTO> getReplyListVer2(Long postId);
+    public List<ReplyDTO> getReplyListVer3(Long postId);
 
 
     default ReplyDTO replyEntityToDTO(Reply reply) {
