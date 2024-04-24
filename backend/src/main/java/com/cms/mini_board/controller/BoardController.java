@@ -28,6 +28,7 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("")
+    //need to change to return response entity
     public PageResultDTO<BoardPageDTO, Post> boardList(@RequestParam String pageNum) {
         PageRequestDTO req = PageRequestDTO.builder()
                 .offset(Integer.valueOf(pageNum))

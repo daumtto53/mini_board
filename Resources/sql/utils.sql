@@ -1,6 +1,7 @@
 show databases;
 
 use mini_board;
+use mini_board_test;
 
 -- desc
 desc post;
