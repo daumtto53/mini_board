@@ -33,6 +33,16 @@ class ReplyServiceImplTest {
     }
 
     @Test
+    void getReplyListVer3() {
+        //given
+        Long postId = 1L;
+        //when
+        //then
+        List<ReplyDTO> replyDTOS = replyService.getReplyListVer3(postId);
+        System.out.println(replyDTOS);
+    }
+
+    @Test
     void registerReply() {
     }
 

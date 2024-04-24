@@ -43,7 +43,18 @@ public class ReplyServiceImpl implements ReplyService{
 //    }
 
     @Override
+    public List<ReplyDTO> getReplyListVer3(Long postId) {
+        List<Reply> repliesByPostId = replyRepository.findRepliesByPost(
+                Post.builder().postId(postId).build()
+        );
+        List<ReplyDTO> replyDTOS = repliesByPostId
+                .stream().map(reply -> replyEntityToDTO(reply)).collect(Collectors.toList());
+        return replyDTOS;
+    }
+
+    @Override
     public Long registerReply(Long postId, ReplyDTO replyDTO) {
+
         return 1L;
     }
 
