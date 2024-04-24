@@ -10,9 +10,9 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ReplyRepository extends JpaRepository<Reply, Long> {
-//    @Query("SELECT p FROM Reply r JOIN Post p WHERE r.post.postId= :postid")
-//    List<Reply> findRepliesByPostId(@Param("postId") Long postId, Sort sort);
+    @Query("SELECT r FROM Reply r JOIN r.post WHERE r.post.postId= :postId")
+    List<Reply> findRepliesByPostId(@Param("postId") Long postId, Sort sort);
 
     //used in replyservice : ver3
-        List<Reply> findRepliesByPost(Post post);
+    List<Reply> findRepliesByPost(Post post);
 }
