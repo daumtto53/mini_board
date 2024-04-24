@@ -14,5 +14,5 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
     List<Reply> findRepliesByPostId(@Param("postId") Long postId, Sort sort);
 
     //used in replyservice : ver3
-    List<Reply> findRepliesByPost(Post post);
+    List<Reply> findRepliesByPostOrderByUpdatedAt(Post post);
 }
