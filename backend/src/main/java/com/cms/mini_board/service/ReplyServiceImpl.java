@@ -33,14 +33,14 @@ public class ReplyServiceImpl implements ReplyService{
         return replyDTOS;
     }
 
-//    @Override
-//    public List<ReplyDTO> getReplyListVer2(Long postId) {
-//        List<Reply> repliesByPostId = replyRepository.findRepliesByPostId(postId, Sort.by(Sort.Direction.ASC, "updatedAt"));
-//        List<ReplyDTO> replyDTOS = repliesByPostId.stream().map(reply ->
-//                replyEntityToDTO(reply)
-//        ).collect(Collectors.toList());
-//        return replyDTOS;
-//    }
+    @Override
+    public List<ReplyDTO> getReplyListVer2(Long postId) {
+        List<Reply> repliesByPostId = replyRepository.findRepliesByPostId(postId, Sort.by(Sort.Direction.ASC, "updatedAt"));
+        List<ReplyDTO> replyDTOS = repliesByPostId.stream().map(reply ->
+                replyEntityToDTO(reply)
+        ).collect(Collectors.toList());
+        return replyDTOS;
+    }
 
     @Override
     public List<ReplyDTO> getReplyListVer3(Long postId) {
