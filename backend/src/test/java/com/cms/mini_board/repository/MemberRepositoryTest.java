@@ -1,5 +1,6 @@
 package com.cms.mini_board.repository;
 
+import com.cms.mini_board.config.MariaDBTestProfile;
 import com.cms.mini_board.entity.Enum.Gender;
 import com.cms.mini_board.entity.Member;
 import org.assertj.core.api.Assertions;
@@ -14,6 +15,9 @@ import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//@SpringBootTest (classes = {
+//        MariaDBTestProfile.class
+//})
 @SpringBootTest
 @Transactional
 @Commit
@@ -33,7 +37,7 @@ class MemberRepositoryTest {
             Member member = Member.builder()
                     .name("user" + i)
                     .gender(Gender.MALE)
-                    .login_id("login_id" + i)
+                    .loginId("login_id" + i)
                     .nickname("nickname" + i)
                     .password("123")
                     .build();
@@ -49,13 +53,18 @@ class MemberRepositoryTest {
         Member member = Member.builder()
                 .name("user")
                 .gender(Gender.MALE)
-                .login_id("login_id")
+                .loginId("login_id")
                 .nickname("nickname")
                 .password("123")
                 .build();
         //when
         Member find = memberRepository.save(member);
         Assertions.assertThat(find.getName()).isEqualTo(member.getName());
+    }
+
+    @Test
+    public void test() {
+
     }
 
 }
