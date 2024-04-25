@@ -1,7 +1,7 @@
 import styles from "./BoardForm.module.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Form } from "react-router-dom";
 
 function BoardButtons(props) {
     const NAVIGATE = useNavigate();
@@ -13,8 +13,11 @@ function BoardButtons(props) {
                 {readMode &&
                     !(
                         <Button
+							name="intent"
+							value="submit"
                             type="submit"
                             variant="contained"
+							defaultValue={"submit"}
                             sx={{
                                 height: "3rem",
                                 width: "10vh",
@@ -24,27 +27,31 @@ function BoardButtons(props) {
                             Submit
                         </Button>
                     )}
+                {readMode &&
+                    (
+                        <Button
+							name="intent"
+							value="modify"
+                            type="text"
+                            variant="contained"
+                            sx={{
+                                height: "3rem",
+                                width: "10vh",
+                                m: "0 1rem 0 0",
+                            }}
+                        >
+                            Modify
+                        </Button>
+                    )}
                 <Button
-                    type="button"
-                    variant="contained"
-                    sx={{
-                        height: "3rem",
-                        width: "10vh",
-                        m: "0 1rem 0 0",
-                    }}
-                >
-                    Modify
-                </Button>
-                <Button
-                    type="button"
+					name="intent"
+					value="previous"
+                    type="text"
                     variant="outlined"
                     sx={{
                         height: "3rem",
                         p: "0 5rem",
                         width: "10vh",
-                    }}
-                    onClick={() => {
-                        NAVIGATE("/board");
                     }}
                 >
                     Previous Board
@@ -59,7 +66,7 @@ export default function BoardForm(props) {
     const boardData = props.boardData;
 
     return (
-        <form
+        <Form
             className={styles["content-form"]}
             id="boardReadForm"
             method="post"
@@ -144,6 +151,6 @@ export default function BoardForm(props) {
                 </dl>
             </div>
             <BoardButtons disableWriting={disableWriting} />
-        </form>
+        </Form>
     );
 }
