@@ -1,15 +1,12 @@
 import styles from "./css/BoardRead.module.css";
-import { Form } from "react-router-dom";
+import { Form, redirect } from "react-router-dom";
 import { IoPerson } from "react-icons/io5";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
-import { useState } from "react";
 import { pageAxios } from "../API/boardAPI";
 
-export async function replyPostAction({ request, params }) {
-    //formData로 nickname(memberId), replyText, postId 전달해야함.
+async function registerReply(params, formData) {
     const postId = params.postId;
-    const formData = await request.formData();
     const memberId = 1;
     const replyText = formData.get("replyText");
     const dto = {
@@ -17,19 +14,35 @@ export async function replyPostAction({ request, params }) {
         memberId: memberId,
         replyText: replyText,
     };
+    const response = await pageAxios.post(`/${postId}/replies`, dto);
+    return null;
+}
 
-    try {
-        const response = await pageAxios.post(`/${postId}/replies`, dto);
-        return null;
-    } catch (e) {}
+export async function replyPostAction({ request, params }) {
+    //formData로 nickname(memberId), replyText, postId 전달해야함.
+    const formData = await request.formData();
+    const intent = formData.get("intent");
+    console.log(intent);
+
+    switch (intent) {
+        case "submit":
+            return null;
+        case "modify":
+            return null;
+        case "previous":
+            return redirect("/board");
+        case "registerReply":
+            try {
+                registerReply(params, formData);
+                return null;
+            } catch (e) {}
+            return null;
+    }
 }
 
 function ReplyForm() {
     return (
-        <Form
-            className={styles["reply-form-outer-wrapper"]}
-            method="post"
-        >
+        <Form className={styles["reply-form-outer-wrapper"]} method="post">
             <div className={styles["reply-form-inner-wrapper"]}>
                 <div className={styles["id-cell"]}>
                     <input
@@ -58,6 +71,8 @@ function ReplyForm() {
                 </div>
             </div>
             <Button
+                name="intent"
+                value="registerReply"
                 type="submit"
                 variant="contained"
                 sx={{
