@@ -1,21 +1,48 @@
 import styles from "./css/BoardRead.module.css";
+import { Form } from "react-router-dom";
 import { IoPerson } from "react-icons/io5";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
+import { useState } from "react";
+import { pageAxios } from "../API/boardAPI";
+
+export async function replyPostAction({ request, params }) {
+    //formData로 nickname(memberId), replyText, postId 전달해야함.
+    const postId = params.postId;
+    const formData = await request.formData();
+    const memberId = 1;
+    const replyText = formData.get("replyText");
+    const dto = {
+        postId: postId,
+        memberId: memberId,
+        replyText: replyText,
+    };
+
+    try {
+        const response = await pageAxios.post(`/${postId}/replies`, dto);
+        return null;
+    } catch (e) {}
+}
 
 function ReplyForm() {
     return (
-        <form className={styles["reply-form-outer-wrapper"]}>
+        <Form
+            className={styles["reply-form-outer-wrapper"]}
+            method="post"
+        >
             <div className={styles["reply-form-inner-wrapper"]}>
                 <div className={styles["id-cell"]}>
                     <input
+                        id="nickname"
                         className={styles["reply-form-id-box"]}
                         type="text"
+                        name="nickname"
                     />
                 </div>
                 <div className={styles["textarea-cell"]}>
                     <TextField
-                        name="reply-content"
+                        id="replyText"
+                        name="replyText"
                         multiline={true}
                         rows={3}
                         sx={{
@@ -41,7 +68,7 @@ function ReplyForm() {
             >
                 Post Reply
             </Button>
-        </form>
+        </Form>
     );
 }
 

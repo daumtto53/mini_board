@@ -8,10 +8,10 @@ import styles from "./css/BoardRead.module.css";
 import { useLoaderData } from "react-router-dom";
 
 export async function boardReadLoader({ request, params }) {
-    const pageId = params.pageId;
+    const postId = params.postId;
 
     try {
-        const response = await pageAxios.get(`/${pageId}`);
+        const response = await pageAxios.get(`/${postId}`);
         return response.data;
     } catch (error) {
         throw error;

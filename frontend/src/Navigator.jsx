@@ -11,6 +11,7 @@ import BoardWrite from "./BoardWrite/BoardWrite";
 import BoardRead, { boardReadLoader } from "./BoardRead/BoardRead";
 import RootLayout from "./RootLayout";
 import RootErrorBoundary from "./RootErrorBoundary";
+import { replyPostAction } from "./BoardRead/BoardReply";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -21,14 +22,15 @@ const router = createBrowserRouter(
                 <Route index element={<Home />} />
                 <Route
                     path="board"
-                    loader={boardloader}
                     element={<BoardHome />}
+                    loader={boardloader}
                 />
                 <Route path="write" element={<BoardWrite />} />
                 <Route
-                    path="board/:pageId"
-                    loader={boardReadLoader}
+                    path="board/:postId"
                     element={<BoardRead />}
+                    loader={boardReadLoader}
+					action={replyPostAction}
                 />
             </Route>
         </>

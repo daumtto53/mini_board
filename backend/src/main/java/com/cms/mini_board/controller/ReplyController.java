@@ -1,17 +1,13 @@
 package com.cms.mini_board.controller;
 
 import com.cms.mini_board.dto.ReplyDTO;
-import com.cms.mini_board.entity.Reply;
 import com.cms.mini_board.service.ReplyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.apache.coyote.Response;
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -30,9 +26,10 @@ public class ReplyController {
     }
 
     @PostMapping("/{postId}/replies")
-    public ResponseEntity<Long> registerReply(@PathVariable String postId) {
-        //TODO
-        return new ResponseEntity<>(1L, HttpStatus.OK);
+    public ResponseEntity<Long> registerReply(@RequestBody ReplyDTO replyDTO) {
+        log.info("replyDTO={}", replyDTO);
+        Long replyId = replyService.registerReply(replyDTO);
+        return new ResponseEntity<>(replyId, HttpStatus.OK);
     }
 
     @GetMapping("/{postId}/replies/{replyId}")
