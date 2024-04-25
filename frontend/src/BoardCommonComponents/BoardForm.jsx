@@ -13,11 +13,11 @@ function BoardButtons(props) {
                 {readMode &&
                     !(
                         <Button
-							name="intent"
-							value="submit"
+                            name="intent"
+                            value={JSON.stringify({ intent: "submit", id: null })}
                             type="submit"
                             variant="contained"
-							defaultValue={"submit"}
+                            defaultValue={"submit"}
                             sx={{
                                 height: "3rem",
                                 width: "10vh",
@@ -27,25 +27,39 @@ function BoardButtons(props) {
                             Submit
                         </Button>
                     )}
-                {readMode &&
-                    (
-                        <Button
-							name="intent"
-							value="modify"
-                            type="text"
-                            variant="contained"
-                            sx={{
-                                height: "3rem",
-                                width: "10vh",
-                                m: "0 1rem 0 0",
-                            }}
-                        >
-                            Modify
-                        </Button>
-                    )}
+                {readMode && (
+                    <Button
+                        name="intent"
+                        value={JSON.stringify({ intent: "modify", id: null })}
+                        type="text"
+                        variant="contained"
+                        sx={{
+                            height: "3rem",
+                            width: "10vh",
+                            m: "0 1rem 0 0",
+                        }}
+                    >
+                        Modify
+                    </Button>
+                )}
+                {readMode && (
+                    <Button
+                        name="intent"
+                        value={JSON.stringify({ intent: "delete", id: null })}
+                        type="text"
+                        variant="contained"
+                        sx={{
+                            height: "3rem",
+                            width: "10vh",
+                            m: "0 1rem 0 0",
+                        }}
+                    >
+                        delete
+                    </Button>
+                )}
                 <Button
-					name="intent"
-					value="previous"
+                    name="intent"
+                    value={JSON.stringify({intent: "previous", id: null})}
                     type="text"
                     variant="outlined"
                     sx={{

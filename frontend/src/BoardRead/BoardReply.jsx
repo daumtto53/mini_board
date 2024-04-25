@@ -18,13 +18,20 @@ async function registerReply(params, formData) {
     return null;
 }
 
+async function deleteReply(params, replyId) {
+    const postId = params.postId;
+    const response = await pageAxios.delete(`${postId}/replies/${replyId}`);
+	return null;
+}
+
 export async function replyPostAction({ request, params }) {
     //formData로 nickname(memberId), replyText, postId 전달해야함.
     const formData = await request.formData();
-    const intent = formData.get("intent");
-    console.log(intent);
+    const obj = formData.get("intent");
+    const intent = JSON.parse(obj);
+    console.log(intent.intent);
 
-    switch (intent) {
+    switch (intent.intent) {
         case "submit":
             return null;
         case "modify":
@@ -36,6 +43,15 @@ export async function replyPostAction({ request, params }) {
                 registerReply(params, formData);
                 return null;
             } catch (e) {}
+            return null;
+        case "deleteReply":
+            try {
+                deleteReply(params, intent.id);
+				window.location.reload();
+				//return redirect(`/board/${params.postId}`);
+            } catch (e) {}
+            return null;
+        default:
             return null;
     }
 }
@@ -72,7 +88,7 @@ function ReplyForm() {
             </div>
             <Button
                 name="intent"
-                value="registerReply"
+                value={JSON.stringify({ intent: "registerReply", id: null })}
                 type="submit"
                 variant="contained"
                 sx={{
@@ -118,6 +134,26 @@ function ReplyBox(props) {
                         }}
                     />
                 </div>
+            </div>
+            <div className={styles["reply-delete-button-wrapper"]}>
+                <Form method="post">
+                    <Button
+                        name="intent"
+                        value={JSON.stringify({
+                            intent: "deleteReply",
+                            id: reply.replyId,
+                        })}
+                        type="text"
+                        variant="contained"
+                        sx={{
+                            marginTop: "2rem",
+                            width: "20%",
+                            alignSelf: "end",
+                        }}
+                    >
+                        Delete
+                    </Button>
+                </Form>
             </div>
         </ul>
     );
