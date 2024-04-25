@@ -50,10 +50,16 @@ public class ReplyServiceImpl implements ReplyService {
 
     @Override
     public Long registerReply(ReplyDTO replyDTO) {
+        //replyDTO
         Reply reply = replyDTOToEntity(replyDTO);
         Reply result = replyRepository.save(reply);
+        log.info("registerReply={}",result);
         return result.getReplyId();
     }
+
+//    private ReplyDTO buildReplyDTOForRegisterReply(ReplyDTO replyDTO) {
+//
+//    }
 
 //    @Override
 //    public Long findReply(Long postId, Long replyId) {

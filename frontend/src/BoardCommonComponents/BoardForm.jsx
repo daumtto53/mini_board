@@ -54,7 +54,11 @@ export default function BoardForm(props) {
     const boardData = props.boardData;
 
     return (
-        <form className={styles["content-form"]} method="post">
+        <form
+            className={styles["content-form"]}
+            id="boardReadForm"
+            method="post"
+        >
             <div className={styles.title}>
                 <dl>
                     <dt>title</dt>
