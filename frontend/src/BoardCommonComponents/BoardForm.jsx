@@ -1,8 +1,10 @@
 import styles from "./BoardForm.module.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
 
 function BoardButtons(props) {
+    const NAVIGATE = useNavigate();
     const readMode = props.disableWriting === true ? true : false;
 
     return (
@@ -23,7 +25,7 @@ function BoardButtons(props) {
                         </Button>
                     )}
                 <Button
-                    type="text"
+                    type="button"
                     variant="contained"
                     sx={{
                         height: "3rem",
@@ -34,12 +36,15 @@ function BoardButtons(props) {
                     Modify
                 </Button>
                 <Button
-                    type="text"
+                    type="button"
                     variant="outlined"
                     sx={{
                         height: "3rem",
                         p: "0 5rem",
                         width: "10vh",
+                    }}
+                    onClick={() => {
+                        NAVIGATE("/board");
                     }}
                 >
                     Previous Board
