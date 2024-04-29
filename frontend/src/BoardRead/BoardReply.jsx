@@ -1,9 +1,10 @@
 import styles from "./css/BoardRead.module.css";
-import { Form, redirect } from "react-router-dom";
+import { Form, json, redirect } from "react-router-dom";
 import { IoPerson } from "react-icons/io5";
 import TextField from "@mui/material/TextField";
-import { Button } from "@mui/material";
+import { Box, Button, Modal } from "@mui/material";
 import { pageAxios } from "../API/boardAPI";
+import { useState } from "react";
 
 async function registerReply(params, formData) {
     const postId = params.postId;
@@ -21,7 +22,22 @@ async function registerReply(params, formData) {
 async function deleteReply(params, replyId) {
     const postId = params.postId;
     const response = await pageAxios.delete(`${postId}/replies/${replyId}`);
-	return null;
+    return null;
+}
+
+async function modifyReply(params, formData, replyId) {
+    const postId = params.postId;
+    const memberId = 1;
+    const replyText = formData.get("replyText");
+    const dto = {
+        replyId: replyId,
+        postId: postId,
+        memberId: memberId,
+        replyText: replyText,
+    };
+	console.log(dto);
+    const response = await pageAxios.put(`${postId}/replies/${replyId}`, dto);
+    return null;
 }
 
 export async function replyPostAction({ request, params }) {
@@ -44,11 +60,17 @@ export async function replyPostAction({ request, params }) {
                 return null;
             } catch (e) {}
             return null;
+        case "modifyReply":
+            try {
+                modifyReply(params, formData, intent.id);
+
+                return null;
+            } catch (e) {}
         case "deleteReply":
             try {
                 deleteReply(params, intent.id);
-				window.location.reload();
-				//return redirect(`/board/${params.postId}`);
+                window.location.reload();
+                //return redirect(`/board/${params.postId}`);
             } catch (e) {}
             return null;
         default:
@@ -105,6 +127,10 @@ function ReplyForm() {
 
 function ReplyBox(props) {
     const reply = props.reply;
+    const [openModify, setOpenModify] = useState(false);
+    const handleOpenModify = () => setOpenModify(true);
+    const handleCloseModify = () => setOpenModify(false);
+	const handleRefresh = () => window.location.reload();
 
     return (
         <ul>
@@ -136,6 +162,47 @@ function ReplyBox(props) {
                 </div>
             </div>
             <div className={styles["reply-delete-button-wrapper"]}>
+                <Button
+                    onClick={handleOpenModify}
+                    type="text"
+                    variant="contained"
+                    sx={{
+                        marginTop: "2rem",
+                        marginRight: "1rem",
+                        width: "20%",
+                        alignSelf: "end",
+                    }}
+                >
+                    Modify
+                </Button>
+                <Modal open={openModify} onClose={handleCloseModify}>
+                    <div className={styles["reply-modal-modify"]}>
+                        <h3>Modify Reply</h3>
+                        <Form className={styles["form"]} method="post">
+                            <textarea name="replyText"></textarea>
+                            <div className={styles["button-wrapper"]}>
+                                <button
+                                    type="submit"
+                                    name="intent"
+                                    value={JSON.stringify({
+										intent: "modifyReply",
+										id: reply.replyId
+									})}
+									onClick={handleRefresh}
+									//onClick={handleCloseModify}
+                                >
+                                    Modify
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={handleCloseModify}
+                                >
+                                    Close
+                                </button>
+                            </div>
+                        </Form>
+                    </div>
+                </Modal>
                 <Form method="post">
                     <Button
                         name="intent"

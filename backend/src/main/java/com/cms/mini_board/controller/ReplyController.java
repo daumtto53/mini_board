@@ -39,9 +39,10 @@ public class ReplyController {
     }
 
     @PutMapping("/{postId}/replies/{replyId}")
-    public ResponseEntity<String> modifyReply(@PathVariable String postId, @PathVariable String replyId) {
+    public ResponseEntity<String> modifyReply(@RequestBody ReplyDTO replyDTO) {
+        log.info("replyDTO={}", replyDTO);
         //Authentication : UserID를 알아야 reply를 modify할 수 있지 않을까... 아닌가? Post 번호만 알아도 되나?
-
+        replyService.modifyReply(replyDTO);
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
