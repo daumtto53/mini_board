@@ -25,7 +25,10 @@ const router = createBrowserRouter(
                     element={<BoardHome />}
                     loader={boardloader}
                 />
-                <Route path="write" element={<BoardWrite />} />
+                <Route path="write"
+					element={<BoardWrite />}
+					action={replyPostAction}
+					/>
                 <Route
                     path="board/:postId"
                     element={<BoardRead />}
