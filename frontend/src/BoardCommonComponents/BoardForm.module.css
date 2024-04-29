@@ -71,5 +71,4 @@
 .content-form .submit {
     display: flex;
     margin-top: 2rem;
-    flex-direction: row-reverse;
 }
