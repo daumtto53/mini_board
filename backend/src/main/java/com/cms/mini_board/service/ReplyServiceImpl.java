@@ -12,6 +12,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -67,6 +68,7 @@ public class ReplyServiceImpl implements ReplyService {
 //    }
 
     @Override
+    @Transactional
     public Long modifyReply(ReplyDTO replyDTO) {
         Member member = memberRepository.findById(replyDTO.getMemberId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "member not found"));
         Post post = postRepository.findById(replyDTO.getPostId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "post Not found "));

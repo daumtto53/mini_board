@@ -9,7 +9,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 @NoArgsConstructor @AllArgsConstructor @Builder
 @Getter
 @Setter
-@ToString(exclude = {"member"})
+@ToString(exclude = {"member", "post"})
 public class Reply extends BaseEntity {
     @Id @GeneratedValue
     private Long replyId;
