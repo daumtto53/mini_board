@@ -2,6 +2,7 @@ import styles from "./BoardForm.module.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useNavigate, Form } from "react-router-dom";
+import { useState } from "react";
 
 function BoardButtons(props) {
     const NAVIGATE = useNavigate();
@@ -10,8 +11,8 @@ function BoardButtons(props) {
     return (
         <div className={styles.submit}>
             <div>
-                {readMode &&
-                    !(
+                {!readMode &&
+                    (
                         <Button
                             name="intent"
                             value={JSON.stringify({ intent: "submit", id: null })}
@@ -79,6 +80,11 @@ export default function BoardForm(props) {
     const disableWriting = props.mode === "write" ? false : true;
     const boardData = props.boardData;
 
+	const [title, setTitle] = useState(boardData.title);
+	const [views, setViews] = useState(boardData.views);
+	const [author, setAuthor] = useState(boardData.author);
+	const [content, setContent] = useState(boardData.content);
+
     return (
         <Form
             className={styles["content-form"]}
@@ -93,8 +99,9 @@ export default function BoardForm(props) {
                             variant="outlined"
                             id="board-content-title"
                             name="title"
-                            value={boardData.title}
+                            value={title}
                             disabled={disableWriting}
+							onChange={(e) => setTitle(e.target.value)}
                             sx={{
                                 "& .MuiInputBase-input.Mui-disabled": {
                                     WebkitTextFillColor: "#000000",
@@ -110,7 +117,7 @@ export default function BoardForm(props) {
             <div className={styles.misc}>
                 <dl>
                     <dt className={styles["views-key"]}>views</dt>
-                    <dd className={styles["views-value"]}>{boardData.views}</dd>
+                    <dd className={styles["views-value"]}>{views}</dd>
                     <dt className={styles["register-date-key"]}>DateTime</dt>
                     <dd className={styles["register-date-value"]}>
                         {boardData.updatedAt}
@@ -125,8 +132,9 @@ export default function BoardForm(props) {
                             variant="outlined"
                             id="board-content-author"
                             name="author"
-                            value={boardData.author}
+                            value={author}
                             disabled={disableWriting}
+							onChange={(e) => setAuthor(e.target.value)}
                             sx={{
                                 "& .MuiInputBase-input.Mui-disabled": {
                                     WebkitTextFillColor: "#000000",
@@ -149,8 +157,9 @@ export default function BoardForm(props) {
                             variant="outlined"
                             id="board-content-content"
                             name="content"
-                            value={boardData.content}
+                            value={content}
                             disabled={disableWriting}
+							onChange={e => setContent(e.target.value)}
                             sx={{
                                 "& .MuiInputBase-input.Mui-disabled": {
                                     WebkitTextFillColor: "#000000",
