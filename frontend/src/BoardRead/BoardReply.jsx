@@ -2,7 +2,16 @@ import styles from "./css/BoardRead.module.css";
 import { Form, json, redirect } from "react-router-dom";
 import { IoPerson } from "react-icons/io5";
 import TextField from "@mui/material/TextField";
-import { Box, Button, Modal } from "@mui/material";
+import {
+    Box,
+    Button,
+    Modal,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+} from "@mui/material";
 import { pageAxios } from "../API/boardAPI";
 import { useState } from "react";
 
@@ -35,7 +44,7 @@ async function modifyReply(params, formData, replyId) {
         memberId: memberId,
         replyText: replyText,
     };
-	console.log(dto);
+    console.log(dto);
     const response = await pageAxios.put(`${postId}/replies/${replyId}`, dto);
     return null;
 }
@@ -79,6 +88,8 @@ export async function replyPostAction({ request, params }) {
 }
 
 function ReplyForm() {
+
+	const handleRefresh = () => {window.location.reload}
     return (
         <Form className={styles["reply-form-outer-wrapper"]} method="post">
             <div className={styles["reply-form-inner-wrapper"]}>
@@ -113,6 +124,7 @@ function ReplyForm() {
                 value={JSON.stringify({ intent: "registerReply", id: null })}
                 type="submit"
                 variant="contained"
+				onClick={handleRefresh}
                 sx={{
                     marginTop: "2rem",
                     width: "20%",
@@ -127,10 +139,13 @@ function ReplyForm() {
 
 function ReplyBox(props) {
     const reply = props.reply;
-    const [openModify, setOpenModify] = useState(false);
-    const handleOpenModify = () => setOpenModify(true);
-    const handleCloseModify = () => setOpenModify(false);
-	const handleRefresh = () => window.location.reload();
+    const [openModal, setOpenModal] = useState(false);
+    const handleOpenModal = () => setOpenModal(true);
+    const handleCloseModal = () => setOpenModal(false);
+    const handleRefresh = () => window.location.reload();
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
+    const handleOpenDeleteModal = () => setOpenDeleteModal(true);
+    const handleCloseDeleteModal = () => setOpenDeleteModal(false);
 
     return (
         <ul>
@@ -163,7 +178,7 @@ function ReplyBox(props) {
             </div>
             <div className={styles["reply-delete-button-wrapper"]}>
                 <Button
-                    onClick={handleOpenModify}
+                    onClick={handleOpenModal}
                     type="text"
                     variant="contained"
                     sx={{
@@ -175,7 +190,7 @@ function ReplyBox(props) {
                 >
                     Modify
                 </Button>
-                <Modal open={openModify} onClose={handleCloseModify}>
+                <Modal open={openModal} onClose={handleCloseModal}>
                     <div className={styles["reply-modal-modify"]}>
                         <h3>Modify Reply</h3>
                         <Form className={styles["form"]} method="post">
@@ -185,17 +200,17 @@ function ReplyBox(props) {
                                     type="submit"
                                     name="intent"
                                     value={JSON.stringify({
-										intent: "modifyReply",
-										id: reply.replyId
-									})}
-									onClick={handleRefresh}
-									//onClick={handleCloseModify}
+                                        intent: "modifyReply",
+                                        id: reply.replyId,
+                                    })}
+                                    onClick={handleRefresh}
+                                    //onClick={handleCloseModify}
                                 >
                                     Modify
                                 </button>
                                 <button
                                     type="button"
-                                    onClick={handleCloseModify}
+                                    onClick={handleCloseModal}
                                 >
                                     Close
                                 </button>
@@ -203,24 +218,36 @@ function ReplyBox(props) {
                         </Form>
                     </div>
                 </Modal>
-                <Form method="post">
-                    <Button
-                        name="intent"
-                        value={JSON.stringify({
-                            intent: "deleteReply",
-                            id: reply.replyId,
-                        })}
-                        type="text"
-                        variant="contained"
-                        sx={{
-                            marginTop: "2rem",
-                            width: "20%",
-                            alignSelf: "end",
-                        }}
-                    >
-                        Delete
-                    </Button>
-                </Form>
+                <Button
+                    type="text"
+                    variant="contained"
+                    onClick={handleOpenDeleteModal}
+                    sx={{
+                        marginTop: "2rem",
+                        width: "20%",
+                        alignSelf: "end",
+                    }}
+                >
+                    Delete 1
+                </Button>
+                <Dialog open={openDeleteModal} onClose={handleCloseDeleteModal}>
+                    <DialogTitle>{"Sure to Delete?"}</DialogTitle>
+                    <DialogActions>
+                        <Button onClick={handleCloseDeleteModal}>
+                            Close
+                        </Button>
+                        <Form method="post">
+                            <Button type="submit"
+									variant="contained"
+									name="intent"
+									value={JSON.stringify({
+										intent:"deleteReply",
+										id:reply.replyId,
+									})}
+							>Delete</Button>
+                        </Form>
+                    </DialogActions>
+                </Dialog>
             </div>
         </ul>
     );
@@ -235,7 +262,6 @@ export default function BoardReply(props) {
     return (
         <div className={styles["reply-wrapper"]}>
             <div className={styles["reply-list"]}>{replyList}</div>
-
             <ReplyForm />
         </div>
     );
