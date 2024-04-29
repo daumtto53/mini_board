@@ -10,68 +10,68 @@ function BoardButtons(props) {
 
     return (
         <div className={styles.submit}>
-            <div>
-                {!readMode &&
-                    (
-                        <Button
-                            name="intent"
-                            value={JSON.stringify({ intent: "submit", id: null })}
-                            type="submit"
-                            variant="contained"
-                            defaultValue={"submit"}
-                            sx={{
-                                height: "3rem",
-                                width: "10vh",
-                                m: "0 1rem 0 0",
-                            }}
-                        >
-                            Submit
-                        </Button>
-                    )}
-                {readMode && (
-                    <Button
-                        name="intent"
-                        value={JSON.stringify({ intent: "modify", id: null })}
-                        type="text"
-                        variant="contained"
-                        sx={{
-                            height: "3rem",
-                            width: "10vh",
-                            m: "0 1rem 0 0",
-                        }}
-                    >
-                        Modify
-                    </Button>
-                )}
-                {readMode && (
-                    <Button
-                        name="intent"
-                        value={JSON.stringify({ intent: "delete", id: null })}
-                        type="text"
-                        variant="contained"
-                        sx={{
-                            height: "3rem",
-                            width: "10vh",
-                            m: "0 1rem 0 0",
-                        }}
-                    >
-                        delete
-                    </Button>
-                )}
+            {!readMode && (
                 <Button
                     name="intent"
-                    value={JSON.stringify({intent: "previous", id: null})}
-                    type="text"
-                    variant="outlined"
+                    value={JSON.stringify({
+                        intent: "writeBoard",
+                        id: null,
+                    })}
+                    type="submit"
+                    variant="contained"
+                    defaultValue={"submit"}
                     sx={{
                         height: "3rem",
-                        p: "0 5rem",
                         width: "10vh",
+                        m: "0 1rem 0 0",
                     }}
                 >
-                    Previous Board
+                    Submit
                 </Button>
-            </div>
+            )}
+            {readMode && (
+                <Button
+                    name="intent"
+                    value={JSON.stringify({ intent: "modifyBoard", id: null })}
+                    type="submit"
+                    variant="contained"
+                    sx={{
+                        height: "3rem",
+                        width: "10vh",
+                        m: "0 1rem 0 0",
+                    }}
+                >
+                    Modify
+                </Button>
+            )}
+            {readMode && (
+                <Button
+                    name="intent"
+                    value={JSON.stringify({ intent: "deleteBoard", id: null })}
+                    type="submit"
+                    variant="contained"
+                    sx={{
+                        height: "3rem",
+                        width: "10vh",
+                        m: "0 1rem 0 0",
+                    }}
+                >
+                    delete
+                </Button>
+            )}
+            <Button
+                name="intent"
+                value={JSON.stringify({ intent: "previous", id: null })}
+                type="text"
+                variant="outlined"
+                sx={{
+                    height: "3rem",
+                    p: "0 5rem",
+                    width: "10vh",
+                }}
+            >
+                Previous Board
+            </Button>
         </div>
     );
 }
@@ -80,10 +80,10 @@ export default function BoardForm(props) {
     const disableWriting = props.mode === "write" ? false : true;
     const boardData = props.boardData;
 
-	const [title, setTitle] = useState(boardData.title);
-	const [views, setViews] = useState(boardData.views);
-	const [author, setAuthor] = useState(boardData.author);
-	const [content, setContent] = useState(boardData.content);
+    const [title, setTitle] = useState(boardData.title);
+    const [views, setViews] = useState(boardData.views);
+    const [author, setAuthor] = useState(boardData.author);
+    const [content, setContent] = useState(boardData.content);
 
     return (
         <Form
@@ -101,7 +101,7 @@ export default function BoardForm(props) {
                             name="title"
                             value={title}
                             disabled={disableWriting}
-							onChange={(e) => setTitle(e.target.value)}
+                            onChange={(e) => setTitle(e.target.value)}
                             sx={{
                                 "& .MuiInputBase-input.Mui-disabled": {
                                     WebkitTextFillColor: "#000000",
@@ -134,7 +134,7 @@ export default function BoardForm(props) {
                             name="author"
                             value={author}
                             disabled={disableWriting}
-							onChange={(e) => setAuthor(e.target.value)}
+                            onChange={(e) => setAuthor(e.target.value)}
                             sx={{
                                 "& .MuiInputBase-input.Mui-disabled": {
                                     WebkitTextFillColor: "#000000",
@@ -159,7 +159,7 @@ export default function BoardForm(props) {
                             name="content"
                             value={content}
                             disabled={disableWriting}
-							onChange={e => setContent(e.target.value)}
+                            onChange={(e) => setContent(e.target.value)}
                             sx={{
                                 "& .MuiInputBase-input.Mui-disabled": {
                                     WebkitTextFillColor: "#000000",

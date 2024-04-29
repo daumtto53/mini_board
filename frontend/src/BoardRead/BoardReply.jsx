@@ -49,6 +49,38 @@ async function modifyReply(params, formData, replyId) {
     return null;
 }
 
+async function writeBoard(formData) {
+    const title = formData.get("title");
+    const author = formData.get("author");
+    const content = formData.get("content");
+    const dto = {
+        title: title,
+        author: author,
+        content: content,
+    };
+    const response = await pageAxios.post("", dto);
+    return null;
+}
+
+async function modifyBoard(formData, postId) {
+    const title = formData.get("title");
+    const author = formData.get("author");
+    const content = formData.get("content");
+    const dto = {
+        postId: postId,
+        title: title,
+        author: author,
+        content: content,
+    };
+    console.log(dto);
+    const response = await pageAxios.put(`${postId}`);
+}
+
+async function deleteBoard(postId) {
+    const response = await pageAxios.delete(`${postId}`);
+    return null;
+}
+
 export async function replyPostAction({ request, params }) {
     //formData로 nickname(memberId), replyText, postId 전달해야함.
     const formData = await request.formData();
@@ -57,10 +89,21 @@ export async function replyPostAction({ request, params }) {
     console.log(intent.intent);
 
     switch (intent.intent) {
-        case "submit":
-            return null;
-        case "modify":
-            return null;
+        case "writeBoard":
+            try {
+                writeBoard(formData);
+                return null;
+            } catch (e) {}
+        case "modifyBoard":
+            try {
+                modifyBoard(formData, params.postId);
+                return null;
+            } catch (e) {}
+        case "deleteBoard":
+            try {
+                deleteBoard(params.postId);
+                return null;
+            } catch (e) {}
         case "previous":
             return redirect("/board");
         case "registerReply":
@@ -88,8 +131,9 @@ export async function replyPostAction({ request, params }) {
 }
 
 function ReplyForm() {
-
-	const handleRefresh = () => {window.location.reload}
+    const handleRefresh = () => {
+        window.location.reload;
+    };
     return (
         <Form className={styles["reply-form-outer-wrapper"]} method="post">
             <div className={styles["reply-form-inner-wrapper"]}>
@@ -124,7 +168,7 @@ function ReplyForm() {
                 value={JSON.stringify({ intent: "registerReply", id: null })}
                 type="submit"
                 variant="contained"
-				onClick={handleRefresh}
+                onClick={handleRefresh}
                 sx={{
                     marginTop: "2rem",
                     width: "20%",
@@ -233,18 +277,19 @@ function ReplyBox(props) {
                 <Dialog open={openDeleteModal} onClose={handleCloseDeleteModal}>
                     <DialogTitle>{"Sure to Delete?"}</DialogTitle>
                     <DialogActions>
-                        <Button onClick={handleCloseDeleteModal}>
-                            Close
-                        </Button>
+                        <Button onClick={handleCloseDeleteModal}>Close</Button>
                         <Form method="post">
-                            <Button type="submit"
-									variant="contained"
-									name="intent"
-									value={JSON.stringify({
-										intent:"deleteReply",
-										id:reply.replyId,
-									})}
-							>Delete</Button>
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                name="intent"
+                                value={JSON.stringify({
+                                    intent: "deleteReply",
+                                    id: reply.replyId,
+                                })}
+                            >
+                                Delete
+                            </Button>
                         </Form>
                     </DialogActions>
                 </Dialog>

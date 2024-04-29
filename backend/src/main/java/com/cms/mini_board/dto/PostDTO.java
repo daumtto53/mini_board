@@ -12,9 +12,11 @@ import java.time.LocalDateTime;
 @ToString
 @AllArgsConstructor
 public class PostDTO {
-    private Long id;
+    private Long postId;
     private String title;
+    private Long memberId;
     private String author;
+    private String content;
     private LocalDateTime regDate;
     private Long views;
 
