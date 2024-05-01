@@ -35,7 +35,7 @@ async function deleteReply(params, replyId) {
 }
 
 async function modifyReply(params, formData, replyId) {
-    const postId = params.postId;
+    const postId = formData.get("id");
     const memberId = 1;
     const replyText = formData.get("replyText");
     const dto = {
@@ -66,6 +66,7 @@ async function modifyBoard(formData, postId) {
     const title = formData.get("title");
     const author = formData.get("author");
     const content = formData.get("content");
+	console.log(postId);
     const dto = {
         postId: postId,
         title: title,
@@ -73,11 +74,11 @@ async function modifyBoard(formData, postId) {
         content: content,
     };
     console.log(dto);
-    const response = await pageAxios.put(`${postId}`);
+    const response = await pageAxios.put(`/${postId}`, dto);
 }
 
 async function deleteBoard(postId) {
-    const response = await pageAxios.delete(`${postId}`);
+    const response = await pageAxios.delete(`/${postId}`);
     return null;
 }
 
@@ -96,8 +97,8 @@ export async function replyPostAction({ request, params }) {
             } catch (e) {}
         case "modifyBoard":
             try {
-                modifyBoard(formData, params.postId);
-                return null;
+                modifyBoard(formData, intent.id);
+                return redirect(`/board/${intent.id}`)
             } catch (e) {}
         case "deleteBoard":
             try {

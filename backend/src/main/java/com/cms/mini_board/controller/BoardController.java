@@ -48,6 +48,7 @@ public class BoardController {
 
     @PutMapping("/{postId}")
     public ResponseEntity<String> modifyPost(@RequestBody PostDTO postDTO) {
+        log.info(postDTO);
         Long l = postService.modifyPost(postDTO);
         return new ResponseEntity<>("success", HttpStatus.OK);
     }

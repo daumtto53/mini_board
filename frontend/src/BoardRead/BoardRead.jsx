@@ -12,14 +12,19 @@ export async function boardReadLoader({ request, params }) {
 
     try {
         const response = await pageAxios.get(`/${postId}`);
-        return response.data;
+        return {
+            responseData: response.data,
+            postId: postId,
+        };
     } catch (error) {
         throw error;
     }
 }
 
 export default function BoardRead() {
-    const responseData = useLoaderData();
+    const loaderData = useLoaderData();
+    const responseData = loaderData["responseData"];
+    const postId = loaderData.postId;
     const { boardReadReplyDTOList, ...boardData } = responseData;
 
     return (
@@ -28,7 +33,11 @@ export default function BoardRead() {
                 <header></header>
                 <main>
                     <section>
-                        <BoardForm boardData={boardData} mode={"read"} />
+                        <BoardForm
+                            postId={postId}
+                            boardData={boardData}
+                            mode={"read"}
+                        />
                     </section>
                 </main>
             </div>

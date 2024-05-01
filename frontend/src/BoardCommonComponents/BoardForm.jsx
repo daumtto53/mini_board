@@ -1,22 +1,32 @@
 import styles from "./BoardForm.module.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { useNavigate, Form } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate, Form, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { pageAxios } from "../API/boardAPI";
 
 function BoardButtons(props) {
     const NAVIGATE = useNavigate();
     const readMode = props.disableWriting === true ? true : false;
+    const postId = props.postId;
+
+    const intentValue =
+        props.mode === "write"
+            ? JSON.stringify({
+                  intent: "writeBoard",
+                  id: null,
+              })
+            : JSON.stringify({
+                  intent: "modifyBoard",
+                  id: postId,
+              });
 
     return (
         <div className={styles.submit}>
             {!readMode && (
                 <Button
                     name="intent"
-                    value={JSON.stringify({
-                        intent: "writeBoard",
-                        id: null,
-                    })}
+                    value={intentValue}
                     type="submit"
                     variant="contained"
                     defaultValue={"submit"}
@@ -32,9 +42,11 @@ function BoardButtons(props) {
             {readMode && (
                 <Button
                     name="intent"
-                    value={JSON.stringify({ intent: "modifyBoard", id: null })}
-                    type="submit"
+                    type="button"
                     variant="contained"
+                    onClick={() =>
+                        NAVIGATE("/write", { state: { postId: postId } })
+                    }
                     sx={{
                         height: "3rem",
                         width: "10vh",
@@ -77,13 +89,39 @@ function BoardButtons(props) {
 }
 
 export default function BoardForm(props) {
-    const disableWriting = props.mode === "write" ? false : true;
-    const boardData = props.boardData;
+    const disableWriting =
+        props.mode === "write" || props.mode === "modify" ? false : true;
+    const postId = props.postId;
 
-    const [title, setTitle] = useState(boardData.title);
-    const [views, setViews] = useState(boardData.views);
-    const [author, setAuthor] = useState(boardData.author);
-    const [content, setContent] = useState(boardData.content);
+    const [title, setTitle] = useState("");
+    const [author, setAuthor] = useState("");
+    const [content, setContent] = useState("");
+    const [updatedAt, setUpdatedAt] = useState("");
+    const [views, setViews] = useState(0);
+
+    const loadBoardData = async (postId) => {
+        const response = await pageAxios.get(`/${postId}`);
+        const res = response.data;
+        return {
+            title: res.title,
+            author: res.author,
+            content: res.content,
+            updatedAt: res.updatedAt,
+            views: res.views,
+        };
+    };
+
+    useEffect(() => {
+        if (postId !== null) {
+            loadBoardData(postId).then((res) => {
+                setTitle(res.title);
+                setAuthor(res.author);
+                setContent(res.content);
+                setViews(res.views);
+                setUpdatedAt(res.updatedAt);
+            });
+        }
+    }, []);
 
     return (
         <Form
@@ -120,7 +158,7 @@ export default function BoardForm(props) {
                     <dd className={styles["views-value"]}>{views}</dd>
                     <dt className={styles["register-date-key"]}>DateTime</dt>
                     <dd className={styles["register-date-value"]}>
-                        {boardData.updatedAt}
+                        {updatedAt}
                     </dd>
                 </dl>
             </div>
@@ -173,7 +211,11 @@ export default function BoardForm(props) {
                     </dd>
                 </dl>
             </div>
-            <BoardButtons disableWriting={disableWriting} />
+            <BoardButtons
+                postId={postId}
+                disableWriting={disableWriting}
+                mode={props.mode}
+            />
         </Form>
     );
 }
