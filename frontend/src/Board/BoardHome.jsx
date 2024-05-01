@@ -1,4 +1,4 @@
-import { useLoaderData, useSearchParams } from "react-router-dom";
+import { useLoaderData, useNavigate, useSearchParams } from "react-router-dom";
 
 import BoardTable from "./BoardTable.jsx";
 import BoardPagination from "./BoardPagination.jsx";
@@ -7,6 +7,7 @@ import BoardSearchBar from "./BoardSearchBar.jsx";
 import { pageAxios } from "../API/boardAPI.js";
 
 import styles from "./css/Board.module.css";
+import { useEffect } from "react";
 
 /**
  * data: id, title, author, date, views
@@ -35,6 +36,11 @@ export async function boardLoader({ request }) {
 
 export default function BoardHome() {
     const loaderData = useLoaderData();
+	const NAVIGATE = useNavigate();
+
+	useEffect(() => {
+		NAVIGATE(".", {replace: true});
+	}, []);
 
     return (
         <section className={styles["board-wrapper"]}>
