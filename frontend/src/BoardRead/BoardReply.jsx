@@ -92,7 +92,7 @@ export async function replyPostAction({ request, params }) {
         case "writeBoard":
             try {
                 writeBoard(formData);
-                return null;
+				return redirect("/board");
             } catch (e) {}
         case "modifyBoard":
             try {
@@ -102,29 +102,28 @@ export async function replyPostAction({ request, params }) {
         case "deleteBoard":
             try {
                 deleteBoard(params.postId);
-                return null;
+				return redirect("/board");
             } catch (e) {}
         case "previous":
             return redirect("/board");
         case "registerReply":
             try {
                 registerReply(params, formData);
-                return null;
+				window.location.reload();
+				return null;
             } catch (e) {}
-            return null;
         case "modifyReply":
             try {
                 modifyReply(params, formData, intent.id);
-
-                return null;
+				window.location.reload();
+				return null;
             } catch (e) {}
         case "deleteReply":
             try {
                 deleteReply(params, intent.id);
                 window.location.reload();
-                //return redirect(`/board/${params.postId}`);
+				return null;
             } catch (e) {}
-            return null;
         default:
             return null;
     }

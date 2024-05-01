@@ -73,10 +73,7 @@ public class ReplyServiceImpl implements ReplyService {
         Member member = memberRepository.findById(replyDTO.getMemberId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "member not found"));
         Post post = postRepository.findById(replyDTO.getPostId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "post Not found "));
         Reply persistReply = replyRepository.getReferenceById(replyDTO.getReplyId());
-        persistReply.setReplyId(replyDTO.getReplyId());
         persistReply.setReplyText(replyDTO.getReplyText());
-        persistReply.setMember(member);
-        persistReply.setPost(post);
         return persistReply.getReplyId();
     }
 
