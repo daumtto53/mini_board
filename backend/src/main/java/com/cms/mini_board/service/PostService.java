@@ -62,5 +62,7 @@ public interface PostService {
     Long modifyPost(PostDTO postDTO);
     void deletePost(Long postId);
 
+    Long incrementPostViewCount(Long postId);
+
 
 }

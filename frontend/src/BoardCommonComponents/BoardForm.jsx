@@ -92,14 +92,17 @@ export default function BoardForm(props) {
     const disableWriting =
         props.mode === "write" || props.mode === "modify" ? false : true;
     const postId = props.postId;
+	const boardData = props.boardData === undefined ? {title: "", author: "", content: "", updatedAt: null, views: 0} : props.boardData;
 
-    const [title, setTitle] = useState("");
-    const [author, setAuthor] = useState("");
-    const [content, setContent] = useState("");
-    const [updatedAt, setUpdatedAt] = useState("");
-    const [views, setViews] = useState(0);
+    const [title, setTitle] = useState(boardData.title);
+    const [author, setAuthor] = useState(boardData.author);
+    const [content, setContent] = useState(boardData.content);
+    const [updatedAt, setUpdatedAt] = useState(boardData.updatedAt);
+    const [views, setViews] = useState(boardData.views);
 
     const loadBoardData = async (postId) => {
+		if (props.mode === 'read') return;
+		console.log("loadBoardData++");
         const response = await pageAxios.get(`/${postId}`);
         const res = response.data;
         return {
@@ -112,7 +115,7 @@ export default function BoardForm(props) {
     };
 
     useEffect(() => {
-        if (postId !== null) {
+        if (props.mode === 'modify') {
             loadBoardData(postId).then((res) => {
                 setTitle(res.title);
                 setAuthor(res.author);
@@ -122,6 +125,7 @@ export default function BoardForm(props) {
             });
         }
     }, []);
+
 
     return (
         <Form

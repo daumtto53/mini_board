@@ -4,7 +4,7 @@ import "./index.css";
 import Navigator from "./Navigator.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-    <React.StrictMode>
+    //<React.StrictMode>
         <Navigator />
-    </React.StrictMode>
+    //</React.StrictMode>
 );

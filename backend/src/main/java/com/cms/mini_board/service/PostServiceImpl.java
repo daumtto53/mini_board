@@ -98,4 +98,15 @@ public class PostServiceImpl implements PostService {
         postRepository.deleteAllByReplyId(postId);
         postRepository.deleteById(postId);
     }
+
+    @Override
+    public Long incrementPostViewCount(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "post Not Found"));
+        Long viewCount = post.getViews();
+        post.setViews(++viewCount);
+        postRepository.flush();
+//        log.info("incrementPostCount={}", viewCount);
+        return post.getViews();
+    }
 }

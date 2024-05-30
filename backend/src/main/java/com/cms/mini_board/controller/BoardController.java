@@ -42,6 +42,7 @@ public class BoardController {
     //boardRead
     @GetMapping("/{postId}")
     public ResponseEntity<BoardReadDTO> readPost(@PathVariable String postId) throws NotFoundException {
+        postService.incrementPostViewCount(Long.valueOf(postId));
         BoardReadDTO dto = postService.getFullBoardReadContent(postId);
         return new ResponseEntity<BoardReadDTO>(dto, HttpStatus.OK);
     }
