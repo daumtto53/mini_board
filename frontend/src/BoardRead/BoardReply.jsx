@@ -50,6 +50,15 @@ async function modifyReply(params, formData, replyId) {
 }
 
 async function writeBoard(formData) {
+	const files = [];
+	for (const x of formData.entries()) {
+		if (x[0] === 'files')
+			files.push(x[1]);
+	}
+
+	const sendFormData = new FormData();
+	files.map(file => {sendFormData.append("file", file)});
+
     const title = formData.get("title");
     const author = formData.get("author");
     const content = formData.get("content");
@@ -58,7 +67,15 @@ async function writeBoard(formData) {
         author: author,
         content: content,
     };
-    const response = await pageAxios.post("", dto);
+	sendFormData.append("dto",
+		new Blob([JSON.stringify(dto)], {type: "application/json"
+		}
+	));
+    const response = await pageAxios.post("", sendFormData, {
+		headers: {
+			"Content-Type": "multipart/form-data",
+		},
+	});
     return null;
 }
 
@@ -88,6 +105,10 @@ export async function replyPostAction({ request, params }) {
     const obj = formData.get("intent");
     const intent = JSON.parse(obj);
     console.log(intent.intent);
+
+	for (const x of formData.entries()) {
+		console.log(x);
+	}
 
     switch (intent.intent) {
         case "writeBoard":

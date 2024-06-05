@@ -27,4 +27,7 @@ public class Post extends BaseEntity{
 
     @OneToMany(mappedBy = "post")
     private List<Reply> replies;
+
+    @OneToMany(mappedBy = "post")
+    private List<BoardFile> files;
 }

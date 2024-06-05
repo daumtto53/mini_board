@@ -99,6 +99,7 @@ export default function BoardForm(props) {
     const [content, setContent] = useState(boardData.content);
     const [updatedAt, setUpdatedAt] = useState(boardData.updatedAt);
     const [views, setViews] = useState(boardData.views);
+	const [files, setFiles] = useState([]);
 
     const loadBoardData = async (postId) => {
 		if (props.mode === 'read') return;
@@ -132,6 +133,7 @@ export default function BoardForm(props) {
             className={styles["content-form"]}
             id="boardReadForm"
             method="post"
+			encType="multipart/form-data"
         >
             <div className={styles.title}>
                 <dl>
@@ -215,6 +217,15 @@ export default function BoardForm(props) {
                     </dd>
                 </dl>
             </div>
+			{
+				!disableWriting &&
+					<div>
+						<input type="file"
+							name="files"
+							multiple
+							onChange={e => {setFiles(...files, e.target.files)}}/>
+					</div>
+			}
             <BoardButtons
                 postId={postId}
                 disableWriting={disableWriting}

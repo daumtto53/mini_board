@@ -19,5 +19,4 @@ public class PostDTO {
     private String content;
     private LocalDateTime regDate;
     private Long views;
-
 }

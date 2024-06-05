@@ -11,8 +11,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,9 +36,12 @@ public class BoardController {
         return dto;
     }
 
-    @PostMapping("")
-    public ResponseEntity<Long> writePost(@RequestBody PostDTO postDTO) {
-        Long saved = postService.writePost(postDTO);
+    @PostMapping(value = "", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<Long> writePost(
+            @RequestPart(value = "dto") PostDTO postDTO,
+            @RequestPart(required = false) List<MultipartFile> file) {
+        log.info("writeBoard file = {}", file);
+        Long saved = postService.writePost(postDTO, file);
         log.info("writePost={}", postDTO);
         return new ResponseEntity<>(saved, HttpStatus.OK);
     }

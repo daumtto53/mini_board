@@ -6,9 +6,12 @@ import com.cms.mini_board.dto.BoardReadReplyDTO;
 import com.cms.mini_board.dto.PageDTO.PageRequestDTO;
 import com.cms.mini_board.dto.PageDTO.PageResultDTO;
 import com.cms.mini_board.dto.PostDTO;
+import com.cms.mini_board.entity.BoardFile;
 import com.cms.mini_board.entity.Post;
 import com.cms.mini_board.entity.Reply;
+import com.cms.mini_board.repository.BoardFileRepository;
 import com.cms.mini_board.repository.PostRepository;
+import com.cms.mini_board.utils.FileUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
@@ -17,6 +20,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -30,6 +34,8 @@ import java.util.stream.Collectors;
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
+    private final BoardFileRepository boardFileRepository;
+    private final FileUtils fileUtils;
 
     private static List<BoardReadReplyDTO> convertReplyToBoardReplyDTO(Post post) {
         return (List<BoardReadReplyDTO>) post.getReplies().stream()
@@ -73,10 +79,17 @@ public class PostServiceImpl implements PostService {
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Information Not Found"));
     }
 
+    //save file & postData
     @Override
-    public Long writePost(PostDTO postDTO) {
+    @Transactional
+    public Long writePost(PostDTO postDTO, List<MultipartFile> files) {
         Post post = postDTOToEntity(postDTO);
+        List<BoardFile> boardFiles = fileUtils.uploadFiles(files, post);
+        log.info("boardFiles = {} ", boardFiles);
+        post.setFiles(boardFiles);
         Post save = postRepository.save(post);
+        List<BoardFile> boardFiles1 = boardFileRepository.saveAll(boardFiles);
+        log.info("postService : post = {} ", save);
         return save.getPostId();
     }
 
@@ -109,4 +122,5 @@ public class PostServiceImpl implements PostService {
 //        log.info("incrementPostCount={}", viewCount);
         return post.getViews();
     }
+
 }

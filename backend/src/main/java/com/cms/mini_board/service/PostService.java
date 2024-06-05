@@ -7,6 +7,9 @@ import com.cms.mini_board.dto.PageDTO.PageResultDTO;
 import com.cms.mini_board.dto.PostDTO;
 import com.cms.mini_board.entity.Member;
 import com.cms.mini_board.entity.Post;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /* Repository의 Data를 가공해서 Controller로 전달하는 것이 service의 역할.*/
 public interface PostService {
@@ -58,7 +61,7 @@ public interface PostService {
     BoardReadDTO getFullBoardReadContent(String pageId);
 
     //Board관련 API
-    Long writePost(PostDTO postDTO);
+    Long writePost(PostDTO postDTO, List<MultipartFile> files);
     Long modifyPost(PostDTO postDTO);
     void deletePost(Long postId);
 
