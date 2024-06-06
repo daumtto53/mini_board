@@ -61,7 +61,10 @@ public interface PostService {
     BoardReadDTO getFullBoardReadContent(String pageId);
 
     //Board관련 API
+    //writePost: image가 post되는 경우와 그렇지 않은 경우. 분기를 나누기 싫어서 overloading.
+    public Long writePost(PostDTO postDTO);
     Long writePost(PostDTO postDTO, List<MultipartFile> files);
+
     Long modifyPost(PostDTO postDTO, List<MultipartFile> files);
     void deletePost(Long postId);
 

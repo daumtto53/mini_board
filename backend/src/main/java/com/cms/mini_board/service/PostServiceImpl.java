@@ -110,11 +110,21 @@ public class PostServiceImpl implements PostService {
     public Long writePost(PostDTO postDTO, List<MultipartFile> files) {
         Post post = postDTOToEntity(postDTO);
         List<BoardFile> boardFiles = fileUtils.uploadFiles(files, post);
-//        log.info("boardFiles = {} ", boardFiles);
+        log.info("isEmpty= {}", files.isEmpty());
+        log.info("boardFiles = {} ", boardFiles);
         post.setFiles(boardFiles);
         Post save = postRepository.save(post);
         List<BoardFile> boardFiles1 = boardFileRepository.saveAll(boardFiles);
-//        log.info("postService : post = {} ", save);
+        log.info("postService : post = {} ", save);
+        return save.getPostId();
+    }
+
+    @Override
+    @Transactional
+    public Long writePost(PostDTO postDTO) {
+        Post post = postDTOToEntity(postDTO);
+        Post save = postRepository.save(post);
+        log.info("postService : post = {} ", save);
         return save.getPostId();
     }
 

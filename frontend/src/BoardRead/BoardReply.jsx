@@ -51,14 +51,21 @@ async function modifyReply(params, formData, replyId) {
 
 async function writeBoard(formData) {
 	const files = [];
+	let isFileAttatched = true;
+
 	for (const x of formData.entries()) {
-		if (x[0] === 'files')
+		console.log(x);
+		if (x[0] === 'files' && x[1]['name'] !== '')
 			files.push(x[1]);
 	}
 
 	const sendFormData = new FormData();
-	files.map(file => {sendFormData.append("file", file)});
-
+	if (files.length !== 0){
+		files.map(file => {sendFormData.append("file", file)});
+	}
+	if (files.length === 0) {
+		isFileAttatched = false;
+	}
     const title = formData.get("title");
     const author = formData.get("author");
     const content = formData.get("content");
@@ -66,6 +73,7 @@ async function writeBoard(formData) {
         title: title,
         author: author,
         content: content,
+		isFileAttatched: isFileAttatched
     };
 	sendFormData.append("dto",
 		new Blob([JSON.stringify(dto)], {type: "application/json"

@@ -48,15 +48,21 @@ public class BoardController {
         return dto;
     }
 
+    //file이 attached 되었는지 되지 않았는지에 따라 분기함.
     @PostMapping(value = "", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Long> writePost(
             @RequestPart(value = "dto") PostDTO postDTO,
             @RequestPart(required = false) List<MultipartFile> file) {
-        log.info("writeBoard file = {}", file);
-        Long saved = postService.writePost(postDTO, file);
-        log.info("writePost={}", postDTO);
+        Long saved;
+        log.info("isFileAttached: {}", postDTO.isFileAttatched());
+        if (postDTO.isFileAttatched())
+            saved = postService.writePost(postDTO, file);
+        else
+            saved = postService.writePost(postDTO);
         return new ResponseEntity<>(saved, HttpStatus.OK);
     }
+
+
 
     //boardRead
     @GetMapping("/{postId}")
@@ -86,7 +92,7 @@ public class BoardController {
     @GetMapping("/image/{date}/{savedName}")
     public ResponseEntity<Resource> getBoardImage(@PathVariable String date, @PathVariable String savedName) throws MalformedURLException {
         String basicPath = fileUtils.getBasicPath();
-        String fullPath = basicPath + File.separator + File.separator + date + File.separator + savedName;
+        String fullPath = basicPath + File.separator +  date + File.separator + savedName;
         log.info("fullPath = {}", fullPath);
         Resource resource = new UrlResource("file:" + fullPath);
         if (!resource.exists()) {
