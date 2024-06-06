@@ -1,5 +1,6 @@
 package com.cms.mini_board.service;
 
+import com.cms.mini_board.dto.BoardFileDTO;
 import com.cms.mini_board.dto.BoardPageDTO;
 import com.cms.mini_board.dto.BoardReadDTO;
 import com.cms.mini_board.dto.PageDTO.PageRequestDTO;
@@ -72,5 +73,8 @@ public interface PostService {
 
     Long incrementPostViewCount(Long postId);
 
+    BoardFileDTO getDownloadFileDTO(String saveName);
 
-}
+
+
+    }

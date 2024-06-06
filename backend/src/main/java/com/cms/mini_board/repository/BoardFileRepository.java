@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BoardFileRepository extends JpaRepository<BoardFile, Long> {
 
@@ -16,4 +17,6 @@ public interface BoardFileRepository extends JpaRepository<BoardFile, Long> {
 
     @Query("SELECT f FROM BoardFile f WHERE f.post.postId = :postId")
     List<BoardFile> findBoardFilesByPostId(@Param("postId") Long postId);
+
+    Optional<BoardFile> findBoardFileBySaveName(String saveName);
 }

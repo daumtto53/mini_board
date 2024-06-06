@@ -101,15 +101,16 @@ function RenderBoardImage({ files }) {
     console.log(files);
     return (
         <div className={styles["boardContent-image-container"]}>
-                {files.map((file, index) => {
-                    return (
-                            <img className={styles.img}
-                                key={index}
-                                src={`${serverAddress}/board/image/${file.formattedCreatedDate}/${file.saveName}`}
-                                alt="default"
-                            />
-                    );
-                })}
+            {files.map((file, index) => {
+                return (
+                    <img
+                        className={styles.img}
+                        key={index}
+                        src={`${serverAddress}/board/image/${file.formattedCreatedDate}/${file.saveName}`}
+                        alt="default"
+                    />
+                );
+            })}
         </div>
     );
 }
@@ -135,6 +136,29 @@ const FileUploader = ({ disableWriting, files, setFiles }) => {
         )
     );
 };
+
+function FileDownloader({ disableWriting, files }) {
+    console.log("fileDownloader" + files);
+    return (
+        disableWriting && (
+            <div>
+				<h3>downloadFile</h3>
+                <ul>
+                    {files.map((file, index) => {
+                        console.log(file);
+                        return (
+                            <li key={index}>
+                                <a href={`${serverAddress}/board/image/attach/${file.formattedCreatedDate}/${file.saveName}`}>
+                                    {file.originalFileName}
+                                </a>
+                            </li>
+                        );
+                    })}
+                </ul>
+            </div>
+        )
+    );
+}
 
 /**
  *
@@ -284,21 +308,11 @@ export default function BoardForm(props) {
                 setFiles={setFiles}
             />
 
-            {/*{!disableWriting && (
-                <div>
-                    <div>
-                        <input
-                            type="file"
-                            name="files"
-                            multiple
-                            onChange={(e) => {
-                                setFiles(...files, e.target.files);
-                            }}
-                        />
-                    </div>
-                    <FileList files={[...files]} />
-                </div>
-            )}*/}
+            {/* file download. Disable when Modify/Writing */}
+            <FileDownloader
+                disableWriting={disableWriting}
+                files={boardFiles}
+            />
 
             <BoardButtons
                 postId={postId}

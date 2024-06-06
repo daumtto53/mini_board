@@ -40,8 +40,6 @@ public class PostServiceImpl implements PostService {
     private final BoardFileRepository boardFileRepository;
     private final FileUtils fileUtils;
 
-
-
     @Override
     public PageResultDTO<BoardPageDTO, Post> getList(PageRequestDTO requestDTO) {
         Pageable request = requestDTO.getPageRequest(Sort.by(Sort.Direction.DESC, "postId"));
@@ -197,5 +195,13 @@ public class PostServiceImpl implements PostService {
 //        log.info("incrementPostCount={}", viewCount);
         return post.getViews();
     }
+
+    public BoardFileDTO getDownloadFileDTO(String saveName) {
+        BoardFile boardFile = boardFileRepository.findBoardFileBySaveName(saveName)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "boardFile Not Found"));
+        BoardFileDTO boardFileDTO = createBoardFileDTO(boardFile);
+        return boardFileDTO;
+    }
+
 
 }

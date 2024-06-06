@@ -1,5 +1,6 @@
 package com.cms.mini_board.controller;
 
+import com.cms.mini_board.dto.BoardFileDTO;
 import com.cms.mini_board.dto.BoardPageDTO;
 import com.cms.mini_board.dto.BoardReadDTO;
 import com.cms.mini_board.dto.PageDTO.PageRequestDTO;
@@ -20,10 +21,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -111,5 +115,24 @@ public class BoardController {
         return new ResponseEntity<>(resource, header, HttpStatus.OK);
     }
 
+    @GetMapping("/image/attach/{date}/{savedName}")
+    public ResponseEntity<Resource> downloadBoardFile(@PathVariable String date,
+                                                      @PathVariable String savedName) {
+        String basicPath = fileUtils.getBasicPath();
+        String fullPath = basicPath + File.separator + date + File.separator + savedName;
+        log.info("fullPath = {}", fullPath);
+        BoardFileDTO boardFileDTO = postService.getDownloadFileDTO(savedName);
+        UrlResource resource = null;
+        try {
+            resource = new UrlResource("file:" + fullPath);
+        } catch (MalformedURLException e) {e.printStackTrace();}
+        String originalFileName = boardFileDTO.getOriginalFileName();
+        String encodedOriginalFileName = UriUtils.encode(originalFileName, StandardCharsets.UTF_8);
+        String contentDisposition = "attachment; filename=\"" + encodedOriginalFileName + "\"";
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
+                .body(resource);
+
+    }
 
 }
