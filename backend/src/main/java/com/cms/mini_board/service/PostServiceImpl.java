@@ -130,6 +130,28 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
+    public Long modifyPost(PostDTO postDTO) {
+        log.info("noattatched");
+        Post post = postRepository.findById(postDTO.getPostId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "post Not Found"));
+        List<BoardFile> oldBoardFile = boardFileRepository.findBoardFilesByPostId(post.getPostId());
+        for (BoardFile file : oldBoardFile) {
+            String path = file.getPath();
+            String uuid = file.getSaveName();
+            String fileName = path + File.separator + uuid;
+            Path filePath = Paths.get(fileName);
+            try {
+                Files.deleteIfExists(filePath);
+            } catch (IOException e) {e.printStackTrace();}
+        }
+        //1. 기존에 있던 파일데이터 삭제
+        boardFileRepository.deleteAllFileByPostId(post.getPostId());
+        Post toSave = postDTOToEntity(postDTO);
+        Post modfiedPost = postRepository.save(toSave);
+        return modfiedPost.getPostId();
+    }
+    @Override
+    @Transactional
     public Long modifyPost(PostDTO postDTO, List<MultipartFile> files) {
         Post post = postRepository.findById(postDTO.getPostId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "post Not Found"));

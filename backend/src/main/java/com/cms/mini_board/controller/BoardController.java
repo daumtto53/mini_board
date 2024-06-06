@@ -62,8 +62,6 @@ public class BoardController {
         return new ResponseEntity<>(saved, HttpStatus.OK);
     }
 
-
-
     //boardRead
     @GetMapping("/{postId}")
     public ResponseEntity<BoardReadDTO> readPost(@PathVariable String postId) throws NotFoundException {
@@ -76,9 +74,11 @@ public class BoardController {
     public ResponseEntity<String> modifyPost(
             @RequestPart(value = "dto") PostDTO postDTO,
             @RequestPart(required = false) List<MultipartFile> file) {
-        log.info(postDTO);
-        log.info("modifyPost = {}", file);
-        Long l = postService.modifyPost(postDTO, file);
+        Long saved;
+        if (postDTO.isFileAttatched())
+            postService.modifyPost(postDTO, file);
+        else
+            postService.modifyPost(postDTO);
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 

@@ -65,7 +65,9 @@ public interface PostService {
     public Long writePost(PostDTO postDTO);
     Long writePost(PostDTO postDTO, List<MultipartFile> files);
 
+    public Long modifyPost(PostDTO postDTO);
     Long modifyPost(PostDTO postDTO, List<MultipartFile> files);
+
     void deletePost(Long postId);
 
     Long incrementPostViewCount(Long postId);
