@@ -23,6 +23,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -85,20 +90,38 @@ public class PostServiceImpl implements PostService {
     public Long writePost(PostDTO postDTO, List<MultipartFile> files) {
         Post post = postDTOToEntity(postDTO);
         List<BoardFile> boardFiles = fileUtils.uploadFiles(files, post);
-        log.info("boardFiles = {} ", boardFiles);
+//        log.info("boardFiles = {} ", boardFiles);
         post.setFiles(boardFiles);
         Post save = postRepository.save(post);
         List<BoardFile> boardFiles1 = boardFileRepository.saveAll(boardFiles);
-        log.info("postService : post = {} ", save);
+//        log.info("postService : post = {} ", save);
         return save.getPostId();
     }
 
     @Override
     @Transactional
-    public Long modifyPost(PostDTO postDTO) {
+    public Long modifyPost(PostDTO postDTO, List<MultipartFile> files) {
         Post post = postRepository.findById(postDTO.getPostId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "post Not Found"));
         Post toSave = postDTOToEntity(postDTO);
+        //1.5. 기존 디렉토리에 있던 파일도 삭제
+        List<BoardFile> oldBoardFile = boardFileRepository.findBoardFilesByPostId(post.getPostId());
+        for (BoardFile file : oldBoardFile) {
+            String path = file.getPath();
+            String uuid = file.getSaveName();
+            String fileName = path + File.separator + uuid;
+            Path filePath = Paths.get(fileName);
+            try {
+                Files.deleteIfExists(filePath);
+            } catch (IOException e) {e.printStackTrace();}
+        }
+        //1. 기존에 있던 파일데이터 삭제
+        boardFileRepository.deleteAllFileByPostId(post.getPostId());
+        //2. file로 온 파일 DB에 추가
+        List<BoardFile> boardFiles = fileUtils.uploadFiles(files, post);
+        //3. post에 추가 굳이 안해도됨. 단방향 ManyToOne에서 양방향 설정해줬으니까.
+        //4. boardFiles에 추가.
+        List<BoardFile> boardFiles1 = boardFileRepository.saveAll(boardFiles);
         Post modfiedPost = postRepository.save(toSave);
         return modfiedPost.getPostId();
     }

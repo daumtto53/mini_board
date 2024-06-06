@@ -80,6 +80,15 @@ async function writeBoard(formData) {
 }
 
 async function modifyBoard(formData, postId) {
+	const files = [];
+	for (const x of formData.entries()) {
+		if (x[0] === 'files')
+			files.push(x[1]);
+	}
+	const sendFormData = new FormData();
+	files.map(file => {sendFormData.append("file", file)});
+
+
     const title = formData.get("title");
     const author = formData.get("author");
     const content = formData.get("content");
@@ -90,8 +99,15 @@ async function modifyBoard(formData, postId) {
         author: author,
         content: content,
     };
-    console.log(dto);
-    const response = await pageAxios.put(`/${postId}`, dto);
+	sendFormData.append("dto",
+		new Blob([JSON.stringify(dto)], {type: "application/json"
+		}
+	));
+	const response = await pageAxios.put(`/${postId}`, sendFormData, {
+		headers: {
+			"Content-Type": "multipart/form-data",
+		},
+	});
 }
 
 async function deleteBoard(postId) {

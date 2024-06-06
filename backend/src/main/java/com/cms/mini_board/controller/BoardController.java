@@ -54,10 +54,13 @@ public class BoardController {
         return new ResponseEntity<BoardReadDTO>(dto, HttpStatus.OK);
     }
 
-    @PutMapping("/{postId}")
-    public ResponseEntity<String> modifyPost(@RequestBody PostDTO postDTO) {
+    @PutMapping(value = "/{postId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<String> modifyPost(
+            @RequestPart(value = "dto") PostDTO postDTO,
+            @RequestPart(required = false) List<MultipartFile> file) {
         log.info(postDTO);
-        Long l = postService.modifyPost(postDTO);
+        log.info("modifyPost = {}", file);
+        Long l = postService.modifyPost(postDTO, file);
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 

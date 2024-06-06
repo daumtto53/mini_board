@@ -1,5 +1,6 @@
 package com.cms.mini_board.repository;
 
+import com.cms.mini_board.entity.BoardFile;
 import com.cms.mini_board.entity.Post;
 import com.cms.mini_board.entity.Reply;
 import org.apache.ibatis.annotations.Param;

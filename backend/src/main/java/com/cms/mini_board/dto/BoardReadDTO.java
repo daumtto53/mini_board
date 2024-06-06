@@ -1,5 +1,6 @@
 package com.cms.mini_board.dto;
 
+import com.cms.mini_board.entity.BoardFile;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
@@ -20,6 +21,7 @@ public class BoardReadDTO {
     private LocalDateTime updatedAt;
     private Long views;
 
+    private List<BoardFileDTO> boardFileDTOList;
     private List<BoardReadReplyDTO> boardReadReplyDTOList;
 
 }

@@ -39,7 +39,8 @@ public class FileUtils {
     public BoardFile uploadFile(final MultipartFile multipartFile, Post post) {
         String saveName = generateSaveFilaName(multipartFile.getOriginalFilename());
         String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd")).toString();
-        String uploadPath = getUploadPath(today) + java.io.File.separator + saveName;
+        String directory = getUploadPath(today);
+        String uploadPath = directory + java.io.File.separator + saveName;
         File uploadFileUtils = new File(uploadPath);
 
         try {
@@ -53,6 +54,7 @@ public class FileUtils {
                 .originalName(multipartFile.getOriginalFilename())
                 .saveName(saveName)
                 .size(multipartFile.getSize())
+                .path(directory)
                 .isDeleted(false)
                 .createdDate(LocalDateTime.now())
                 .build();
@@ -79,6 +81,7 @@ public class FileUtils {
         }
         return dir.getPath();
     }
+
 
 
 

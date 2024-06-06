@@ -62,7 +62,7 @@ public interface PostService {
 
     //Board관련 API
     Long writePost(PostDTO postDTO, List<MultipartFile> files);
-    Long modifyPost(PostDTO postDTO);
+    Long modifyPost(PostDTO postDTO, List<MultipartFile> files);
     void deletePost(Long postId);
 
     Long incrementPostViewCount(Long postId);

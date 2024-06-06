@@ -19,6 +19,7 @@ public class BoardFile {
     private String originalName;
     private String saveName;
     private Long size;
+    private String path;
     private boolean isDeleted;
     private LocalDateTime createdDate;
     private LocalDateTime deletedDate;
@@ -26,4 +27,14 @@ public class BoardFile {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
+
+    public void setPost(Post post) {
+        if (this.post != null) {
+            this.post.getFiles().remove(this);
+        }
+        this.post = post;
+        if (post != null) {
+            this.post.getFiles().add(this);
+        }
+    }
 }
