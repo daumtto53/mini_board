@@ -17,12 +17,12 @@
 
 .board-content-container {
 	margin-bottom: 2rem;
+	height: 300%;
 }
 .board-content-container > header {
     margin: 4vh auto;
 }
 .board-content-container > main {
-    height: 70vh;
 
     & section {
         height: 100%;

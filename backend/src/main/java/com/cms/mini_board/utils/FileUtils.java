@@ -25,7 +25,6 @@ public class FileUtils {
 
     private final String uploadPath = Paths.get("Z:", "cms", "spring-projects", "mini_board").toString();
 
-
     public List<BoardFile> uploadFiles(final List<MultipartFile> multipartFiles, Post post) {
         log.info("FileUtils file path : {}" , uploadPath);
         List<BoardFile> collect = multipartFiles.stream().map(
@@ -82,9 +81,9 @@ public class FileUtils {
         return dir.getPath();
     }
 
-
-
-
+    public String getBasicPath() {
+        return this.uploadPath;
+    }
 
 
 }

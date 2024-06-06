@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import { useNavigate, Form, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { pageAxios } from "../API/boardAPI";
+import { serverAddress } from "../config/network";
 
 function BoardButtons(props) {
     const NAVIGATE = useNavigate();
@@ -96,8 +97,50 @@ const FileList = ({ files }) => (
     </div>
 );
 
+function RenderBoardImage({ files }) {
+    console.log(files);
+    return (
+        <div className={styles["boardContent-image-container"]}>
+                {files.map((file, index) => {
+                    return (
+                            <img className={styles.img}
+                                key={index}
+                                src={`${serverAddress}/board/image/${file.formattedCreatedDate}/${file.saveName}`}
+                                alt="default"
+                            />
+                    );
+                })}
+        </div>
+    );
+}
 
+const FileUploader = ({ disableWriting, files, setFiles }) => {
+    const handleFileChange = (e) => {
+        setFiles([...files, ...Array.from(e.target.files)]);
+    };
 
+    return (
+        !disableWriting && (
+            <div>
+                <div>
+                    <input
+                        type="file"
+                        name="files"
+                        multiple
+                        onChange={handleFileChange}
+                    />
+                </div>
+                <FileList files={files} />
+            </div>
+        )
+    );
+};
+
+/**
+ *
+ * @param {*} props : title, author, boardFileDTOList, content, title, updatedAt, views
+ * @returns
+ */
 export default function BoardForm(props) {
     const disableWriting =
         props.mode === "write" || props.mode === "modify" ? false : true;
@@ -106,6 +149,8 @@ export default function BoardForm(props) {
         props.boardData === undefined
             ? { title: "", author: "", content: "", updatedAt: null, views: 0 }
             : props.boardData;
+
+    const boardFiles = boardData.boardFileDTOList;
 
     const [title, setTitle] = useState(boardData.title);
     const [author, setAuthor] = useState(boardData.author);
@@ -229,7 +274,17 @@ export default function BoardForm(props) {
                     </dd>
                 </dl>
             </div>
-            {!disableWriting && (
+
+            {/* Post를 클릭했을 때 이미지 보이기 */}
+            {disableWriting && <RenderBoardImage files={boardFiles} />}
+
+            <FileUploader
+                disableWriting={disableWriting}
+                files={files}
+                setFiles={setFiles}
+            />
+
+            {/*{!disableWriting && (
                 <div>
                     <div>
                         <input
@@ -241,9 +296,10 @@ export default function BoardForm(props) {
                             }}
                         />
                     </div>
-					<FileList files={[...files]} />
+                    <FileList files={[...files]} />
                 </div>
-            )}
+            )}*/}
+
             <BoardButtons
                 postId={postId}
                 disableWriting={disableWriting}

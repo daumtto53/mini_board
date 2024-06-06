@@ -29,6 +29,8 @@ export default function BoardRead() {
     const postId = loaderData.postId;
     const { boardReadReplyDTOList, ...boardData } = responseData;
 
+	console.log(responseData);
+
     return (
         <div className={styles["board-read-wrapper"]}>
             <div className={styles["board-content-container"]}>

@@ -1,11 +1,8 @@
 package com.cms.mini_board.service;
 
-import com.cms.mini_board.dto.BoardPageDTO;
-import com.cms.mini_board.dto.BoardReadDTO;
-import com.cms.mini_board.dto.BoardReadReplyDTO;
+import com.cms.mini_board.dto.*;
 import com.cms.mini_board.dto.PageDTO.PageRequestDTO;
 import com.cms.mini_board.dto.PageDTO.PageResultDTO;
-import com.cms.mini_board.dto.PostDTO;
 import com.cms.mini_board.entity.BoardFile;
 import com.cms.mini_board.entity.Post;
 import com.cms.mini_board.entity.Reply;
@@ -28,6 +25,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -42,6 +40,31 @@ public class PostServiceImpl implements PostService {
     private final BoardFileRepository boardFileRepository;
     private final FileUtils fileUtils;
 
+
+
+    @Override
+    public PageResultDTO<BoardPageDTO, Post> getList(PageRequestDTO requestDTO) {
+        Pageable request = requestDTO.getPageRequest(Sort.by(Sort.Direction.DESC, "postId"));
+        Page<Post> result = postRepository.findAll(request);
+        Function<Post, BoardPageDTO> fn = (en -> boardPageToDTO(en));
+        return new PageResultDTO<>(result, fn);
+    }
+    private static List<BoardFileDTO> convertBoardFileToBoardFileDTOList(List<BoardFile> boardFiles) {
+        return boardFiles.stream().map(boardFile -> {
+            return createBoardFileDTO(boardFile);
+        }).collect(Collectors.toList());
+    }
+    private static BoardFileDTO createBoardFileDTO(BoardFile boardFile) {
+        return BoardFileDTO.builder()
+                .originalFileName(boardFile.getOriginalName())
+                .fullPath(boardFile.getPath())
+                .saveName(boardFile.getSaveName())
+                .formattedCreatedDate(
+                        boardFile.getCreatedDate().format(
+                                DateTimeFormatter.ofPattern("yyMMdd")).toString()
+                )
+                .build();
+    }
     private static List<BoardReadReplyDTO> convertReplyToBoardReplyDTO(Post post) {
         return (List<BoardReadReplyDTO>) post.getReplies().stream()
                 .map(PostServiceImpl::createBoardReadReplyDTO)
@@ -56,18 +79,10 @@ public class PostServiceImpl implements PostService {
                 .build();
         return replyDTO;
     }
-
-    @Override
-    public PageResultDTO<BoardPageDTO, Post> getList(PageRequestDTO requestDTO) {
-        Pageable request = requestDTO.getPageRequest(Sort.by(Sort.Direction.DESC, "postId"));
-        Page<Post> result = postRepository.findAll(request);
-        Function<Post, BoardPageDTO> fn = (en -> boardPageToDTO(en));
-        return new PageResultDTO<>(result, fn);
-    }
-
     @Override
     public BoardReadDTO getFullBoardReadContent(String postId) {
         Optional<Post> opt = postRepository.findById(Long.valueOf(postId));
+        List<BoardFile> boardFiles = boardFileRepository.findBoardFilesByPostId(opt.get().getPostId());
 
         return opt.map((post) -> {
             BoardReadDTO dto = BoardReadDTO.builder()
@@ -79,10 +94,15 @@ public class PostServiceImpl implements PostService {
                     .boardReadReplyDTOList(
                             convertReplyToBoardReplyDTO(post)
                     )
+                    .boardFileDTOList(
+                            convertBoardFileToBoardFileDTOList(boardFiles)
+                    )
                     .build();
             return dto;
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Information Not Found"));
     }
+
+
 
     //save file & postData
     @Override
