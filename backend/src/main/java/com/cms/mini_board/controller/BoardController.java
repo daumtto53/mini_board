@@ -11,6 +11,7 @@ import com.cms.mini_board.service.PostService;
 import com.cms.mini_board.utils.FileUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.coyote.Response;
 import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -27,6 +28,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -116,11 +118,9 @@ public class BoardController {
     }
 
     @GetMapping("/image/attach/{date}/{savedName}")
-    public ResponseEntity<Resource> downloadBoardFile(@PathVariable String date,
+    public ResponseEntity<Resource> downloadBoardFileByATag(@PathVariable String date,
                                                       @PathVariable String savedName) {
-        String basicPath = fileUtils.getBasicPath();
-        String fullPath = basicPath + File.separator + date + File.separator + savedName;
-        log.info("fullPath = {}", fullPath);
+        Path fullPath = Path.of(fileUtils.getBasicPath(), date, savedName);
         BoardFileDTO boardFileDTO = postService.getDownloadFileDTO(savedName);
         UrlResource resource = null;
         try {
@@ -132,7 +132,30 @@ public class BoardController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
                 .body(resource);
+    }
 
+    private byte[] getFileByteStream(Path fullPath) {
+        try {
+            return Files.readAllBytes(fullPath);
+        } catch (IOException e) {throw new RuntimeException(e.getMessage(), e);}
+    }
+    private ResponseEntity<byte[]> createResponseEntityForFileDownload(
+            String encodedFileName,byte[] byteStream) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", encodedFileName);
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(byteStream);
+    }
+    @GetMapping("/image/byteattach/{date}/{savedName}")
+    public ResponseEntity<byte[]> downloadboardFileByByteStream(@PathVariable String date,
+                                                      @PathVariable String savedName) {
+        BoardFileDTO downloadFileDTO = postService.getDownloadFileDTO(savedName);
+        Path fullPath = Path.of(fileUtils.getBasicPath(), date, savedName);
+        byte[] fileByteStream = getFileByteStream(fullPath);
+        String encodedFileName = URLEncoder.encode(downloadFileDTO.getOriginalFileName(), StandardCharsets.UTF_8);
+        return createResponseEntityForFileDownload(encodedFileName, fileByteStream);
     }
 
 }

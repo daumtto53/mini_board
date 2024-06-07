@@ -148,7 +148,10 @@ function FileDownloader({ disableWriting, files }) {
                         console.log(file);
                         return (
                             <li key={index}>
-                                <a href={`${serverAddress}/board/image/attach/${file.formattedCreatedDate}/${file.saveName}`}>
+                                {/*<a href={`${serverAddress}/board/image/attach/${file.formattedCreatedDate}/${file.saveName}`}>*/}
+                                    {/*{file.originalFileName}*/}
+                                {/*</a>*/}
+                                <a href={`${serverAddress}/board/image/byteattach/${file.formattedCreatedDate}/${file.saveName}`}>
                                     {file.originalFileName}
                                 </a>
                             </li>
