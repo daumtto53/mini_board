@@ -23,6 +23,7 @@ public class Post extends BaseEntity{
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
     @Column(nullable = false)
+    @Builder.Default
     private Long views = 0L;
 
     @OneToMany(mappedBy = "post")

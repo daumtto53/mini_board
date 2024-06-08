@@ -15,11 +15,15 @@ import { useEffect } from "react";
 export async function boardLoader({ request }) {
     const url = new URL(request.url);
     let requestPageNum = url.searchParams.get("pageNum");
+	const option = url.searchParams.get("option");
+	const searchQuery = url.searchParams.get("searchQuery");
     requestPageNum = requestPageNum === null ? 1 : requestPageNum;
 
     const config = {
         params: {
             pageNum: requestPageNum,
+			option: option,
+			searchQuery: searchQuery
         },
     };
     try {
@@ -33,6 +37,7 @@ export async function boardLoader({ request }) {
         throw error;
     }
 }
+
 
 export default function BoardHome() {
     const loaderData = useLoaderData();

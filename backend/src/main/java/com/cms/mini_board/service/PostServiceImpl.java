@@ -8,6 +8,7 @@ import com.cms.mini_board.entity.Post;
 import com.cms.mini_board.entity.Reply;
 import com.cms.mini_board.repository.BoardFileRepository;
 import com.cms.mini_board.repository.PostRepository;
+import com.cms.mini_board.repository.SearchQueryRepository;
 import com.cms.mini_board.utils.FileUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -39,7 +40,17 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final BoardFileRepository boardFileRepository;
     private final FileUtils fileUtils;
+    private final SearchQueryRepository searchQueryRepository;
 
+    //parameter로 option, searchQuery가 들어왔을때는 overloading을 사용하는것이 좋을듯하다.
+
+
+    public PageResultDTO<BoardPageDTO, Post> getList(PageRequestDTO requestDTO, SearchCondition condition) {
+        Pageable pageRequest = requestDTO.getPageRequest(Sort.by(Sort.Direction.DESC, "postId"));
+        Page<Post> result = searchQueryRepository.findAllBySearchQueryAndOption(condition, pageRequest);
+        Function<Post, BoardPageDTO> fn = (en -> boardPageToDTO(en));
+        return new PageResultDTO<>(result, fn);
+    }
     @Override
     public PageResultDTO<BoardPageDTO, Post> getList(PageRequestDTO requestDTO) {
         Pageable request = requestDTO.getPageRequest(Sort.by(Sort.Direction.DESC, "postId"));
@@ -108,12 +119,9 @@ public class PostServiceImpl implements PostService {
     public Long writePost(PostDTO postDTO, List<MultipartFile> files) {
         Post post = postDTOToEntity(postDTO);
         List<BoardFile> boardFiles = fileUtils.uploadFiles(files, post);
-        log.info("isEmpty= {}", files.isEmpty());
-        log.info("boardFiles = {} ", boardFiles);
         post.setFiles(boardFiles);
         Post save = postRepository.save(post);
         List<BoardFile> boardFiles1 = boardFileRepository.saveAll(boardFiles);
-        log.info("postService : post = {} ", save);
         return save.getPostId();
     }
 
@@ -122,14 +130,12 @@ public class PostServiceImpl implements PostService {
     public Long writePost(PostDTO postDTO) {
         Post post = postDTOToEntity(postDTO);
         Post save = postRepository.save(post);
-        log.info("postService : post = {} ", save);
         return save.getPostId();
     }
 
     @Override
     @Transactional
     public Long modifyPost(PostDTO postDTO) {
-        log.info("noattatched");
         Post post = postRepository.findById(postDTO.getPostId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "post Not Found"));
         List<BoardFile> oldBoardFile = boardFileRepository.findBoardFilesByPostId(post.getPostId());
@@ -192,7 +198,6 @@ public class PostServiceImpl implements PostService {
         Long viewCount = post.getViews();
         post.setViews(++viewCount);
         postRepository.flush();
-//        log.info("incrementPostCount={}", viewCount);
         return post.getViews();
     }
 

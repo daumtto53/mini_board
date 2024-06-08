@@ -1,11 +1,9 @@
 package com.cms.mini_board.controller;
 
-import com.cms.mini_board.dto.BoardFileDTO;
-import com.cms.mini_board.dto.BoardPageDTO;
-import com.cms.mini_board.dto.BoardReadDTO;
+import com.cms.mini_board.dto.*;
 import com.cms.mini_board.dto.PageDTO.PageRequestDTO;
 import com.cms.mini_board.dto.PageDTO.PageResultDTO;
-import com.cms.mini_board.dto.PostDTO;
+import com.cms.mini_board.entity.Enum.SearchOption;
 import com.cms.mini_board.entity.Post;
 import com.cms.mini_board.service.PostService;
 import com.cms.mini_board.utils.FileUtils;
@@ -44,13 +42,39 @@ public class BoardController {
     private final PostService postService;
     private final FileUtils fileUtils;
 
+    private SearchOption convertOptionToSearchOption(String option) {
+        if (option.equals("title"))
+            return SearchOption.TITLE;
+        else if (option.equals("content") )
+            return SearchOption.CONTENT;
+        else if (option.equals("title_content"))
+            return SearchOption.TITLE_CONTENT;
+        else
+            return null;
+    }
+
     @GetMapping("")
     //need to change to return response entity
-    public PageResultDTO<BoardPageDTO, Post> boardList(@RequestParam String pageNum) {
+    public PageResultDTO<BoardPageDTO, Post> boardList(
+            @RequestParam String pageNum,
+            @RequestParam(required = false) String option,
+            @RequestParam(required = false) String searchQuery
+    ) {
+        //QueryParameter로 search가 들어왔을때와,
+        //단순 load request가 왔을 때 분리해서 실행한다.
         PageRequestDTO req = PageRequestDTO.builder()
                 .offset(Integer.valueOf(pageNum))
                 .size(10).build();
-        PageResultDTO<BoardPageDTO, Post> dto = postService.getList(req);
+
+        PageResultDTO<BoardPageDTO, Post> dto;
+        if (option == null)
+            dto = postService.getList(req);
+        else
+            dto = postService.getList( req,
+                    SearchCondition.builder()
+                            .searchOption(convertOptionToSearchOption(option))
+                            .searchQuery(searchQuery)
+                            .build());
         return dto;
     }
 
@@ -60,7 +84,6 @@ public class BoardController {
             @RequestPart(value = "dto") PostDTO postDTO,
             @RequestPart(required = false) List<MultipartFile> file) {
         Long saved;
-        log.info("isFileAttached: {}", postDTO.isFileAttatched());
         if (postDTO.isFileAttatched())
             saved = postService.writePost(postDTO, file);
         else
@@ -99,7 +122,6 @@ public class BoardController {
     public ResponseEntity<Resource> getBoardImage(@PathVariable String date, @PathVariable String savedName) throws MalformedURLException {
         String basicPath = fileUtils.getBasicPath();
         String fullPath = basicPath + File.separator +  date + File.separator + savedName;
-        log.info("fullPath = {}", fullPath);
         Resource resource = new UrlResource("file:" + fullPath);
         if (!resource.exists()) {
             log.info("not found");
@@ -109,7 +131,6 @@ public class BoardController {
         Path filePath = null;
         try {
             filePath = Paths.get(fullPath);
-            log.info("filePath = {}", filePath);
             header.add("Content-Type", Files.probeContentType(filePath));
         } catch (IOException e) {
             e.printStackTrace();
@@ -157,5 +178,4 @@ public class BoardController {
         String encodedFileName = URLEncoder.encode(downloadFileDTO.getOriginalFileName(), StandardCharsets.UTF_8);
         return createResponseEntityForFileDownload(encodedFileName, fileByteStream);
     }
-
 }

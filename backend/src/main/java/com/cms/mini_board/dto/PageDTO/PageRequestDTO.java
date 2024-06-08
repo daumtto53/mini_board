@@ -13,6 +13,11 @@ public class PageRequestDTO {
     private int offset;
     private int size;
 
+    @Builder.Default
+    private String option = null;
+    @Builder.Default
+    private String searchQuery = null;
+
     public PageRequestDTO () {
         this.offset = 1;
         this.size = 10;

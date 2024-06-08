@@ -1,11 +1,8 @@
 package com.cms.mini_board.service;
 
-import com.cms.mini_board.dto.BoardFileDTO;
-import com.cms.mini_board.dto.BoardPageDTO;
-import com.cms.mini_board.dto.BoardReadDTO;
+import com.cms.mini_board.dto.*;
 import com.cms.mini_board.dto.PageDTO.PageRequestDTO;
 import com.cms.mini_board.dto.PageDTO.PageResultDTO;
-import com.cms.mini_board.dto.PostDTO;
 import com.cms.mini_board.entity.Member;
 import com.cms.mini_board.entity.Post;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +13,7 @@ import java.util.List;
 public interface PostService {
 
     PageResultDTO<BoardPageDTO, Post> getList(PageRequestDTO requestDTO);
+    PageResultDTO<BoardPageDTO, Post> getList(PageRequestDTO requestDTO, SearchCondition condition);
 
     default BoardPageDTO boardPageToDTO(Post post) {
         BoardPageDTO dto = BoardPageDTO.builder()
