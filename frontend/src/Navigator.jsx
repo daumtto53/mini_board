@@ -13,7 +13,6 @@ import RootErrorBoundary from "./RootErrorBoundary";
 import BoardHome, { boardLoader as boardloader } from "./Board/BoardHome";
 import BoardRead, { boardReadLoader } from "./BoardRead/BoardRead";
 import { replyPostAction } from "./BoardRead/BoardReply";
-import { Login } from "./Practice/googleOAuth2";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -40,13 +39,6 @@ const router = createBrowserRouter(
                     loader={boardReadLoader}
                     action={replyPostAction}
                 />
-
-				{/* Currently Not Used */}
-				<Route
-					path="login"
-					element={<Login />}
-				></Route>
-
             </Route>
         </>
     )
