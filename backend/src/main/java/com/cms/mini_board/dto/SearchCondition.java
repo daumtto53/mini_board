@@ -1,6 +1,6 @@
 package com.cms.mini_board.dto;
 
-import com.cms.mini_board.entity.Enum.SearchOption;
+import com.cms.mini_board.entity.constants.SearchOption;
 import lombok.*;
 
 @Getter

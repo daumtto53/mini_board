@@ -1,9 +1,7 @@
 package com.cms.mini_board.repository;
 
-import com.cms.mini_board.entity.Enum.Gender;
 import com.cms.mini_board.entity.Member;
 import com.cms.mini_board.entity.Post;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,8 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.stream.IntStream;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional

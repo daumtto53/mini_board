@@ -1,16 +1,12 @@
 package com.cms.mini_board.repository;
 
 import com.cms.mini_board.dto.SearchCondition;
-import com.cms.mini_board.entity.Enum.SearchOption;
-import com.cms.mini_board.entity.Member;
+import com.cms.mini_board.entity.constants.SearchOption;
 import com.cms.mini_board.entity.Post;
-import com.cms.mini_board.entity.QMember;
 import com.cms.mini_board.entity.QPost;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
