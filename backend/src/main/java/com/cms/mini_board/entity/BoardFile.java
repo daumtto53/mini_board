@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 public class BoardFile {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String originalName;

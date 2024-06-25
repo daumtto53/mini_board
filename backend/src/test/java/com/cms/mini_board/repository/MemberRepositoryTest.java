@@ -23,7 +23,7 @@ import java.util.stream.IntStream;
 @SpringBootTest
 @Transactional
 @Commit
-@ActiveProfiles("test")
+//@ActiveProfiles("test")
 class MemberRepositoryTest {
     @Autowired
     private MemberRepository memberRepository;
@@ -45,11 +45,12 @@ class MemberRepositoryTest {
         IntStream.rangeClosed(1,100).forEach(i -> {
             Member member = Member.builder()
                     .name("user" + i)
-                    .gender(Gender.MALE)
-                    .loginId("login_id" + i)
-                    .nickname("nickname" + i)
-                    .password("123")
+                    .username("naver testcode" + i)
                     .email(String.format("email%d@naver.com", i))
+                    .loginId("login_id" + i)
+                    .password("123")
+                    .nickname("nickname" + i)
+                    .gender(Gender.MALE)
                     .build();
             Member save = memberRepository.save(member);
             MemberRole memberRole = MemberRole.builder()

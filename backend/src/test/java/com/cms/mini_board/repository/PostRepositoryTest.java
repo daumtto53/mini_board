@@ -15,7 +15,7 @@ import java.util.stream.IntStream;
 @SpringBootTest
 @Transactional
 @Commit
-@ActiveProfiles("test")
+//@ActiveProfiles("test")
 class PostRepositoryTest {
     @Autowired
     MemberRepository memberRepository;

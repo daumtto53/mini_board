@@ -11,7 +11,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 @Setter
 @ToString(exclude = {"member", "post"})
 public class Reply extends BaseEntity {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long replyId;
 
     @ManyToOne(fetch = FetchType.LAZY)

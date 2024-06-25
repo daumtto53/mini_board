@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 @ToString(exclude = {"member"})
 public class Post extends BaseEntity{
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
 
     @ManyToOne(fetch = FetchType.LAZY)
