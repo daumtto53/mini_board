@@ -8,17 +8,6 @@ function Footer() {
     return <></>;
 }
 
-//function LoginLink() {
-
-//	const handleLogin = () => {
-
-//	}
-
-//	return (
-
-//	);
-//}
-
 const handleLogin = () => {
 	window.location.href = `http://localhost:8080/${import.meta.env.VITE_LOGIN_API_NAVER}`
 }

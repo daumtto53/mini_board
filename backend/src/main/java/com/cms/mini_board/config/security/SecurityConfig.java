@@ -70,8 +70,10 @@ public class SecurityConfig {
         // root 설정에 대해서만 permit All
         // 나머지 모든 URL에 대한 request에 대해서는 authenticated를 요구한다.
         http.authorizeHttpRequests(customizer -> customizer
-                .requestMatchers("/").permitAll()
-                .anyRequest().authenticated());
+                .requestMatchers("/**").permitAll()
+//                .requestMatchers("/").permitAll()
+//                .anyRequest().authenticated()
+    );
 
 
         //Session State를 서버에서 사용하지 않을 것임을 선언함.

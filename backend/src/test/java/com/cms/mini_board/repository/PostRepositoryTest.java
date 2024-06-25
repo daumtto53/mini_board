@@ -25,21 +25,23 @@ class PostRepositoryTest {
     @Test
     public void insertMembers() {
         //given
-        IntStream.rangeClosed(1,100).forEach(i -> {
-            Optional<Member> byId = memberRepository.findById(Long.valueOf(i));
-            Member member = byId.get();
+        IntStream.rangeClosed(1,10).forEach(i -> {
+//            Optional<Member> byId = memberRepository.findById(Long.valueOf(i));
+//            Member member = byId.get();
+            Member member = memberRepository.findById(1L).get();
+
             Post post1 = Post.builder()
                     .member(member)
                     .title("title " + i + " 1")
                     .views(Long.valueOf(i))
-                    .content("content" + String.valueOf(i) + " 1")
+                    .content("content " + String.valueOf(i) + " 1")
                     .build();
 
             Post post2 = Post.builder()
                     .member(member)
                     .title("title " + i + " 2")
                     .views(Long.valueOf(i))
-                    .content("content" + String.valueOf(i) + " 2")
+                    .content("content " + String.valueOf(i) + " 2")
                     .build();
             postRepository.save(post1);
             postRepository.save(post2);

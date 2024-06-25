@@ -64,6 +64,8 @@ public class JWTFilter extends OncePerRequestFilter {
     private String extractAuthorizationToken(HttpServletRequest request) {
         String authorization = null;
         Cookie[] cookies = request.getCookies();
+        if (cookies == null)
+            return authorization;
         for (Cookie cookie: cookies) {
             if (cookie.getName().equals("Authorization")) {
                 authorization = cookie.getValue();
