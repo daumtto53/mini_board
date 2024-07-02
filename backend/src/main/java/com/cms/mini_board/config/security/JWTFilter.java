@@ -31,6 +31,7 @@ public class JWTFilter extends OncePerRequestFilter {
         String authorization = null;
         String authorizationToken = extractAuthorizationToken(request);
         if (authorizationToken == null) {
+            //Token이 없다면 Anonymous 를 Security Context에 넣어도 괜찮은가..?
             log.info("token null");
             filterChain.doFilter(request, response);
             return ;
@@ -46,7 +47,9 @@ public class JWTFilter extends OncePerRequestFilter {
 
         CustomOAuth2User customOAuth2User = new CustomOAuth2User(userDTO);
         Authentication authentication =
-                new UsernamePasswordAuthenticationToken(userDTO, null, customOAuth2User.getAuthorities());
+                new UsernamePasswordAuthenticationToken(customOAuth2User, null, customOAuth2User.getAuthorities());
+//        Authentication authentication =
+//                new UsernamePasswordAuthenticationToken(userDTO, null, customOAuth2User.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
         filterChain.doFilter(request, response);
     }

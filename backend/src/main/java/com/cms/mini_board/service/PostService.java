@@ -29,8 +29,7 @@ public interface PostService {
 
     default Post postDTOToEntity(PostDTO postDTO) {
         Member member = Member.builder()
-//                .memberId(postDTO.getMemberId())
-                .memberId(1L)
+                .memberId(postDTO.getMemberId())
                 .build();
 
         Post result = Post.builder()
@@ -72,6 +71,8 @@ public interface PostService {
     Long incrementPostViewCount(Long postId);
 
     BoardFileDTO getDownloadFileDTO(String saveName);
+    public boolean isAuthor(Long postId, String username);
+
 
 
 

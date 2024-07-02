@@ -4,6 +4,7 @@ import com.cms.mini_board.dto.ReplyDTO;
 import com.cms.mini_board.entity.Member;
 import com.cms.mini_board.entity.Post;
 import com.cms.mini_board.entity.Reply;
+import com.cms.mini_board.model.security.CustomOAuth2User;
 import com.cms.mini_board.repository.MemberRepository;
 import com.cms.mini_board.repository.PostRepository;
 import com.cms.mini_board.repository.ReplyRepository;
@@ -11,11 +12,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -51,8 +56,16 @@ public class ReplyServiceImpl implements ReplyService {
 
     @Override
     public Long registerReply(ReplyDTO replyDTO) {
+        CustomOAuth2User principal = (CustomOAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = (String)(principal.getAttributes().get("username"));
+        Member member = memberRepository.findByUsername(username).orElseThrow(() -> new NoSuchElementException());
         //replyDTO
         Reply reply = replyDTOToEntity(replyDTO);
+        reply.setMember(member);
+
+        //insert Member or post
+
+
         Reply result = replyRepository.save(reply);
         log.info("registerReply={}",result);
         return result.getReplyId();
@@ -80,5 +93,10 @@ public class ReplyServiceImpl implements ReplyService {
     @Override
     public void deleteReply(Long replyId) {
         replyRepository.deleteById(replyId);
+    }
+
+    public boolean isAuthor(Long replyId, String username) {
+        Reply reply = replyRepository.findById(replyId).orElseThrow(() -> new NoSuchElementException());
+        return reply.getMember().getUsername().equals(username);
     }
 }

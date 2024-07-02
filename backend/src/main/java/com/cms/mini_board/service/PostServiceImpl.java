@@ -4,9 +4,12 @@ import com.cms.mini_board.dto.*;
 import com.cms.mini_board.dto.PageDTO.PageRequestDTO;
 import com.cms.mini_board.dto.PageDTO.PageResultDTO;
 import com.cms.mini_board.entity.BoardFile;
+import com.cms.mini_board.entity.Member;
 import com.cms.mini_board.entity.Post;
 import com.cms.mini_board.entity.Reply;
+import com.cms.mini_board.model.security.CustomOAuth2User;
 import com.cms.mini_board.repository.BoardFileRepository;
+import com.cms.mini_board.repository.MemberRepository;
 import com.cms.mini_board.repository.PostRepository;
 import com.cms.mini_board.repository.SearchQueryRepository;
 import com.cms.mini_board.utils.FileUtils;
@@ -16,6 +19,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,8 +35,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -37,6 +48,7 @@ import java.util.stream.Collectors;
 @Log4j2
 public class PostServiceImpl implements PostService {
 
+    private final MemberRepository memberRepository;
     private final PostRepository postRepository;
     private final BoardFileRepository boardFileRepository;
     private final FileUtils fileUtils;
@@ -117,9 +129,14 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public Long writePost(PostDTO postDTO, List<MultipartFile> files) {
+        //get from Spring seuciryt COntext.
+        CustomOAuth2User oAuth2User = (CustomOAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Member member = memberRepository.findByUsername(oAuth2User.getUsername()).orElseThrow(() -> new NoSuchElementException());
+
         Post post = postDTOToEntity(postDTO);
         List<BoardFile> boardFiles = fileUtils.uploadFiles(files, post);
         post.setFiles(boardFiles);
+        post.setMember(member);
         Post save = postRepository.save(post);
         List<BoardFile> boardFiles1 = boardFileRepository.saveAll(boardFiles);
         return save.getPostId();
@@ -128,7 +145,11 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public Long writePost(PostDTO postDTO) {
+        //get From Spring Security Context
+        CustomOAuth2User oAuth2User = (CustomOAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Member member = memberRepository.findByUsername(oAuth2User.getUsername()).orElseThrow(() -> new NoSuchElementException());
         Post post = postDTOToEntity(postDTO);
+        post.setMember(member);
         Post save = postRepository.save(post);
         return save.getPostId();
     }
@@ -206,6 +227,13 @@ public class PostServiceImpl implements PostService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "boardFile Not Found"));
         BoardFileDTO boardFileDTO = createBoardFileDTO(boardFile);
         return boardFileDTO;
+    }
+
+    //username == UUID
+    public boolean isAuthor(Long postId, String username) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new NoSuchElementException());
+        Member member = post.getMember();
+        return member.getUsername().equals(username);
     }
 
 }
