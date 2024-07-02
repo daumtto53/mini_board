@@ -9,7 +9,6 @@ import java.util.List;
 @NoArgsConstructor @AllArgsConstructor @Builder
 @Getter
 @Setter
-@ToString(exclude = {"member"})
 public class Post extends BaseEntity{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
@@ -26,9 +25,11 @@ public class Post extends BaseEntity{
     @Builder.Default
     private Long views = 0L;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "post")
     private List<Reply> replies;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "post")
     private List<BoardFile> files;
 }

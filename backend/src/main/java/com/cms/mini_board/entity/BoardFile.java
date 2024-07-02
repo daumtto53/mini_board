@@ -24,6 +24,7 @@ public class BoardFile {
     private LocalDateTime createdDate;
     private LocalDateTime deletedDate;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;

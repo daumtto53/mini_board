@@ -19,6 +19,7 @@ public class Role {
 
     private String name;
 
+    @ToString.Exclude
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
     private List<MemberRole> memberRoles;
 }

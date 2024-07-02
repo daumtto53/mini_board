@@ -10,15 +10,16 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Getter
-@ToString(exclude = {"member", "role"})
 public class MemberRole {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberRoleId;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")
     private Role role;

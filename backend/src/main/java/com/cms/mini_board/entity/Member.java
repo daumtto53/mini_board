@@ -20,6 +20,7 @@ public class Member extends BaseEntity{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
+    //uuid
     @Column(unique = true)
     private String username;
 
@@ -45,11 +46,14 @@ public class Member extends BaseEntity{
     private Gender gender;
 
     //다른 Entity와의 연관관계.
+    @ToString.Exclude
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
     private List<Post> posts;
+    @ToString.Exclude
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
     private List<Reply> replies;
     //Role
+    @ToString.Exclude
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
     private List<MemberRole> memberRoles;
 
