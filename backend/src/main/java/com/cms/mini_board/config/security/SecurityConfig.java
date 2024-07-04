@@ -4,6 +4,7 @@ import com.cms.mini_board.jwt.JWTUtils;
 import com.cms.mini_board.oauth2.CustomSuccessHandler;
 import com.cms.mini_board.service.auth.CustomOAuth2UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
@@ -80,6 +81,13 @@ public class SecurityConfig {
         http.exceptionHandling(configurer -> configurer
                 .authenticationEntryPoint(customAuthenticationEntryPoint)
         );
+
+        //logout시, Authorization Header 삭제
+        http.logout(config -> config.logoutUrl("/api/logout")
+                .deleteCookies("Authorization")
+                .logoutSuccessHandler((request, response, authentication) -> {
+                    response.setStatus(HttpServletResponse.SC_OK);
+                }));
 
         // root 설정에 대해서만 permit All
         // 나머지 모든 URL에 대한 request에 대해서는 authenticated를 요구한다.
