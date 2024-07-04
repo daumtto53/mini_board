@@ -5,6 +5,7 @@ import com.cms.mini_board.dto.PageDTO.PageRequestDTO;
 import com.cms.mini_board.dto.PageDTO.PageResultDTO;
 import com.cms.mini_board.entity.Member;
 import com.cms.mini_board.entity.Post;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -71,7 +72,7 @@ public interface PostService {
     Long incrementPostViewCount(Long postId);
 
     BoardFileDTO getDownloadFileDTO(String saveName);
-    public boolean isAuthor(Long postId, String username);
+    public boolean isAuthor(Long postId, Authentication authentication);
 
 
 

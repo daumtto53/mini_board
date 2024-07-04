@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class ReplyController {
         return new ResponseEntity<>(replyList, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/{postId}/replies")
     public ResponseEntity<Long> registerReply(@RequestBody ReplyDTO replyDTO) {
         log.info("replyDTO={}", replyDTO);
@@ -38,15 +40,16 @@ public class ReplyController {
         return new ResponseEntity<>(1L, HttpStatus.OK);
     }
 
+    @PreAuthorize("@replyServiceImpl.isAuthor(#replyId, principal.username)")
     @PutMapping("/{postId}/replies/{replyId}")
     public ResponseEntity<String> modifyReply(@RequestBody ReplyDTO replyDTO) {
         log.info("replyDTO={}", replyDTO);
-        //Authentication : UserID를 알아야 reply를 modify할 수 있지 않을까... 아닌가? Post 번호만 알아도 되나?
         replyService.modifyReply(replyDTO);
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
     @DeleteMapping("/{postId}/replies/{replyId}")
+    @PreAuthorize("@replyServiceImpl.isAuthor(#replyId, principal.username)")
     public ResponseEntity<String> deleteReply(@PathVariable String postId, @PathVariable String replyId) {
         log.info("replyId={}", replyId);
         replyService.deleteReply(Long.valueOf(replyId));

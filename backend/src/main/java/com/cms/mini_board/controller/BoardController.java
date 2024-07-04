@@ -16,6 +16,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriUtils;
@@ -75,7 +76,8 @@ public class BoardController {
         return dto;
     }
 
-    //file이 attached 되었는지 되지 않았는지에 따라 분기함.
+
+    @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Long> writePost(
             @RequestPart(value = "dto") PostDTO postDTO,
@@ -96,8 +98,10 @@ public class BoardController {
         return new ResponseEntity<BoardReadDTO>(dto, HttpStatus.OK);
     }
 
+      @PreAuthorize("hasRole('USER') && @postServiceImpl.isAuthor(#postId, authentication)")
     @PutMapping(value = "/{postId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<String> modifyPost(
+            @PathVariable Long postId,
             @RequestPart(value = "dto") PostDTO postDTO,
             @RequestPart(required = false) List<MultipartFile> file) {
         Long saved;
@@ -108,6 +112,7 @@ public class BoardController {
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('USER') && @postServiceImpl.isAuthor(#postId, authentication)")
     @DeleteMapping("/{postId}")
     public ResponseEntity<String> deletePost(@PathVariable String postId) {
         postService.deletePost(Long.valueOf(postId));

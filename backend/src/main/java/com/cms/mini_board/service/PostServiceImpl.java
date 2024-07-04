@@ -132,7 +132,6 @@ public class PostServiceImpl implements PostService {
         //get from Spring seuciryt COntext.
         CustomOAuth2User oAuth2User = (CustomOAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Member member = memberRepository.findByUsername(oAuth2User.getUsername()).orElseThrow(() -> new NoSuchElementException());
-
         Post post = postDTOToEntity(postDTO);
         List<BoardFile> boardFiles = fileUtils.uploadFiles(files, post);
         post.setFiles(boardFiles);
@@ -229,8 +228,17 @@ public class PostServiceImpl implements PostService {
         return boardFileDTO;
     }
 
+//    public boolean isAuthor(Long postId, String username) {
+//        Post post = postRepository.findById(postId).orElseThrow(() -> new NoSuchElementException());
+//        Member member = post.getMember();
+//        return member.getUsername().equals(username);
+//    }
+
+    //TEST
     //username == UUID
-    public boolean isAuthor(Long postId, String username) {
+    public boolean isAuthor(Long postId, Authentication authentication) {
+        CustomOAuth2User oauth2User = (CustomOAuth2User) authentication.getPrincipal();
+        String username = (String) (oauth2User.getAttributes().get("username"));
         Post post = postRepository.findById(postId).orElseThrow(() -> new NoSuchElementException());
         Member member = post.getMember();
         return member.getUsername().equals(username);

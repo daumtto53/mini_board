@@ -8,9 +8,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -20,7 +24,9 @@ import java.util.Arrays;
 import java.util.Collections;
 
 @Configuration
+//@EnableWebSecurity(debug = true)
 @EnableWebSecurity
+@EnableMethodSecurity
 @RequiredArgsConstructor
 @Log4j2
 public class SecurityConfig {
@@ -29,6 +35,7 @@ public class SecurityConfig {
     private final CustomSuccessHandler customSuccessHandler;
     private final JWTUtils jwtUtils;
     private final JWTFilter jwtFilter;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -56,7 +63,8 @@ public class SecurityConfig {
         ));
 
         //JWTFilter 적용
-        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAfter(jwtFilter, OAuth2LoginAuthenticationFilter.class);
+//        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         //OAuth2Provider가 성공했을 때, userService를 customOAuth2UserSErvice를 사용하게끔 하고,
         //userService에서 oAuth2User / principal을 반환받았을때 사용할 successHandler를 지정한다.
@@ -65,12 +73,19 @@ public class SecurityConfig {
                 .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
                         .userService(customOAuth2UserService))
                 .successHandler(customSuccessHandler)
+                .failureHandler((request, response, exception) -> {
+                    customAuthenticationEntryPoint.commence(request,response,exception);
+                })
+        );
+        http.exceptionHandling(configurer -> configurer
+                .authenticationEntryPoint(customAuthenticationEntryPoint)
         );
 
         // root 설정에 대해서만 permit All
         // 나머지 모든 URL에 대한 request에 대해서는 authenticated를 요구한다.
         http.authorizeHttpRequests(customizer -> customizer
-                .requestMatchers("/**").permitAll()
+                        .requestMatchers("/**").permitAll()
+//                        .requestMatchers(HttpMethod.POST, "/board").hasRole("USER")
 //                .requestMatchers("/").permitAll()
 //                .anyRequest().authenticated()
     );
@@ -81,5 +96,6 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 
 }
