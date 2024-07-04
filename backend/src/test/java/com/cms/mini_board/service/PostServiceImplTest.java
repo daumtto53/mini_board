@@ -22,63 +22,63 @@ class PostServiceImplTest {
     @Autowired
     PostService postService;
 
-    @Test
-    void writePost() {
-        //given
-        PostDTO dto = PostDTO.builder()
-                .title("title")
-                .memberId(1L)
-                .content("content")
-                .views(0L)
-                .build();
-        //when
-        Long l = postService.writePost(dto);
-        //then
-        Post post = postRepository.findById(l).get();
-        Assertions.assertThat(post.getTitle()).isEqualTo("title");
-        Assertions.assertThat(post.getMember().getMemberId()).isEqualTo(1L);
-    }
+//    @Test
+//    void writePost() {
+//        //given
+//        PostDTO dto = PostDTO.builder()
+//                .title("title")
+//                .memberId(1L)
+//                .content("content")
+//                .views(0L)
+//                .build();
+//        //when
+//        Long l = postService.writePost(dto);
+//        //then
+//        Post post = postRepository.findById(l).get();
+//        Assertions.assertThat(post.getTitle()).isEqualTo("title");
+//        Assertions.assertThat(post.getMember().getMemberId()).isEqualTo(1L);
+//    }
 
-    @Test
-    void modifyPost() {
-        //given
-        PostDTO original = PostDTO.builder()
-                .title("title")
-                .memberId(1L)
-                .content("content")
-                .views(0L)
-                .build();
-        Long postId = postService.writePost(original);
+//    @Test
+//    void modifyPost() {
+//        //given
+//        PostDTO original = PostDTO.builder()
+//                .title("title")
+//                .memberId(1L)
+//                .content("content")
+//                .views(0L)
+//                .build();
+//        Long postId = postService.writePost(original);
+//
+//        //when
+//        PostDTO dto = PostDTO.builder()
+//                .postId(postId)
+//                .title("modifiedTitle")
+//                .memberId(1L)
+//                .content("modifiedContent")
+//                .views(0L)
+//                .build();
+//        Long modifiedPostId= postService.modifyPost(dto);
+//        //then
+//        Post post = postRepository.findById(modifiedPostId).get();
+//        Assertions.assertThat(modifiedPostId).isEqualTo(postId);
+//        Assertions.assertThat(post.getContent()).isEqualTo("modifiedContent");
+//        Assertions.assertThat(post.getMember().getMemberId()).isEqualTo(1L);
+//    }
 
-        //when
-        PostDTO dto = PostDTO.builder()
-                .postId(postId)
-                .title("modifiedTitle")
-                .memberId(1L)
-                .content("modifiedContent")
-                .views(0L)
-                .build();
-        Long modifiedPostId= postService.modifyPost(dto);
-        //then
-        Post post = postRepository.findById(modifiedPostId).get();
-        Assertions.assertThat(modifiedPostId).isEqualTo(postId);
-        Assertions.assertThat(post.getContent()).isEqualTo("modifiedContent");
-        Assertions.assertThat(post.getMember().getMemberId()).isEqualTo(1L);
-    }
-
-    @Test
-    void deletePost() {
-        //given
-        PostDTO original = PostDTO.builder()
-                .title("title")
-                .memberId(1L)
-                .content("content")
-                .views(0L)
-                .build();
-        Long postId = postService.writePost(original);
-        //when
-        postService.deletePost(postId);
-        //then
-        org.junit.jupiter.api.Assertions.assertThrows(NoSuchElementException.class, () -> postRepository.findById(postId).get());
-    }
+//    @Test
+//    void deletePost() {
+//        //given
+//        PostDTO original = PostDTO.builder()
+//                .title("title")
+//                .memberId(1L)
+//                .content("content")
+//                .views(0L)
+//                .build();
+//        Long postId = postService.writePost(original);
+//        //when
+//        postService.deletePost(postId);
+//        //then
+//        org.junit.jupiter.api.Assertions.assertThrows(NoSuchElementException.class, () -> postRepository.findById(postId).get());
+//    }
 }

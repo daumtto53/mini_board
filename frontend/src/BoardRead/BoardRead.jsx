@@ -10,6 +10,7 @@ import { useLoaderData } from "react-router-dom";
 export async function boardReadLoader({ request, params }) {
     const postId = params.postId;
 
+	//views 증가
     try {
         const response = await pageAxios.get(`/${postId}`);
         return {
@@ -19,6 +20,7 @@ export async function boardReadLoader({ request, params }) {
     } catch (error) {
         throw error;
     }
+
 }
 
 export default function BoardRead() {
@@ -26,6 +28,8 @@ export default function BoardRead() {
     const responseData = loaderData["responseData"];
     const postId = loaderData.postId;
     const { boardReadReplyDTOList, ...boardData } = responseData;
+
+	console.log(responseData);
 
     return (
         <div className={styles["board-read-wrapper"]}>

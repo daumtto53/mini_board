@@ -50,6 +50,22 @@ async function modifyReply(params, formData, replyId) {
 }
 
 async function writeBoard(formData) {
+	const files = [];
+	let isFileAttatched = true;
+
+	for (const x of formData.entries()) {
+		console.log(x);
+		if (x[0] === 'files' && x[1]['name'] !== '')
+			files.push(x[1]);
+	}
+
+	const sendFormData = new FormData();
+	if (files.length !== 0){
+		files.map(file => {sendFormData.append("file", file)});
+	}
+	if (files.length === 0) {
+		isFileAttatched = false;
+	}
     const title = formData.get("title");
     const author = formData.get("author");
     const content = formData.get("content");
@@ -57,12 +73,38 @@ async function writeBoard(formData) {
         title: title,
         author: author,
         content: content,
+		isFileAttatched: isFileAttatched
     };
-    const response = await pageAxios.post("", dto);
+	sendFormData.append("dto",
+		new Blob([JSON.stringify(dto)], {type: "application/json"
+		}
+	));
+    const response = await pageAxios.post("", sendFormData, {
+		headers: {
+			"Content-Type": "multipart/form-data",
+		},
+	});
     return null;
 }
 
 async function modifyBoard(formData, postId) {
+	const files = [];
+	let isFileAttatched = true;
+
+	for (const x of formData.entries()) {
+		console.log(x);
+		if (x[0] === 'files' && x[1]['name'] !== '')
+			files.push(x[1]);
+	}
+
+	const sendFormData = new FormData();
+	if (files.length !== 0){
+		files.map(file => {sendFormData.append("file", file)});
+	}
+	if (files.length === 0) {
+		isFileAttatched = false;
+	}
+
     const title = formData.get("title");
     const author = formData.get("author");
     const content = formData.get("content");
@@ -72,9 +114,17 @@ async function modifyBoard(formData, postId) {
         title: title,
         author: author,
         content: content,
+		isFileAttatched: isFileAttatched
     };
-    console.log(dto);
-    const response = await pageAxios.put(`/${postId}`, dto);
+	sendFormData.append("dto",
+		new Blob([JSON.stringify(dto)], {type: "application/json"
+		}
+	));
+	const response = await pageAxios.put(`/${postId}`, sendFormData, {
+		headers: {
+			"Content-Type": "multipart/form-data",
+		},
+	});
 }
 
 async function deleteBoard(postId) {
@@ -82,12 +132,28 @@ async function deleteBoard(postId) {
     return null;
 }
 
+/**
+ * 구조가 이렇게 된 이유
+ * Navigation을 위한 하나의 Route --BoardWrite, BoardRead에서 같은 action을 사용하려고 하니까 발생하는 문제.
+ * 		replyPostAction <-- BoardForm 안에서 Modify, Delete, PreviousBoard, PostReply, DeleteReply 등의
+ * 		action을 묶어서 처리하려고 하니까 action의 type / intent를 나누어서 생각해야한다.
+ * 		이 때, type/intent와, form에서 axios로 보낼 Data를 같이 `replyPostAction()` 으로 전송해야되기 때문에
+ *		intent와 data를 object로 보낼 때 JSOn 형태로 묶어서 보내는 것.
+ *
+ * 		이를 해결하기 위해서는 action을 나누어서 처리하는 방법에 대해서 생각해보거나,
+ * 		하나의 router에서 여러개의 action을 만들어서 활용하는 방법에 대해서 알아봐야한다.
+ */
 export async function replyPostAction({ request, params }) {
     //formData로 nickname(memberId), replyText, postId 전달해야함.
     const formData = await request.formData();
     const obj = formData.get("intent");
-    const intent = JSON.parse(obj);
+    let intent = JSON.parse(obj);
+
     console.log(intent.intent);
+
+	for (const x of formData.entries()) {
+		console.log(x);
+	}
 
     switch (intent.intent) {
         case "writeBoard":
@@ -125,6 +191,8 @@ export async function replyPostAction({ request, params }) {
                 window.location.reload();
 				return null;
             } catch (e) {}
+		case "searchQuery" :
+			console.log('action ' + 'searchQuery');
         default:
             return null;
     }

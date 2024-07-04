@@ -54,4 +54,6 @@ public interface ReplyService {
                 .build();
         return reply;
     }
+
+    public boolean isAuthor(Long replyId, String username);
 }

@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import { useNavigate, Form, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { pageAxios } from "../API/boardAPI";
+import { serverAddress } from "../config/network";
 
 function BoardButtons(props) {
     const NAVIGATE = useNavigate();
@@ -88,18 +89,106 @@ function BoardButtons(props) {
     );
 }
 
+const FileList = ({ files }) => (
+    <div>
+        {files.map((file, index) => (
+            <li key={index}>{file.name}</li>
+        ))}
+    </div>
+);
+
+function RenderBoardImage({ files }) {
+    console.log(files);
+    return (
+        <div className={styles["boardContent-image-container"]}>
+            {files.map((file, index) => {
+                return (
+                    <img
+                        className={styles.img}
+                        key={index}
+                        src={`${serverAddress}/board/image/${file.formattedCreatedDate}/${file.saveName}`}
+                        alt="default"
+                    />
+                );
+            })}
+        </div>
+    );
+}
+
+const FileUploader = ({ disableWriting, files, setFiles }) => {
+    const handleFileChange = (e) => {
+        setFiles([...files, ...Array.from(e.target.files)]);
+    };
+
+    return (
+        !disableWriting && (
+            <div>
+                <div>
+                    <input
+                        type="file"
+                        name="files"
+                        multiple
+                        onChange={handleFileChange}
+                    />
+                </div>
+                <FileList files={files} />
+            </div>
+        )
+    );
+};
+
+function FileDownloader({ disableWriting, files }) {
+    console.log("fileDownloader" + files);
+    return (
+        disableWriting && (
+            <div>
+				<h3>downloadFile</h3>
+                <ul>
+                    {files.map((file, index) => {
+                        console.log(file);
+                        return (
+                            <li key={index}>
+                                {/*<a href={`${serverAddress}/board/image/attach/${file.formattedCreatedDate}/${file.saveName}`}>*/}
+                                    {/*{file.originalFileName}*/}
+                                {/*</a>*/}
+                                <a href={`${serverAddress}/board/image/byteattach/${file.formattedCreatedDate}/${file.saveName}`}>
+                                    {file.originalFileName}
+                                </a>
+                            </li>
+                        );
+                    })}
+                </ul>
+            </div>
+        )
+    );
+}
+
+/**
+ *
+ * @param {*} props : title, author, boardFileDTOList, content, title, updatedAt, views
+ * @returns
+ */
 export default function BoardForm(props) {
     const disableWriting =
         props.mode === "write" || props.mode === "modify" ? false : true;
     const postId = props.postId;
+    const boardData =
+        props.boardData === undefined
+            ? { title: "", author: "", content: "", updatedAt: null, views: 0 }
+            : props.boardData;
 
-    const [title, setTitle] = useState("");
-    const [author, setAuthor] = useState("");
-    const [content, setContent] = useState("");
-    const [updatedAt, setUpdatedAt] = useState("");
-    const [views, setViews] = useState(0);
+    const boardFiles = boardData.boardFileDTOList;
+
+    const [title, setTitle] = useState(boardData.title);
+    const [author, setAuthor] = useState(boardData.author);
+    const [content, setContent] = useState(boardData.content);
+    const [updatedAt, setUpdatedAt] = useState(boardData.updatedAt);
+    const [views, setViews] = useState(boardData.views);
+    const [files, setFiles] = useState([]);
 
     const loadBoardData = async (postId) => {
+        if (props.mode === "read") return;
+        console.log("loadBoardData++");
         const response = await pageAxios.get(`/${postId}`);
         const res = response.data;
         return {
@@ -112,7 +201,7 @@ export default function BoardForm(props) {
     };
 
     useEffect(() => {
-        if (postId !== null) {
+        if (props.mode === "modify") {
             loadBoardData(postId).then((res) => {
                 setTitle(res.title);
                 setAuthor(res.author);
@@ -128,6 +217,7 @@ export default function BoardForm(props) {
             className={styles["content-form"]}
             id="boardReadForm"
             method="post"
+            encType="multipart/form-data"
         >
             <div className={styles.title}>
                 <dl>
@@ -211,6 +301,22 @@ export default function BoardForm(props) {
                     </dd>
                 </dl>
             </div>
+
+            {/* Post를 클릭했을 때 이미지 보이기 */}
+            {disableWriting && <RenderBoardImage files={boardFiles} />}
+
+            <FileUploader
+                disableWriting={disableWriting}
+                files={files}
+                setFiles={setFiles}
+            />
+
+            {/* file download. Disable when Modify/Writing */}
+            <FileDownloader
+                disableWriting={disableWriting}
+                files={boardFiles}
+            />
+
             <BoardButtons
                 postId={postId}
                 disableWriting={disableWriting}

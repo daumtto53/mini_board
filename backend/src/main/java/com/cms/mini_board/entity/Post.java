@@ -9,9 +9,8 @@ import java.util.List;
 @NoArgsConstructor @AllArgsConstructor @Builder
 @Getter
 @Setter
-@ToString(exclude = {"member"})
 public class Post extends BaseEntity{
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -23,8 +22,14 @@ public class Post extends BaseEntity{
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
     @Column(nullable = false)
+    @Builder.Default
     private Long views = 0L;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "post")
     private List<Reply> replies;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "post")
+    private List<BoardFile> files;
 }
