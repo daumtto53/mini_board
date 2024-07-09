@@ -10,12 +10,12 @@ function Footer() {
 }
 
 const handleLogin = () => {
-	window.location.href = `http://localhost:8080/${import.meta.env.VITE_LOGIN_API_NAVER}`
+	window.location.href = `${import.meta.env.VITE_BASEURL}/${import.meta.env.VITE_LOGIN_API_NAVER}`
 }
 
 const handleLogout = () => {
 	const axiosObject = axios.create({
-		baseURL: 'http://localhost:8080',
+		baseURL: `${import.meta.env.VITE_BASEURL}`,
 		withCredentials: true
 	});
 
