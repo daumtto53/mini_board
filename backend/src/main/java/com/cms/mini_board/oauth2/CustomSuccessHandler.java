@@ -43,6 +43,8 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         List<String> roles = authorities.stream().map(grantedAuthority -> grantedAuthority.getAuthority())
                 .collect(Collectors.toList());
         String token = jwtUtils.createJWT(username, roles, 60*60*60L);
+        log.info("onAuthenticationSuccess = JWT_TOKEN={}", token);
+        log.info("onAuthenticationSuccess = USEREMAIL={}", customOAuth2User.getEmail());
         response.addCookie(createCookie("Authorization", token));
 //        response.sendRedirect("http://localhost:5173");
         response.sendRedirect(uri);
