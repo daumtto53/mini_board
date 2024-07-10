@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -38,8 +39,14 @@ public class SecurityConfig {
     private final JWTFilter jwtFilter;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
+    @Value("${s3-endpoint}")
+    private String endpoint;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        String uri = String.format("http://%s", endpoint);
+        log.info(uri);
+
         http.csrf(c -> c.disable());
 
         //form, basic Login 제거
@@ -52,7 +59,9 @@ public class SecurityConfig {
                     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                         CorsConfiguration configuration = new CorsConfiguration();
 
-                        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:5173"));
+//                        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:5173"));
+//                        configuration.setAllowedOrigins(Collections.singletonList("*"));
+                        configuration.setAllowedOrigins(Collections.singletonList(uri));
                         configuration.setAllowedMethods(Collections.singletonList("*"));
                         configuration.setAllowCredentials(true);
                         configuration.setAllowedHeaders(Collections.singletonList("*"));
