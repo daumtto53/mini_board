@@ -23,7 +23,9 @@ import java.util.stream.Collectors;
 @Log4j2
 public class FileUtils {
 
-    private final String uploadPath = Paths.get("Z:", "cms", "spring-projects", "mini_board", "images").toString();
+//    private final String uploadPath = Paths.get("Z:", "cms", "spring-projects", "mini_board", "images").toString();
+    private final String uploadPath = Paths.get("/home", "ec2-user", "cms", "mini_board", "img").toString();
+
 
     public List<BoardFile> uploadFiles(final List<MultipartFile> multipartFiles, Post post) {
         log.info("FileUtils file path : {}" , uploadPath);

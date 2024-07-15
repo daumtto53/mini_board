@@ -4,7 +4,6 @@ import Button from "@mui/material/Button";
 import { useNavigate, Form, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { pageAxios } from "../API/boardAPI";
-import { serverAddress } from "../config/network";
 
 function BoardButtons(props) {
     const NAVIGATE = useNavigate();
@@ -106,7 +105,7 @@ function RenderBoardImage({ files }) {
                     <img
                         className={styles.img}
                         key={index}
-                        src={`${serverAddress}/board/image/${file.formattedCreatedDate}/${file.saveName}`}
+                        src={`${import.meta.env.VITE_BASEURL}/board/image/${file.formattedCreatedDate}/${file.saveName}`}
                         alt="default"
                     />
                 );
@@ -151,7 +150,7 @@ function FileDownloader({ disableWriting, files }) {
                                 {/*<a href={`${serverAddress}/board/image/attach/${file.formattedCreatedDate}/${file.saveName}`}>*/}
                                     {/*{file.originalFileName}*/}
                                 {/*</a>*/}
-                                <a href={`${serverAddress}/board/image/byteattach/${file.formattedCreatedDate}/${file.saveName}`}>
+                                <a href={`${import.meta.env.VITE_BASEURL}/board/image/byteattach/${file.formattedCreatedDate}/${file.saveName}`}>
                                     {file.originalFileName}
                                 </a>
                             </li>
